@@ -5,6 +5,7 @@ See http://opencv-srf.blogspot.co.uk/2013/05/installing-configuring-opencv-with-
 ## Idea for code structure
 
 We will need to keep our code organised such that we can easily debug and test
+*Each class will be in its own file.*
 
     class entry{
       static void main(char[] args){
@@ -30,31 +31,39 @@ We will need to keep our code organised such that we can easily debug and test
 
     class communications{
        // Send data to the base station
-       public function send(dType data){}
+       public bool send(dType data){}
 
        // Convert the data to an appropriate format before sending
-       private function toJson(dType data){}
+       private string toJson(dType data){}
 
        // Check if the buggy is ready to start
-       private function isStart(){}
+       private bool isStart(){}
     }
 
     class imageProcessing{
       const floorToCameraDistance;
 
       // Get image from the arduino module
-      private function getImage(){}
+      private image getImage(){}
 
       // Calculate the velocity of the buggy based on the correlation of two adjacent image frames
-      private function calculateVelocity(){}
+      private double calculateVelocity(){}
     }
 
     class movement{
+      public bool isTurning;
+      public bool isMoving;
+    
       // Turn the buggy x degrees clockwise
-      public function turn(double degrees);
-      public function turnLeft(){ this.turn(-90); }
-      public function turnRight(){ this.turn(90); }
-      public function moveForward(){}
+      public void turn(double degrees){
+        while(turn < degrees){
+            // Keep waiting
+        }
+      }
+      public void turnLeft(){ this.turn(-90); }
+      public void turnRight(){ this.turn(90); }
+      public void moveForward(){}
+      public void stop(){}
     }
 
     class pathFinding{
@@ -62,6 +71,13 @@ We will need to keep our code organised such that we can easily debug and test
     
     class interrogation{
     }
+    
+    class sensors{
+        // Return in mm the distance to an object from the front sensor
+        public double readFrontSensor(){}
+    }
+    
+    
 
     // etc...
 
