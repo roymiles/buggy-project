@@ -14,6 +14,11 @@ We will need to keep our code organised such that we can easily debug and test
         communications c = new communications();
         // We can inject the communications object into all dependable classes
         imageProcessing i = new imageProcessing(c);
+        
+        // ...
+        while(!isFinished){
+            // Program main loop
+        }
       }
     }
 
@@ -53,6 +58,9 @@ We will need to keep our code organised such that we can easily debug and test
     }
 
     class pathFinding{
+    }
+    
+    class interrogation{
     }
 
     // etc...
