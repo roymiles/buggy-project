@@ -26,13 +26,23 @@ int main() {
 		// Program main loop
 
 		// Wait untill start command is announced or maximum timeout is exceeded
-		int count = 0;
-		while (c->isStart() == false && count < 700) { // Maximum timeout is 10ms * 700 = 7s
+		int timeout = 0;
+		while (c->isStart() == false) { // Maximum timeout is 10ms * 700 = 7s
 			Sleep(10); // Wait 10ms
-			count++;
+
+			if (timeout > 700) {
+				// Perhaps have an LED blink to display this error?
+				return 0;
+			}
+
+			timeout++;
 		}
 
+		// Read the map data
+		char* map = c->getMap();
 
+		// Process the map data
+		// Generate the route etc..
 
 		isFinished = true; // Exit loop for now
 	}
