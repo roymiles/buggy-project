@@ -20,3 +20,11 @@ https://uk.mathworks.com/help/images/examples/measuring-angle-of-intersection.ht
 ### The sensors will identify the color of the cell directly below it
 https://www.adafruit.com/product/1334
 - The infrared sensors can detect the color of the cells
+
+
+## Visual studio command line
+- Type developer in start and it should come up
+
+## Linking libcurl libraries
+http://stackoverflow.com/questions/20171165/getting-libcurl-to-work-with-visual-studio-2013
+- doesnt work yet
