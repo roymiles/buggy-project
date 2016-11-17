@@ -1,7 +1,8 @@
 #include "Communications.h"
 
-Communications::Communications()
+Communications::Communications(Debug *d)
 {
+	Communications::d = d;
 }
 
 

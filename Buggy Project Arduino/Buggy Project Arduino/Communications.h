@@ -1,10 +1,11 @@
+#include <Debug.h>
 #include <dType.h>
 
 #pragma once
 class Communications
 {
 public:
-	Communications();
+	Communications(Debug *d);
 	~Communications();
 
 	// Send data to the base station
@@ -16,9 +17,9 @@ public:
 	// Get the map data from the web url
 	char* getMap();
 
-
-
 private:
+	Debug *d;
+
 	// Convert the data to an appropriate format before sending
 	char* toJson(dType data) {}
 };

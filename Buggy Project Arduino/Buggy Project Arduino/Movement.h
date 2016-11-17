@@ -12,10 +12,10 @@ public:
 	void turn(double degrees) { }
 
 	// Turn the buggy 90 degrees anti-clockwise
-	void turnLeft() { }
+	void turnLeft();
 
 	// Turn the buggy 90 degrees clockwise
-	void turnRight() { }
+	void turnRight();
 
 	// Move forward a distance of x
 	void moveForward(double distance) { }
