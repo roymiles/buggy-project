@@ -52,3 +52,5 @@ http://stackoverflow.com/questions/20171165/getting-libcurl-to-work-with-visual-
 - opencv_videostab2413.lib
 
 - libcurl_a.lib
+
+http://stackoverflow.com/questions/2694994/opencv-dll-missing-but-its-not
