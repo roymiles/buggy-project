@@ -51,6 +51,11 @@ http://stackoverflow.com/questions/20171165/getting-libcurl-to-work-with-visual-
 - opencv_video2413.lib
 - opencv_videostab2413.lib
 
+## Lib curl
 - libcurl_a.lib
 
+# Missing dlls
 http://stackoverflow.com/questions/2694994/opencv-dll-missing-but-its-not
+
+Also try (works):
+https://msdn.microsoft.com/en-us/library/b8ttk8zy(v=vs.90).aspx
