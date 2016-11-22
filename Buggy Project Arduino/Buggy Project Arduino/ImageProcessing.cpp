@@ -3,7 +3,6 @@
 
 ImageProcessing::ImageProcessing()
 {
-	cimg::imagemagick_path("C:\\Program Files\\ImageMagick-7.0.3-Q8\\convert.exe");
 	ImageProcessing::floorToCameraDistance = 100;
 }
 
@@ -14,7 +13,7 @@ ImageProcessing::~ImageProcessing()
 
 Mat ImageProcessing::getImage() {
 	Mat image;
-	image = imread("C:\\Users\\Roy\\Desktop\\Uni 3rd Year\\test.jpg", IMREAD_COLOR); // Read the file
+	image = imread("C:\\Users\\Roy\\Desktop\\Uni 3rd Year\\blackwhite_intersect.png", IMREAD_COLOR); // Read the file
 
 	if (!image.data) // Check for invalid input
 	{

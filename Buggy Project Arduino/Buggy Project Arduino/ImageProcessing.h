@@ -1,22 +1,10 @@
-//#define cimg_use_jpeg
-//#define HAVE_BOOLEAN
-//#define XMD_H
-//#define cimg_use_png
-//#define cimg_use_magick
-#include <Clmg.h>
-//#include <Magick++.h>
-#include <iostream> 
-
-//using namespace Magick;
-using namespace cimg_library;
-using namespace std;
-
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2\imgproc\imgproc.hpp>
 #include <iostream>
 
 using namespace cv;
+using namespace std;
 
 #pragma once
 class ImageProcessing

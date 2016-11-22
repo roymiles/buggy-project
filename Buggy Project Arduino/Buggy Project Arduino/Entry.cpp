@@ -38,30 +38,39 @@ int main() {
 
 	//ip->test();
 
-	/*while (!isFinished) {
-		// Program main loop
+	// Wait untill start command is announced or maximum timeout is exceeded
+	/*int timeout = 0;
+	d->log("Waiting for start...");
+	while (c->isStart() == false) { // Maximum timeout is 10ms * 700 = 7s
+		Sleep(10); // Wait 10ms
 
-		// Wait untill start command is announced or maximum timeout is exceeded
-		int timeout = 0;
-		d->log("Waiting for start...");
-		while (c->isStart() == false) { // Maximum timeout is 10ms * 700 = 7s
-			Sleep(10); // Wait 10ms
-
-			if (timeout > 700) {
-				d->error("Failed to recieve start command before timing out");
-				return 0;
-			}
-
-			timeout++;
+		if (timeout > 700) {
+			d->error("Failed to recieve start command before timing out");
+			return 0;
 		}
 
-		// Read the map data
-		char* map = c->getMap();
+		timeout++;
+	}
 
-		// Process the map data
-		// Generate the route etc..
+	// Received the start command
 
-		isFinished = true; // Exit loop for now
+	// Read the map data
+	char* map = c->getMap();
+
+	// Process the map data (josh)
+	map = m->processMap();
+
+	// Generate the route from A->B
+	allMovements[] = m->getMovements(map);
+
+	// Loop through the movements
+	for (movement in allMovements) {
+		// eg m->moveFoward(); m->moveLeft
+		switch (movement) {
+			case FORWARD:
+				m->moveForward();
+				break;
+		}
 	}*/
 
 
