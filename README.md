@@ -59,3 +59,6 @@ http://stackoverflow.com/questions/2694994/opencv-dll-missing-but-its-not
 
 Also try (works):
 https://msdn.microsoft.com/en-us/library/b8ttk8zy(v=vs.90).aspx
+
+# Fixing the “MSVCP110D.dll is missing from your computer” issue
+- See http://stackoverflow.com/questions/21458908/fixing-the-msvcp110d-dll-is-missing-from-your-computer-issue
