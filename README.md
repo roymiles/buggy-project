@@ -1,5 +1,8 @@
 # Buggy-Project
 
+
+# !!! USE THE CODE INSIDE "IDE CODE" FOR WORKING VERSION ALONGSIDE THE ARDUINO IDE !!!
+
 ## Image processing
 We will use clmg as the image processing library as its small and lightweight. All you need it the clmg.h file.
 http://cimg.eu/
