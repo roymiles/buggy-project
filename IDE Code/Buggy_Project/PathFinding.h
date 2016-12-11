@@ -1,0 +1,24 @@
+/**
+    PathFinding.h
+    Purpose: This is a submodule that will be used to
+			 calculate the movement required to get the buggy
+			 from A to B (and alligned appropriately)
+
+    @author Roy Miles
+    @version 1.0 11/12/2016
+*/
+
+#ifndef PathFinding_h
+#define PathFinding_h
+
+#include "Arduino.h"
+
+#pragma once
+class PathFinding
+{
+public:
+	PathFinding();
+	~PathFinding();
+};
+
+#endif
