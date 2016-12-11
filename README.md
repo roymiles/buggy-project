@@ -3,7 +3,7 @@
 
 # USE THE CODE INSIDE "IDE CODE"
 
-![heirarchy](https://raw.githubusercontent.com/iyop45/Buggy-Project/master/Heirarchy.png)
+![heirarchy](Heirarchy.png)
 
 
 # Ignore the comments below...
