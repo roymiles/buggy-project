@@ -1,7 +1,12 @@
 # Buggy-Project
 
 
-# !!! USE THE CODE INSIDE "IDE CODE" FOR WORKING VERSION ALONGSIDE THE ARDUINO IDE !!!
+# USE THE CODE INSIDE "IDE CODE"
+
+![heirarchy](https://raw.githubusercontent.com/iyop45/Buggy-Project/master/Heirarchy.png)
+
+
+# Ignore the comments below...
 
 ## Image processing
 We will use clmg as the image processing library as its small and lightweight. All you need it the clmg.h file.
