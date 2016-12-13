@@ -5,6 +5,8 @@
 
 ![heirarchy](Heirarchy.png)
 
+Use Board = "Arduino Leonardo"
+
 
 # Ignore the comments below...
 
