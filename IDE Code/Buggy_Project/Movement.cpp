@@ -9,6 +9,7 @@ const byte LRE = 0; //Left rotary encoder pin holder value
 const byte RRE = 1; //Right rotary encoder pin holder value
 volatile byte RRC = 0;// right rotary encoder count
 volatile byte LRC = 0;// left rotary encoder count
+
 Movement::Movement()
 {
   int i;
@@ -35,11 +36,10 @@ void Movement::moveForward(double distance){
 }
 
 void Movement::turn(double a) {
-  
-  
-  if (a == 90 && RRC>8||LRC>=8)
+  if (a == 90 && RRC>8||LRC>=8) {
     Movement::stopMovement();
-  };
+  }
+}
 
 void Movement::turnLeft() {
   Movement::turn(-90);
