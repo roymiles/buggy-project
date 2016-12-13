@@ -36,8 +36,8 @@ void setup() {
 double distance;
 void loop() {
   // put your main code here, to run repeatedly:
-
-  distance = uss->getDistanceToNearestObject();
+  m->Test();
+  //distance = uss->getDistanceToNearestObject();
 
   // Delay 50ms
   delay(50);

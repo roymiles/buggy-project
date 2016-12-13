@@ -23,7 +23,7 @@ public:
 
   bool isTurning;
   bool isMoving;
-
+  void Test();
   // Turn the buggy 90 degrees anti-clockwise
   void turnLeft();
 
