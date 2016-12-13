@@ -13,9 +13,13 @@
 UltraSonicSensor *uss;
 Movement *m;
 PathFinding *p;
+const byte LRE = 0; //Left rotary encoder pin holder value
+const byte RRE = 1; //Right rotary encoder pin holder value
+
 
 void setup() {
   // put your setup code here, to run once:
+  interrupts();
 
   // For debugging
   Serial.begin(9600);      // open the serial port at 9600 bps:
@@ -29,6 +33,8 @@ void setup() {
   uss = new UltraSonicSensor();
   m = new Movement();
   p = new PathFinding();
+  attachInterrupt(digitalPinToInterrupt(LRE),m::ISRLeftEncoder, LOW);
+  attachInterrupt(digitalPinToInterrupt(RRE), m::ISRRightEncoder, LOW);
 }
 
 

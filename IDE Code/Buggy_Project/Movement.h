@@ -24,8 +24,8 @@ public:
 	bool isTurning;
 	bool isMoving;
 
-	// Turn the buggy x degrees clockwise
-	void turn(double degrees) { }
+  // pin map interrupts
+  static void startInterrupts();
 
 	// Turn the buggy 90 degrees anti-clockwise
 	void turnLeft();
@@ -34,7 +34,7 @@ public:
 	void turnRight();
 
 	// Move forward a distance of x
-	void moveForward(double distance) { }
+	void moveForward(double distance);
 
 	// Move forward one square
 	void moveForwardOne() { }
@@ -44,6 +44,13 @@ public:
 
 	// Perform the victory roll
 	void victoryRoll() { }
+ // ISR handlers for Rotary Encoders
+  void ISRRightEncoder();
+  void ISRLeftEncoder();
+private:
+  // Turn the buggy x degrees clockwise
+  void turn(double degrees);
+ 
 };
 
 #endif
