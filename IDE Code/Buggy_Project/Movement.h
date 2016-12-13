@@ -1,9 +1,9 @@
 /**
     Movement.h
     Purpose: This is a submodule that will be used to
-			 to interact with the motors of the buggy
-			 (this doesn't need a generic interface as
-			 the buggys motors won't be changing)
+       to interact with the motors of the buggy
+       (this doesn't need a generic interface as
+       the buggys motors won't be changing)
 
     @author Roy Miles
     @version 1.0 11/12/2016
@@ -18,35 +18,32 @@
 class Movement
 {
 public:
-	Movement();
-	~Movement();
+  Movement();
+  ~Movement();
 
-	bool isTurning;
-	bool isMoving;
+  bool isTurning;
+  bool isMoving;
 
-  // pin map interrupts
-  static void startInterrupts();
+  // Turn the buggy 90 degrees anti-clockwise
+  void turnLeft();
 
-	// Turn the buggy 90 degrees anti-clockwise
-	void turnLeft();
+  // Turn the buggy 90 degrees clockwise
+  void turnRight();
 
-	// Turn the buggy 90 degrees clockwise
-	void turnRight();
+  // Move forward a distance of x
+  void moveForward(double distance);
 
-	// Move forward a distance of x
-	void moveForward(double distance);
+  // Move forward one square
+  void moveForwardOne() { }
 
-	// Move forward one square
-	void moveForwardOne() { }
+  // Cease all movement
+  void stopMovement();
 
-	// Cease all movement
-	void stop() { }
-
-	// Perform the victory roll
-	void victoryRoll() { }
- // ISR handlers for Rotary Encoders
-  void ISRRightEncoder();
-  void ISRLeftEncoder();
+  // Perform the victory roll
+  void victoryRoll() { }
+  // ISR handlers for Rotary Encoders
+  static void ISRRightEncoder();
+  static void ISRLeftEncoder();
 private:
   // Turn the buggy x degrees clockwise
   void turn(double degrees);

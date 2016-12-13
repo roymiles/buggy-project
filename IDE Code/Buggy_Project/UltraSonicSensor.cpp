@@ -40,6 +40,9 @@ double UltraSonicSensor::getDistanceToNearestObject(){
   
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
+
+  Serial.print("Duration: ");
+  Serial.println(duration);
   
   //Calculate the distance (in cm) based on the speed of sound.
   distance = duration/58.2;
@@ -61,3 +64,4 @@ double UltraSonicSensor::getDistanceToNearestObject(){
 bool UltraSonicSensor::isCollision(){
   // EMPTY
 }
+

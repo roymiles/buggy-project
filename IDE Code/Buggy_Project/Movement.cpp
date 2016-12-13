@@ -16,39 +16,39 @@ Movement::Movement()
     pinMode(i,OUTPUT);
   }
 
-  //attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, HIGH);
-  //attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, HIGH);
+  attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, HIGH);
+  attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, HIGH);
 
 }
 
 Movement::~Movement()
 {
 }
-void static Movement::ISRLeftEncoder(){
-    LRC++
-  };
-void static Movement::ISRRightEncoder(){
-    RRC++
-  };
+void Movement::ISRLeftEncoder(){
+    LRC++;
+}
+void Movement::ISRRightEncoder(){
+    RRC++;
+}
 void Movement::moveForward(double distance){
   
-  }
+}
 
 void Movement::turn(double a) {
   
   
-  if (a == 90 && RRC>8||LLC>=8)
-    Movement::stop();
+  if (a == 90 && RRC>8||LRC>=8)
+    Movement::stopMovement();
   };
 
 void Movement::turnLeft() {
-	Movement::turn(-90);
+  Movement::turn(-90);
 }
 
 void Movement::turnRight() {
-	Movement::turn(90);
+  Movement::turn(90);
 }
-void Movement::stop(){
+void Movement::stopMovement(){
   digitalWrite(Enable1,LOW);   
   digitalWrite(Enable2,LOW);   
   

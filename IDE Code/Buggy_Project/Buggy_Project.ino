@@ -1,6 +1,6 @@
 /**
     Purpose: This is the entry point for the application
-			 please don't bloat this file too much
+       please don't bloat this file too much
 
     @author Roy Miles
     @version 1.0 11/12/2016
@@ -13,9 +13,6 @@
 UltraSonicSensor *uss;
 Movement *m;
 PathFinding *p;
-const byte LRE = 0; //Left rotary encoder pin holder value
-const byte RRE = 1; //Right rotary encoder pin holder value
-
 
 void setup() {
   // put your setup code here, to run once:
@@ -33,8 +30,6 @@ void setup() {
   uss = new UltraSonicSensor();
   m = new Movement();
   p = new PathFinding();
-  attachInterrupt(digitalPinToInterrupt(LRE),m::ISRLeftEncoder, LOW);
-  attachInterrupt(digitalPinToInterrupt(RRE), m::ISRRightEncoder, LOW);
 }
 
 
