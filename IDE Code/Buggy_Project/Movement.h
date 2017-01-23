@@ -28,21 +28,24 @@ public:
   // Turn the buggy 90 degrees clockwise
   void turnRight();
 
-  // Move forward a distance of x
-  void moveForward(double distance);
+  // Move forward to the next cell
+  void moveForward();
 
-  // Move forward one square
-  void moveForwardOne() { }
+  // Move backwards to the previous cell
+  void moveBackwards();
 
   // Cease all movement
   static void stopMovement();
 
   // Perform the victory roll
   void victoryRoll() { }
+  
   // ISR handlers for Rotary Encoders
   static void ISRRightEncoder();
   static void ISRLeftEncoder();
+  
 private:
+
   // Turn the buggy x degrees clockwise
   void turn(double degrees);
  

@@ -29,7 +29,10 @@ int M2 = 7;    //M1 Direction Control*/
 //int M2 = 8;    //M1 Direction Control
 
 
-/*void stop(void)                    //Stop
+/*
+ * The following code is a working copy of motor movement, don't delete
+ * 
+void stop(void)                    //Stop
 {
   digitalWrite(E1,LOW);   
   digitalWrite(E2,LOW);      
@@ -109,26 +112,31 @@ void loop() {
       {
       case 'w'://Move Forward
         //advance (255,255);   //move forward in max speed
-        m->moveForward(255);
+        m->moveForward();
         break;
       case 's'://Move Backward
         //back_off (255,255);   //move back in max speed
+        m->moveBackwards();
         break;
       case 'a'://Turn Left
         //turn_L (100,100);
+        m->turnLeft();
         break;       
       case 'd'://Turn Right
         //turn_R (100,100);
+        m->turnRight();
         break;
       case 'z':
         Serial.println("Hello");
         break;
       case 'x':
-        //stop();
+        m->stopMovement();
         break;
       }
     }
-    //else stop();  
+    else{
+      m->stopMovement();  
+    }
   }
 
   
