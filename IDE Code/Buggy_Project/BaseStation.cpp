@@ -7,7 +7,7 @@ and maze information to the buggy.
 @version 1.0 12/12/2016
 */
 
-
+#ifdef WIFI_SHIELD_EXISTS
 #include "BaseStation.h"
 #include "String.h"
 #include <SPI.h>
@@ -141,3 +141,4 @@ MazeLayout* BaseStation::getMazeLayout() {
 	else return NULL;
 
 }
+#endif

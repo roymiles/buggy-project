@@ -10,6 +10,8 @@
 #ifndef BaseStation_h
 #define BaseStation_h
 
+#ifdef WIFI_SHIELD_EXISTS
+
 #define NETWORK_SSID "maze_beacon"
 #define NETWORK_NUMBER 0
 // IP address for the web server
@@ -54,4 +56,5 @@ private:
   
 };
 
+#endif
 #endif
