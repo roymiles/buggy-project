@@ -12,6 +12,7 @@
 
 Communication::Communication()
 {
+  
 }
 
 
