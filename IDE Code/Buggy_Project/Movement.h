@@ -20,9 +20,7 @@ class Movement
 public:
   Movement();
   ~Movement();
-
-  bool isTurning;
-  bool isMoving;
+  
   void Test();
   // Turn the buggy 90 degrees anti-clockwise
   void turnLeft();
@@ -37,7 +35,7 @@ public:
   void moveForwardOne() { }
 
   // Cease all movement
-  void stopMovement();
+  static void stopMovement();
 
   // Perform the victory roll
   void victoryRoll() { }

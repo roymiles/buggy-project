@@ -175,19 +175,25 @@ bool MazeLayout::isValidTarget(String task, bool blocker) {
 
 }
 
-int MazeLayout::test() { 
+int MazeLayout::test() {
 
-	printf("Valid: %d\n", isValid("*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*1107*0600*1104*0705*1317*#"));
+  Serial.println("Starting");
+
+	if (isValid("*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*1107*0600*1104*0705*1317*#"))
+    Serial.println("Valid");
+
+  printf("Completed validation");
 
 	MazeLayout testMaze("*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*1107*0600*1104*0705*1317*#");
 
 	for (int x = 0; x < 10; x++) {
 		for (int y = 0; y < 10; y++) {
-			printf("%d", testMaze.blockedAt(x, y));
+      if (testMaze.blockedAt(x,y)) {
+        Serial.print("1");
+      } else Serial.print("0");
 		}
-		printf("\r\n");
+		Serial.println("");
 	}
-
 	return 0;
 
 }
