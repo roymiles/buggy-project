@@ -32,7 +32,7 @@ public:
 
 	bool blockedAt(int x, int y);
 
-	int test();
+	static int test();
 
 private:
 	
