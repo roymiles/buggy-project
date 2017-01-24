@@ -37,8 +37,11 @@ void setup() {
 
   // Create the objects we need, DONT create more than one copy.
   uss = new UltraSonicSensor();
-  m = new Movement();
-  p = new PathFinding();
+  m   = new Movement();
+  ml  = new MazeLayout("njnjn");
+
+  // PathFinding takes the MazeLayout object and the initial position of the buggy
+  p   = new PathFinding(ml, {0, 0});
   //MazeLayout::test();
 }
 
