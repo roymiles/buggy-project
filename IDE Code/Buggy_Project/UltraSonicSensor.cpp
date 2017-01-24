@@ -30,8 +30,10 @@ UltraSonicSensor::~UltraSonicSensor()
 }
 
 double UltraSonicSensor::getDistanceToNearestObject(){
-  /* The following trigPin/echoPin cycle is used to determine the
-  distance of the nearest object by bouncing soundwaves off of it. */ 
+  /* 
+   *  The following trigPin/echoPin cycle is used to determine the
+   *  distance of the nearest object by bouncing soundwaves off of it. 
+   */ 
   digitalWrite(trigPin, LOW); 
   delayMicroseconds(2); 
   
@@ -48,13 +50,17 @@ double UltraSonicSensor::getDistanceToNearestObject(){
   distance = duration/58.2;
   
   if (distance >= maximumRange || distance <= minimumRange){
-    /* Send a negative number to computer and Turn LED ON 
-    to indicate "out of range" */
+    /* 
+     *  Send a negative number to computer and Turn LED ON 
+     *  to indicate "out of range" 
+     */
     Serial.println("-1");
   }
   else {
-    /* Send the distance to the computer using Serial protocol, and
-    turn LED OFF to indicate successful reading. */
+    /* 
+     *  Send the distance to the computer using Serial protocol, 
+     *  and turn LED OFF to indicate successful reading. 
+     */
     Serial.println(distance);
   }
 

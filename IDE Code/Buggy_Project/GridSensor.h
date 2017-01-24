@@ -16,8 +16,15 @@
 class GridSensor
 {
 public:
+  enum colour {WHITE, BLACK, ERR};
+  colour sensorReading;
+
 	GridSensor();
 	~GridSensor();
+
+  void test();
+  colour getCurrentCell();
+  bool hasChangedCell();
 };
 
 #endif

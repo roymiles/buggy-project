@@ -9,12 +9,50 @@
 */
 
 #include "PathFinding.h"
+#include "MazeLayout.h"
 
-PathFinding::PathFinding()
+PathFinding::PathFinding(MazeLayout ml)
 {
+  this->ml = ml;
+  this->currentTarget = 1;
 }
 
 
 PathFinding::~PathFinding()
 {
 }
+
+#define X   0     // X-Coordinate index
+#define Y   1     // Y-Coordinate index
+enum direction {UP, DOWN, LEFT, RIGHT};
+/*
+ * Return the final destination based on the target position and orientation
+ */
+int[2] PathFinding::getDestination()
+{
+  int[2] destination;
+  destination[X] = ml->getTargetX(currentTarget);
+  destination[Y] = ml->getTargetY(currentTarget);
+
+  /*
+   * Adjust the final destination for the buggy based on the orientation
+   */
+  switch(ml->getTarget(currentTarget)){
+    case UP:
+      destination[Y]++;
+      break;
+    case DOWN:
+      destination[Y]--;
+      break;
+    case LEFT:
+      destination[X]--;
+      break;
+    case RIGHT:
+      destination[X]++;
+      break;
+  }
+
+  return destination;
+}
+
+
