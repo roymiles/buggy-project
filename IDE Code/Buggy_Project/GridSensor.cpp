@@ -7,14 +7,18 @@
     @version 1.0 11/12/2016
 */
 
+#include "GridSensor.h"
+
 // See examples https://github.com/pololu/qtr-sensors-arduino/tree/master/examples
 #include "QTRSensors.h"
-
-#include "GridSensor.h"
 
 #define NUM_SENSORS   2     // number of sensors used
 #define TIMEOUT       2500  // waits for 2500 us for sensor outputs to go low
 #define EMITTER_PIN   2     // emitter is controlled by digital pin 2
+
+unsigned int ERR   = 1;
+unsigned int WHITE = 2;
+unsigned int BLACK = 3;
 
 // Create instance of sensors. Only using one sensor connected to pin 12
 QTRSensorsAnalog qtra((unsigned char[]) {12},  NUM_SENSORS, TIMEOUT, EMITTER_PIN); 
@@ -44,9 +48,12 @@ void GridSensor::test() {
   delay(250);
 }
 
-colour GridSensor::getCurrentCell() {
+/*
+ * Retrieve the current cell read by the IR colour sensors
+ */
+unsigned int GridSensor::getCurrentCell() {
   unsigned int reading;
-  reading = qtra.read(sensorValues);
+  reading = qtra.readLine(sensorValues);
   
   if(reading == defaultValue){
     return ERR;
@@ -57,8 +64,9 @@ colour GridSensor::getCurrentCell() {
   }
 }
 
+
 bool GridSensor::hasChangedCell() {
-  if(sensorReading == this->getCurrentCell()) {
+  if(sensorReading == getCurrentCell()) {
     // Current cell has not changed
     return false;
   }else{

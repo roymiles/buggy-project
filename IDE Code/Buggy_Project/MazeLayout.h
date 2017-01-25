@@ -19,8 +19,14 @@
 class MazeLayout
 {
 public:
-	MazeLayout(String description);
+	//MazeLayout(String description);
+  MazeLayout(){}
 	~MazeLayout();
+
+  enum dir {UP, DOWN, LEFT, RIGHT};
+  unsigned int xSize;
+  unsigned int ySize;
+  
 	// Check whether the maze description can be parsed.
 	static bool isValid(String description);
 	bool isValid();
@@ -29,6 +35,7 @@ public:
 
 	int getTargetX(int idx);
 	int getTargetY(int idx);
+  dir getTargetOrientation(int idx);
 
 	bool blockedAt(int x, int y);
 

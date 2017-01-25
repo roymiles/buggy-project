@@ -9,12 +9,11 @@
 #include "UltraSonicSensor.h"
 #include "Movement.h"
 #include "PathFinding.h"
-#include "MazeLayout.h"
 
 UltraSonicSensor *uss;
 Movement *m;
 PathFinding *p;
-MazeLayout *ml;
+//MazeLayout *ml;
 
 void setup() {
   // put your setup code here, to run once:
@@ -38,10 +37,10 @@ void setup() {
   // Create the objects we need, DONT create more than one copy.
   uss = new UltraSonicSensor();
   m   = new Movement();
-  ml  = new MazeLayout("njnjn");
+  //ml  = new MazeLayout("njnjn");
 
   // PathFinding takes the MazeLayout object and the initial position of the buggy
-  p   = new PathFinding(ml, {0, 0});
+  //p   = new PathFinding(ml, {0, 0});
   //MazeLayout::test();
 }
 

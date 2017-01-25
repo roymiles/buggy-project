@@ -11,19 +11,23 @@
 #define GridSensor_h
 
 #include "Arduino.h"
+#include "GridSensor.h"
 
 #pragma once
 class GridSensor
 {
 public:
-  enum colour {WHITE, BLACK, ERR};
-  colour sensorReading;
+  unsigned int sensorReading;
 
 	GridSensor();
 	~GridSensor();
 
   void test();
-  colour getCurrentCell();
+
+  /*
+   * Retrieve the current cell read by the IR colour sensors
+   */
+  unsigned int getCurrentCell();
   bool hasChangedCell();
 };
 

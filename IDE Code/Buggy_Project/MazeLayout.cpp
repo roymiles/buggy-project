@@ -9,66 +9,66 @@
 
 #include "MazeLayout.h"
 
-MazeLayout::MazeLayout(String description) {
-
-  //  Assume data is false.
-  this->valid = MazeLayout::isValid(description);
-
-  if (this->valid) {
-
-    /*
-     * Retrieve the data from the description and determine its length
-     */
-    String data = description.substring(8, description.length() - 3);
-    int length = data.length();
-
-    this->noTargets = 7;
-
-    /* 
-     * Allocate memory for x and y arrays 
-     */
-    this->targetX = (uint8_t*) malloc(this->noTargets);
-    this->targetY = (uint8_t*) malloc(this->noTargets);
-    this->targetDir = (char*) malloc(this->noTargets);
-
-    int k = 0, j = 0;
-    String cTarget;
-    
-    /* 
-     * Assume with validity checked there are 7 targets. 
-     */
-    for (; k < 35; k += 5) {
-
-      cTarget = description.substring(k, k + 4);
-
-      this->targetDir[j] = cTarget.charAt(0);
-      this->targetX[j] = (cTarget.charAt(1) - '0') * 10 + (cTarget.charAt(2) - '0');
-      this->targetY[j] = (cTarget.charAt(3) - '0') * 10 + (cTarget.charAt(4) - '0');
-
-      j++;
-
-    }
-
-    // Determine number of blocked squares
-    this->noBlockers = (length - 35) / 5;
-
-    // Allocate memory for x and y arrays
-    this->blockerX = (uint8_t*) malloc(this->noBlockers);
-    this->blockerY = (uint8_t*) malloc(this->noBlockers);
-
-    k = 0; j = 0;
-    for (; k < length; k += 4) {
-
-      cTarget = description.substring(k, k + 4);
-
-      this->blockerX[j] = (cTarget.charAt(1) - '0') * 10 + (cTarget.charAt(2) - '0');
-      this->blockerY[j] = (cTarget.charAt(3) - '0') * 10 + (cTarget.charAt(4) - '0');
-
-    }
-
-  }
-
-}
+//MazeLayout::MazeLayout(String description) {
+//
+//  //  Assume data is false.
+//  this->valid = MazeLayout::isValid(description);
+//
+//  if (this->valid) {
+//
+//    /*
+//     * Retrieve the data from the description and determine its length
+//     */
+//    String data = description.substring(8, description.length() - 3);
+//    int length = data.length();
+//
+//    this->noTargets = 7;
+//
+//    /* 
+//     * Allocate memory for x and y arrays 
+//     */
+//    this->targetX = (uint8_t*) malloc(this->noTargets);
+//    this->targetY = (uint8_t*) malloc(this->noTargets);
+//    this->targetDir = (char*) malloc(this->noTargets);
+//
+//    int k = 0, j = 0;
+//    String cTarget;
+//    
+//    /* 
+//     * Assume with validity checked there are 7 targets. 
+//     */
+//    for (; k < 35; k += 5) {
+//
+//      cTarget = description.substring(k, k + 4);
+//
+//      this->targetDir[j] = cTarget.charAt(0);
+//      this->targetX[j] = (cTarget.charAt(1) - '0') * 10 + (cTarget.charAt(2) - '0');
+//      this->targetY[j] = (cTarget.charAt(3) - '0') * 10 + (cTarget.charAt(4) - '0');
+//
+//      j++;
+//
+//    }
+//
+//    // Determine number of blocked squares
+//    this->noBlockers = (length - 35) / 5;
+//
+//    // Allocate memory for x and y arrays
+//    this->blockerX = (uint8_t*) malloc(this->noBlockers);
+//    this->blockerY = (uint8_t*) malloc(this->noBlockers);
+//
+//    k = 0; j = 0;
+//    for (; k < length; k += 4) {
+//
+//      cTarget = description.substring(k, k + 4);
+//
+//      this->blockerX[j] = (cTarget.charAt(1) - '0') * 10 + (cTarget.charAt(2) - '0');
+//      this->blockerY[j] = (cTarget.charAt(3) - '0') * 10 + (cTarget.charAt(4) - '0');
+//
+//    }
+//
+//  }
+//
+//}
 
 /* 
  * Deconstructor, clear memory 
@@ -199,11 +199,12 @@ int MazeLayout::test() {
 
   printf("Completed validation");
 
-  MazeLayout testMaze("*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*1107*0600*1104*0705*1317*#");
+  //MazeLayout testMaze = new MazeLayout("*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*1107*0600*1104*0705*1317*#");
+  MazeLayout *testMaze = new MazeLayout();
 
   for (int x = 0; x < 10; x++) {
     for (int y = 0; y < 10; y++) {
-      if (testMaze.blockedAt(x,y)) {
+      if (testMaze->blockedAt(x,y)) {
         Serial.print("1");
       } else {
         Serial.print("0");

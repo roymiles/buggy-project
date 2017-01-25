@@ -12,13 +12,52 @@
 #define PathFinding_h
 
 #include "Arduino.h"
+#include "MazeLayout.h"
 
 #pragma once
-class PathFinding
+class PathFinding : public MazeLayout
 {
+private:
+
+  #define X   0     // X-Coordinate index
+  #define Y   1     // Y-Coordinate index
+
+  typedef struct {
+      unsigned int   distance;
+      bool  visited;
+  } node_t;
+  
+  // ID of the current target of interest
+  unsigned int currentTarget;
+  
 public:
-	PathFinding();
+	PathFinding(int currentPosition[2]);
 	~PathFinding();
+
+  struct Vector
+  {
+    Vector(unsigned int x, unsigned int y){
+      this->x = x;
+      this->y = y;  
+    }
+    Vector() {
+      this->x = 0;
+      this->y = 0;
+    }
+
+    unsigned int x;
+    unsigned int y;
+  };
+
+  Vector currentPosition;
+  
+  Vector cells[4];
+
+  Vector getDestination();
+  Vector* adjacentCells(unsigned int pos[2]);
+  Vector nextWorkingCell();
+  MazeLayout::dir* dijkstras();
+  bool isFinished();
 };
 
 #endif
