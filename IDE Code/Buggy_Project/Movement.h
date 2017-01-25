@@ -2,8 +2,6 @@
     Movement.h
     Purpose: This is a submodule that will be used to
        to interact with the motors of the buggy
-       (this doesn't need a generic interface as
-       the buggys motors won't be changing)
 
     @author Roy Miles
     @version 1.0 11/12/2016
@@ -17,8 +15,8 @@
 
 #pragma once
 
-enum movements {FORWARD, BACKWARDS, TURNING_LEFT, TURNING_RIGHT, IDLE1};
-static movements currentMovement = IDLE1;
+enum movements {IDLE, FORWARD, BACKWARDS, TURNING_LEFT, TURNING_RIGHT};
+static movements currentMovement = IDLE;
 static unsigned int timerCounter = 0;
 
 class Movement

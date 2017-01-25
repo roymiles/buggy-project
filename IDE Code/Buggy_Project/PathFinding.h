@@ -14,6 +14,22 @@
 #include "Arduino.h"
 #include "MazeLayout.h"
 
+
+struct Vector
+{
+  Vector(unsigned int x, unsigned int y){
+    this->x = x;
+    this->y = y;  
+  }
+  Vector() {
+    this->x = 0;
+    this->y = 0;
+  }
+
+  unsigned int x;
+  unsigned int y;
+};
+
 #pragma once
 class PathFinding : public MazeLayout
 {
@@ -24,30 +40,18 @@ private:
 
   typedef struct {
       unsigned int   distance;
-      bool  visited;
+      bool           visited;
   } node_t;
   
   // ID of the current target of interest
   unsigned int currentTarget;
+
+  // Data structure for all the nodes
+  node_t nodes[MAZE_X_MAX][MAZE_Y_MAX];
   
 public:
-	PathFinding(uint8_t sizeX, uint8_t sizeY, String description, int currentPosition[2]);
+	PathFinding(uint8_t sizeX, uint8_t sizeY, String description, Vector currentPosition);
 	~PathFinding();
-
-  struct Vector
-  {
-    Vector(unsigned int x, unsigned int y){
-      this->x = x;
-      this->y = y;  
-    }
-    Vector() {
-      this->x = 0;
-      this->y = 0;
-    }
-
-    unsigned int x;
-    unsigned int y;
-  };
 
   Vector currentPosition;
   

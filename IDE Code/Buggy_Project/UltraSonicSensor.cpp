@@ -16,9 +16,12 @@
 
 #include "UltraSonicSensor.h"
 
+// Minimum distance before object is within colliding distance
+#define THRESHOLD_DISTANCE 100
+
 UltraSonicSensor::UltraSonicSensor()
 {
-  Serial.write("Ultrasonic sensor module...\n");
+  Serial.println("Ultrasonic sensor module.");
 
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -29,7 +32,7 @@ UltraSonicSensor::~UltraSonicSensor()
 {
 }
 
-double UltraSonicSensor::getDistanceToNearestObject(){
+float UltraSonicSensor::getDistanceToNearestObject(){
   /* 
    *  The following trigPin/echoPin cycle is used to determine the
    *  distance of the nearest object by bouncing soundwaves off of it. 
@@ -68,6 +71,14 @@ double UltraSonicSensor::getDistanceToNearestObject(){
 }
 
 bool UltraSonicSensor::isCollision(){
-  // EMPTY
+  float distance = getDistanceToNearestObject();
+  // Check if distance is valid (within range)
+  if(distance < maximumRange && distance > minimumRange){
+    if(distance < THRESHOLD_DISTANCE){
+      return true;
+    }else{
+      return false;
+    }
+  }
 }
 

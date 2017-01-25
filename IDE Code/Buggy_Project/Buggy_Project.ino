@@ -13,17 +13,15 @@
 UltraSonicSensor *uss;
 Movement *m;
 PathFinding *p;
-//MazeLayout *ml;
 
+#define MAX_QUEUE_COUNT 10
 unsigned int mvCount = 0;
-movements movementQueue[2] = {FORWARD, TURNING_RIGHT};
+movements movementQueue[MAX_QUEUE_COUNT] = {FORWARD, TURNING_RIGHT};
 
 void setup() {
-  // put your setup code here, to run once:
-  //interrupts();
 
   int i;
-  for(i=4;i<=7;i++){
+  for(i = 4; i <= 7; i++){
     pinMode(i, OUTPUT);  
   }
 
@@ -33,31 +31,28 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
   
-  Serial.println("Run keyboard control");
-  
-  Serial.print("Instantiating Modules...\n");
+  Serial.println("Program start");
 
   // Create the objects we need, DONT create more than one copy.
   uss = new UltraSonicSensor();
   m   = new Movement();
-  //ml  = new MazeLayout("njnjn");
-
-  // PathFinding takes the MazeLayout object and the initial position of the buggy
-  //p   = new PathFinding(ml, {0, 0});
+  p   = new PathFinding(MAZE_X_MAX, MAZE_Y_MAX, "*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*0705*1107*1104*0600*1317*#", Vector(0, 0));
   //MazeLayout::test();
 }
 
 
 double distance;
-bool finished = false;
+bool isFinished = false;
 void loop() {
-  // put your main code here, to run repeatedly:
   //m->Test();
   //distance = uss->getDistanceToNearestObject();
 
   // Delay 50ms
   //delay(50);
 
+  /*
+   * Move using the serial input
+   */
   /*if(Serial.available()) {
     char val = Serial.read();
     if(val != -1) {
@@ -89,15 +84,11 @@ void loop() {
 
 
   /*
-   * 
-   * 
+   * Iterrate through the movements in the queue
    */
 
   // Buggy is not doing anything, so move onto the next movement
-  //Serial.println(IDLE1);
-  //Serial.println(currentMovement);
-  if(currentMovement == IDLE1 && finished == false){
-    //Serial.println("Moving onto next movement...");
+  if(currentMovement == IDLE && isFinished == false){
     // Call the appropriate movement operation
     switch(movementQueue[mvCount]){
       case FORWARD:
@@ -115,12 +106,13 @@ void loop() {
     }
 
     // Only increment, if mvCount is within the array bounds
-    if(mvCount < 3){
+    if(mvCount < MAX_QUEUE_COUNT){
       // Increment the movement counter    
+      Serial.println("Incremening movement counter");
       mvCount++;  
     }else{
       Serial.println("Finished");
-      finished = true;  
+      isFinished = true;  
     }
   } 
 

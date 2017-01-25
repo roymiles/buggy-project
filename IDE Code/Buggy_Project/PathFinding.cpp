@@ -10,11 +10,10 @@
 
 #include "PathFinding.h"
 
-PathFinding::PathFinding(uint8_t sizeX, uint8_t sizeY, String description, int currentPosition[2]) : MazeLayout(sizeX, sizeY, description)
+PathFinding::PathFinding(uint8_t sizeX, uint8_t sizeY, String description, Vector currentPosition) : MazeLayout(sizeX, sizeY, description)
 {
-  //this->ml              = ml;
-  //this->currentPosition = &currentPosition;
-  //this->currentTarget   = 1;
+  this->currentPosition = currentPosition;
+  this->currentTarget   = 1;
 }
 
 
@@ -25,7 +24,7 @@ PathFinding::~PathFinding()
 /*
  * Return the final destination based on the target position and orientation
  */
-PathFinding::Vector PathFinding::getDestination()
+Vector PathFinding::getDestination()
 {
   int destination[2];
   destination[X] = MazeLayout::getTargetX(currentTarget);
@@ -49,7 +48,7 @@ PathFinding::Vector PathFinding::getDestination()
       break;
   }
 
-  return PathFinding::Vector(destination[X], destination[Y]);
+  return Vector(destination[X], destination[Y]);
 }
 
 /*
@@ -58,18 +57,13 @@ PathFinding::Vector PathFinding::getDestination()
 dir* PathFinding::dijkstras()
 {
   Vector destination           = this->getDestination();
-  unsigned int xSize           = MazeLayout::xSize;
-  unsigned int ySize           = MazeLayout::ySize;
   Vector workingCell           = this->currentPosition;
 
-  // Data structure for all the nodes
-  node_t nodes[xSize][ySize];
-
-  PathFinding::Vector* surroundingCells;
+  Vector* surroundingCells;
   
   // Initialise the nodes
-  for(int i = 0; i < xSize; i++){
-    for(int j = 0; j < ySize; j++){
+  for(int i = 0; i < MazeLayout::xSize; i++){
+    for(int j = 0; j < MazeLayout::ySize; j++){
       if(MazeLayout::blockedAt(i, j)){
         // Set all the blocked cells to visited
         nodes[i][j].visited = true; 
@@ -94,7 +88,7 @@ dir* PathFinding::dijkstras()
      */
     unsigned int pos[2] = {workingCell.x, workingCell.y};
     surroundingCells = this->adjacentCells(pos);
-    for(int i = 0; i < 4; i++){
+    for(int i = 0; i < 4; /* there are 4 surrounding cells */ i++){
   
       // Only increment the distance matrix if the cell is not blocked
       if(!MazeLayout::blockedAt(surroundingCells[i].x, surroundingCells[i].y)){ 
@@ -105,6 +99,9 @@ dir* PathFinding::dijkstras()
 
     // Change the working cell to the next (non-blocked) cell
     workingCell = nextWorkingCell();
+
+    // Set the working cell to visited
+    nodes[workingCell.x][workingCell.y].visited = true;
   }
     
   
@@ -114,12 +111,12 @@ dir* PathFinding::dijkstras()
  * Return the coordinates of the surrounding cells
  */
 
-PathFinding::Vector* PathFinding::adjacentCells(unsigned int pos[2])
+Vector* PathFinding::adjacentCells(unsigned int pos[2])
 {
-  PathFinding::Vector up(pos[X], pos[Y]++);
-  PathFinding::Vector down(pos[X], pos[Y]--);
-  PathFinding::Vector left(pos[X]--, pos[Y]);
-  PathFinding::Vector right(pos[X]++, pos[Y]);
+  Vector up(pos[X], pos[Y]++);
+  Vector down(pos[X], pos[Y]--);
+  Vector left(pos[X]--, pos[Y]);
+  Vector right(pos[X]++, pos[Y]);
 
   cells[0] = up;
   cells[1] = down;
@@ -132,9 +129,33 @@ PathFinding::Vector* PathFinding::adjacentCells(unsigned int pos[2])
 /*
  * Return the next working cell
  */
-PathFinding::Vector PathFinding::nextWorkingCell()
+Vector PathFinding::nextWorkingCell()
 {
-  // TODO 
+  /*
+   * Loop through all the nodes and find the node with the smallest distance and has not been seen
+   */
+  int lowestDistance = -1;
+  Vector workingCell;
+  for(int i = 0; i < MazeLayout::xSize; i++){
+    for(int j = 0; j < MazeLayout::ySize; j++){
+
+      // Has this node already been visited?
+      if(nodes[i][j].visited == false){
+
+        // If the first node that isnt visited or a node with a lower distance
+        if(lowestDistance == -1 || nodes[i][j].distance < lowestDistance){
+          workingCell.x  = i;
+          workingCell.y  = j;
+          lowestDistance = nodes[i][j].distance;
+        }
+        
+      }
+      
+    }
+  }
+
+  return workingCell;
+   
 }
 
 /*
@@ -142,7 +163,17 @@ PathFinding::Vector PathFinding::nextWorkingCell()
  */
 bool PathFinding::isFinished()
 {
-  // TODO 
+  bool isFinished = true;
+  for(int i = 0; i < MazeLayout::xSize; i++){
+    for(int j = 0; j < MazeLayout::ySize; j++){
+      // Has this node already been visited?
+      if(nodes[i][j].visited == false){
+        isFinished = false;
+      }
+    }
+  }
+
+  return isFinished;
 }
 
 

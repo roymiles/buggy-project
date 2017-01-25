@@ -39,7 +39,7 @@ Movement::Movement()
   //attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
   //attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
 
-  currentMovement = IDLE1;
+  currentMovement = IDLE;
   targetDistance  = -1;
 
   // Initialize the digital pin as an output.
@@ -61,8 +61,8 @@ void Movement::ISRLeftEncoder(){
     Serial.println("Left encoder interrupt triggered");
     
     // If the buggy is moving/turning and has exceeded its target distance
-    if(LRC >= targetDistance && currentMovement != IDLE1){
-      currentMovement = IDLE1;
+    if(LRC >= targetDistance && currentMovement != IDLE){
+      currentMovement = IDLE;
       Movement::stopMovement();
     }
 }
@@ -72,8 +72,8 @@ void Movement::ISRRightEncoder(){
     Serial.println("Right encoder interrupt triggered");
     
     // If the buggy is moving/turning and has exceeded its target distance
-    if(RRC >= targetDistance && currentMovement != IDLE1){
-      currentMovement = IDLE1;
+    if(RRC >= targetDistance && currentMovement != IDLE){
+      currentMovement = IDLE;
       Movement::stopMovement();
     }
 }
@@ -136,7 +136,7 @@ void Movement::stopMovement(){
   digitalWrite(Enable1,LOW);   
   digitalWrite(Enable2,LOW); 
 
-  currentMovement = IDLE1;
+  currentMovement = IDLE;
 
   // Reset the encoder counters
   LRC = 0;
@@ -154,7 +154,7 @@ void Movement::Test(){
 /// --------------------------
 void Movement::timerIsr()
 {
-    if(currentMovement != IDLE1 && timerCount > 10){
+    if(currentMovement != IDLE && timerCount > 10){
       timerCount = 0;
       Serial.println("Finished moving");
       stopMovement();
