@@ -13,11 +13,18 @@
 #define Movement_h
 
 #include "Arduino.h"
+#include "TimerOne.h"
 
 #pragma once
+
+enum movements {FORWARD, BACKWARDS, TURNING_LEFT, TURNING_RIGHT, IDLE};
+static movements currentMovement;
+static unsigned int timerCounter = 0;
+
 class Movement
 {
 public:
+
   Movement();
   ~Movement();
   
@@ -43,6 +50,9 @@ public:
   // ISR handlers for Rotary Encoders
   static void ISRRightEncoder();
   static void ISRLeftEncoder();
+  
+  // ISR handler for timer
+  static void timerIsr();
   
 private:
 

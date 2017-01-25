@@ -15,6 +15,9 @@ Movement *m;
 PathFinding *p;
 //MazeLayout *ml;
 
+unsigned int mvCount = 0;
+movements movementQueue[50];
+
 void setup() {
   // put your setup code here, to run once:
   //interrupts();
@@ -71,7 +74,7 @@ void loop() {
           m->turnRight();
           break;
         case 'z':
-          Serial.println("Hello");
+          Serial.println("Serial Working...");
           break;
         case 'x':
           m->stopMovement();
@@ -83,6 +86,33 @@ void loop() {
     }
   }
 
-  
-  
+
+  /*
+   * 
+   * 
+   */
+
+  // Buggy is not doing anything, so move onto the next movement
+  /*if(currentMovement == IDLE){
+
+    // Call the appropriate movement operation
+    switch(movementQueue[mvCount]){
+      case FORWARD:
+        m->moveForward();
+        break;
+      case BACKWARDS:
+        m->moveBackwards();
+        break;
+      case TURNING_LEFT:
+        m->turnLeft();
+        break;
+      case TURNING_RIGHT:
+        m->turnRight();
+        break;    
+    }*/
+    
+    // Increment the movement counter
+    //mvCount++;    
+  //} 
+
 }
