@@ -10,7 +10,7 @@
 
 #include "PathFinding.h"
 
-PathFinding::PathFinding(int currentPosition[2])
+PathFinding::PathFinding(uint8_t sizeX, uint8_t sizeY, String description, int currentPosition[2]) : MazeLayout(sizeX, sizeY, description)
 {
   //this->ml              = ml;
   //this->currentPosition = &currentPosition;
@@ -34,17 +34,17 @@ PathFinding::Vector PathFinding::getDestination()
   /*
    * Adjust the final destination for the buggy based on the orientation
    */
-  switch(MazeLayout::getTargetOrientation(currentTarget)){
-    case MazeLayout::UP:
+  switch(MazeLayout::getTargetDir(currentTarget)){
+    case UP:
       destination[Y]++;
       break;
-    case MazeLayout::DOWN:
+    case DOWN:
       destination[Y]--;
       break;
-    case MazeLayout::LEFT:
+    case LEFT:
       destination[X]--;
       break;
-    case MazeLayout::RIGHT:
+    case RIGHT:
       destination[X]++;
       break;
   }
@@ -55,7 +55,7 @@ PathFinding::Vector PathFinding::getDestination()
 /*
  * Return an array of the movements required to reach the destination
  */
-MazeLayout::dir* PathFinding::dijkstras()
+dir* PathFinding::dijkstras()
 {
   Vector destination           = this->getDestination();
   unsigned int xSize           = MazeLayout::xSize;

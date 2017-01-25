@@ -17,7 +17,7 @@
 #define MAZE_X_MAX 14
 #define MAZE_Y_MAX 10
 
-typedef enum dir {NONE, UP, DOWN, LEFT, RIGHT};
+enum dir {NONE, UP, DOWN, LEFT, RIGHT};
 
 #include "Arduino.h"
 
@@ -46,6 +46,10 @@ public:
     // The full array containing 1/0 for a location blocked/unblocke.
 	int blockingMap[MAZE_X_MAX][MAZE_Y_MAX];
 
+  // Grid sizes (Needs to be public for Dijskstras algorithm in PathFinding)
+  uint8_t xSize;
+  uint8_t ySize;  
+
     // TEST FUNCTION ONLY
 	static int test();
 
@@ -70,9 +74,6 @@ private:
 	uint8_t* targetY;
 	uint8_t* blockerX;
 	uint8_t* blockerY;
-	// Grid sizes
-    uint8_t xSize;
-    uint8_t ySize;
 
 };
 

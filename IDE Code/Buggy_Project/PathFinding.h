@@ -31,7 +31,7 @@ private:
   unsigned int currentTarget;
   
 public:
-	PathFinding(int currentPosition[2]);
+	PathFinding(uint8_t sizeX, uint8_t sizeY, String description, int currentPosition[2]);
 	~PathFinding();
 
   struct Vector
@@ -56,7 +56,7 @@ public:
   Vector getDestination();
   Vector* adjacentCells(unsigned int pos[2]);
   Vector nextWorkingCell();
-  MazeLayout::dir* dijkstras();
+  dir* dijkstras();
   bool isFinished();
 };
 
