@@ -17,8 +17,8 @@
 
 #pragma once
 
-enum movements {FORWARD, BACKWARDS, TURNING_LEFT, TURNING_RIGHT, IDLE};
-static movements currentMovement;
+enum movements {FORWARD, BACKWARDS, TURNING_LEFT, TURNING_RIGHT, IDLE1};
+static movements currentMovement = IDLE1;
 static unsigned int timerCounter = 0;
 
 class Movement

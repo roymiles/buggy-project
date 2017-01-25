@@ -16,7 +16,7 @@ PathFinding *p;
 //MazeLayout *ml;
 
 unsigned int mvCount = 0;
-movements movementQueue[50];
+movements movementQueue[2] = {FORWARD, TURNING_RIGHT};
 
 void setup() {
   // put your setup code here, to run once:
@@ -49,15 +49,16 @@ void setup() {
 
 
 double distance;
+bool finished = false;
 void loop() {
   // put your main code here, to run repeatedly:
-  m->Test();
+  //m->Test();
   //distance = uss->getDistanceToNearestObject();
 
   // Delay 50ms
   //delay(50);
 
-  if(Serial.available()) {
+  /*if(Serial.available()) {
     char val = Serial.read();
     if(val != -1) {
       switch(val) {
@@ -84,7 +85,7 @@ void loop() {
     else{
       m->stopMovement();  
     }
-  }
+  }*/
 
 
   /*
@@ -93,8 +94,10 @@ void loop() {
    */
 
   // Buggy is not doing anything, so move onto the next movement
-  /*if(currentMovement == IDLE){
-
+  //Serial.println(IDLE1);
+  //Serial.println(currentMovement);
+  if(currentMovement == IDLE1 && finished == false){
+    //Serial.println("Moving onto next movement...");
     // Call the appropriate movement operation
     switch(movementQueue[mvCount]){
       case FORWARD:
@@ -109,10 +112,16 @@ void loop() {
       case TURNING_RIGHT:
         m->turnRight();
         break;    
-    }*/
-    
-    // Increment the movement counter
-    //mvCount++;    
-  //} 
+    }
+
+    // Only increment, if mvCount is within the array bounds
+    if(mvCount < 3){
+      // Increment the movement counter    
+      mvCount++;  
+    }else{
+      Serial.println("Finished");
+      finished = true;  
+    }
+  } 
 
 }
