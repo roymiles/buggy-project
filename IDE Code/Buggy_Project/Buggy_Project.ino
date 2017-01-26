@@ -36,7 +36,7 @@ void setup() {
   // Create the objects we need, DONT create more than one copy.
   uss = new UltraSonicSensor();
   m   = new Movement();
-  p   = new PathFinding(MAZE_X_MAX, MAZE_Y_MAX, "*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*0705*1107*1104*0600*1317*#", Vector(0, 0));
+  //p   = new PathFinding(MAZE_X_MAX, MAZE_Y_MAX, "*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*0705*1107*1104*0600*1317*#", Vector(0, 0));
   //MazeLayout::test();
 }
 
@@ -88,27 +88,32 @@ void loop() {
    */
 
   // Buggy is not doing anything, so move onto the next movement
-  if(currentMovement == IDLE && isFinished == false){
+  if(Movement::currentMovement == IDLE && isFinished == false){
     // Call the appropriate movement operation
     switch(movementQueue[mvCount]){
       case FORWARD:
         m->moveForward();
+        delay(100);
         break;
       case BACKWARDS:
         m->moveBackwards();
+        delay(100);
         break;
       case TURNING_LEFT:
         m->turnLeft();
+        delay(100);
         break;
       case TURNING_RIGHT:
         m->turnRight();
+        delay(100);
         break;    
     }
 
     // Only increment, if mvCount is within the array bounds
     if(mvCount < MAX_QUEUE_COUNT){
       // Increment the movement counter    
-      Serial.println("Incremening movement counter");
+      Serial.println("Incrementing movement counter");
+      Serial.println("Current movement = " + Movement::currentMovement);
       mvCount++;  
     }else{
       Serial.println("Finished");

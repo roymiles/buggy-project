@@ -16,17 +16,17 @@
 #pragma once
 
 enum movements {IDLE, FORWARD, BACKWARDS, TURNING_LEFT, TURNING_RIGHT};
-static movements currentMovement = IDLE;
 static unsigned int timerCounter = 0;
 
 class Movement
 {
 public:
+  static movements currentMovement;
 
   Movement();
   ~Movement();
   
-  void Test();
+  //void Test();
   // Turn the buggy 90 degrees anti-clockwise
   void turnLeft();
 

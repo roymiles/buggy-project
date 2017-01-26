@@ -29,6 +29,8 @@ unsigned int targetDistance;
 
 static unsigned int timerCount = 0;
 
+movements Movement::currentMovement = IDLE;
+
 Movement::Movement()
 {
   int i; 
@@ -49,7 +51,7 @@ Movement::Movement()
   Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
   Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
   
-  Serial.println("Movement Constructor...");
+  Serial.println("Movement module.");
 }
 
 Movement::~Movement()
@@ -61,10 +63,10 @@ void Movement::ISRLeftEncoder(){
     Serial.println("Left encoder interrupt triggered");
     
     // If the buggy is moving/turning and has exceeded its target distance
-    if(LRC >= targetDistance && currentMovement != IDLE){
+    /*if(LRC >= targetDistance && currentMovement != IDLE){
       currentMovement = IDLE;
       Movement::stopMovement();
-    }
+    }*/
 }
 
 void Movement::ISRRightEncoder(){
@@ -72,10 +74,10 @@ void Movement::ISRRightEncoder(){
     Serial.println("Right encoder interrupt triggered");
     
     // If the buggy is moving/turning and has exceeded its target distance
-    if(RRC >= targetDistance && currentMovement != IDLE){
+    /*if(RRC >= targetDistance && currentMovement != IDLE){
       currentMovement = IDLE;
       Movement::stopMovement();
-    }
+    }*/
 }
 
 void Movement::moveForward(){
@@ -86,6 +88,7 @@ void Movement::moveForward(){
   digitalWrite(M2,LOW);
 
   Serial.println("Moving forward");
+  // Reset the ISR timer
   timerCount = 0;
   currentMovement = FORWARD;  
 }
@@ -143,17 +146,18 @@ void Movement::stopMovement(){
   RRC = 0;  
 }
 
-void Movement::Test(){
+/*void Movement::Test(){
   if (LRC >= 8 || RRC >= 8){
     Serial.println("I work");
   }
-}
+}*/
 
 /// --------------------------
 /// Custom ISR Timer Routine
 /// --------------------------
 void Movement::timerIsr()
 {
+    // If the buggy is moving/turning and the timer count has exceeded
     if(currentMovement != IDLE && timerCount > 10){
       timerCount = 0;
       Serial.println("Finished moving");
