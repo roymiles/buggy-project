@@ -48,6 +48,12 @@ public:
   // ISR handlers for Rotary Encoders
   static void ISRRightEncoder();
   static void ISRLeftEncoder();
+
+  // Used by sensor control the compensate for motor inaccuracies 
+  void increaseLeftMotor();
+  void decreaseLeftMotor();
+  void increaseRightMotor();
+  void decreaseRightMotor();
   
   // ISR handler for timer
   static void timerIsr();

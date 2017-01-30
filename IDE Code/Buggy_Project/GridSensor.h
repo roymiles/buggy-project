@@ -13,27 +13,31 @@
 #include "Arduino.h"
 #include "Movement.h"
 
-enum sensorPosition {NA, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
+enum colour {UNKNOWN_COLOUR, WHITE, BLACK};
+enum sensorPosition {UNKNOWN_POSITION, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
 
 #pragma once
 class GridSensor
 {
 public:
-  unsigned int sensorReading;
+  colour firstSensorReading; // First colour reading
   sensorPosition currentPosition;
 
 	GridSensor(sensorPosition sp);
 	~GridSensor();
 
   void test();
-  void motorCorrection();
 
   /*
    * Retrieve the current cell read by the IR colour sensors
    */
-  unsigned int getCurrentCell();
+  colour getCurrentCell();
   bool hasChangedCell();
-  void debugLoop();
+
+  /**
+   * Print the response of the RGB colour sensors
+   */
+  void debug();
 };
 
 #endif

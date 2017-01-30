@@ -1,15 +1,11 @@
 #include "Movement.h"
 
 /*
- * Same as E1, E2 (Speed controls)
+ * Speed controls
  */
 int LEFT_MTR = 6;
 int RIGHT_MTR = 5;
 
-// E1 = RIGHT = 5
-// E2 = LEFT  = 6
-//int E1 = 5;     // M1 Speed Control
-//int E2 = 6;     // M2 Speed Control
 int M1 = 4;     // M1 Direction Control
 int M2 = 7;     // M1 Direction Control
 
@@ -29,11 +25,11 @@ volatile uint8_t LRC = 0;      // Left rotary encoder count
 volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
-//unsigned int normalisedRotationalDistance = 100;    // The encoder distance to correspond to a 90 degrees turn
-//unsigned int normalisedMovementDistance   = 100;    // The encoder distance to correspond to moving forward 1 cell
-unsigned int rotationalSpeed = 100;
-unsigned int movementSpeed   = 100;
-unsigned int targetDistance;
+unsigned int defaultRotationalSpeed = 100;
+unsigned int defaultMovementSpeed   = 100;
+
+unsigned int leftMotorSpeed;
+unsigned int rightMotorSpeed;
 
 static unsigned int timerCount = 0;
 
@@ -60,7 +56,6 @@ Movement::Movement()
   attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
 
   currentMovement = IDLE;
-  targetDistance  = -1;
 
   // Initialize the digital pin as an output.
   // Pin 13 has an LED connected on most Arduino boards
@@ -100,10 +95,13 @@ void Movement::ISRRightEncoder(){
 
 void Movement::moveForward(){
   //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
-  analogWrite (RIGHT_MTR,movementSpeed+20);
-  digitalWrite(M1,HIGH);    
-  analogWrite (LEFT_MTR,movementSpeed+20);    
-  digitalWrite(M2,LOW);
+  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+  digitalWrite(M1, HIGH);    
+  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+  digitalWrite(M2, LOW);
+
+  leftMotorSpeed  = defaultMovementSpeed;
+  rightMotorSpeed = defaultMovementSpeed;
 
   Serial.println("Moving forward");
   // Reset the ISR timer
@@ -113,10 +111,13 @@ void Movement::moveForward(){
 
 void Movement::moveBackwards(){
   //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
-  analogWrite (RIGHT_MTR,movementSpeed);
-  digitalWrite(M1,LOW);    
-  analogWrite (LEFT_MTR,movementSpeed);    
-  digitalWrite(M2,HIGH);
+  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+  digitalWrite(M1, LOW);    
+  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+  digitalWrite(M2, HIGH);
+
+  leftMotorSpeed  = defaultMovementSpeed;
+  rightMotorSpeed = defaultMovementSpeed;
 
   Serial.println("Moving backwards");
   timerCount = 0;
@@ -131,10 +132,13 @@ void Movement::turn(double degrees) {
 
 void Movement::turnLeft() {
   //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
-  analogWrite (RIGHT_MTR,rotationalSpeed);
-  digitalWrite(M1,LOW);   
-  analogWrite (LEFT_MTR,rotationalSpeed);    
-  digitalWrite(M2,LOW);
+  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
+  digitalWrite(M1, LOW);   
+  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
+  digitalWrite(M2, LOW);
+
+  leftMotorSpeed  = defaultRotationalSpeed;
+  rightMotorSpeed = defaultRotationalSpeed;
 
   Serial.println("Turning left");
   timerCount = 0;
@@ -143,10 +147,13 @@ void Movement::turnLeft() {
 
 void Movement::turnRight() {
   //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
-  analogWrite (RIGHT_MTR,rotationalSpeed);
-  digitalWrite(M1,HIGH);    
-  analogWrite (LEFT_MTR,rotationalSpeed);    
-  digitalWrite(M2,HIGH);
+  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
+  digitalWrite(M1, HIGH);    
+  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
+  digitalWrite(M2, HIGH);
+
+  leftMotorSpeed  = defaultRotationalSpeed;
+  rightMotorSpeed = defaultRotationalSpeed;  
 
   Serial.println("Turning right");
   timerCount = 0;
@@ -164,11 +171,25 @@ void Movement::stopMovement(){
   RRC = 0;  
 }
 
-/*void Movement::Test(){
-  if (LRC >= 8 || RRC >= 8){
-    Serial.println("I work");
-  }
-}*/
+void Movement::increaseLeftMotor(){
+  leftMotorSpeed++;
+  analogWrite (LEFT_MTR, leftMotorSpeed);
+}
+
+void Movement::decreaseLeftMotor(){
+  leftMotorSpeed--;
+  analogWrite (LEFT_MTR, leftMotorSpeed);
+}
+
+void Movement::increaseRightMotor(){
+  rightMotorSpeed++;
+  analogWrite (RIGHT_MTR, rightMotorSpeed);
+}
+
+void Movement::decreaseRightMotor(){
+  rightMotorSpeed--;
+  analogWrite (RIGHT_MTR, rightMotorSpeed);
+}
 
 /// --------------------------
 /// Custom ISR Timer Routine
@@ -190,11 +211,6 @@ void Movement::timerIsr()
     }
     
     timerCount++;
-    // If 1 second has passed
-    //if(timerCount % 10 == 0){
-     // Serial.println("1 second has passed");
-      //timerCount = 0;
-    //}
 }
 
 /*

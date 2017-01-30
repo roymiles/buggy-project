@@ -12,16 +12,33 @@
 
 #include "Arduino.h"
 #include "GridSensor.h"
+#include "Movement.h"
 
 #pragma once
 class SensorControl
 {
 public:
-  GridSensor *gs1; // Top left
-  GridSensor *gs2; // Top right
+  GridSensor *gs_top_left; // Top left
+  GridSensor *gs_top_right; // Top right
 
-  SensorControl();
+  SensorControl(Movement *m);
   ~SensorControl();
+
+  /**
+   * Get the initial readings prior to movement
+   */
+  void movementInit();
+
+  /**
+   * Read from the IR RGB colour sensors and adjust the motor controls to compensate
+   */
+  void motorCorrection();
+
+private:
+  Movement *m;
+
+  colour initialColourTopLeft;
+  colour initialColourTopRight;  
 
 };
 

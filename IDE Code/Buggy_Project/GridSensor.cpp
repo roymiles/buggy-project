@@ -104,7 +104,7 @@ void GridSensor::test() {
 /*
  * Retrieve the current cell read by the IR colour sensors
  */
-unsigned int GridSensor::getCurrentCell() {
+colour GridSensor::getCurrentCell() {
   /*unsigned int reading;
   reading = qtra.readLine(sensorValues);
   
@@ -116,12 +116,12 @@ unsigned int GridSensor::getCurrentCell() {
     return BLACK;
   }*/
 
-  return 1;
+  return WHITE;
 }
 
 
 bool GridSensor::hasChangedCell() {
-  if(sensorReading == getCurrentCell()) {
+  if(firstSensorReading == getCurrentCell()) {
     // Current cell has not changed
     return false;
   }else{
@@ -129,15 +129,7 @@ bool GridSensor::hasChangedCell() {
   }
 }
 
-
-/*
- * This function will need to offer feedback to the motors
- */
-void GridSensor::motorCorrection(){
-  
-}
-
-void GridSensor::debugLoop(){
+void GridSensor::debug(){
   uint16_t clear, red, green, blue;
   
   Serial.print("C:\t"); Serial.print(clear);
