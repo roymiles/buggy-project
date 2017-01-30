@@ -103,12 +103,15 @@ dir* PathFinding::dijkstras()
     // Set the working cell to visited
     nodes[workingCell.x][workingCell.y].visited = true;
   }
-    
+
+  // TODO: Traverse back from the destination to find the shortest path
   
 }
 
 /*
  * Return the coordinates of the surrounding cells
+ * The only connecting nodes are those that are directly adjacent to a given cell
+ * on the given grid system
  */
 
 Vector* PathFinding::adjacentCells(unsigned int pos[2])
@@ -174,6 +177,29 @@ bool PathFinding::isFinished()
   }
 
   return isFinished;
+}
+
+
+/*
+ * Convert the movement enum to a string (for debugging)
+ */
+String PathFinding::getDirection(dir d){
+  switch(d){
+    case UP:
+      return "UP";
+      break;
+    case DOWN:
+      return "DOWN";
+      break;
+    case LEFT:
+      return "LEFT";
+      break;
+    case RIGHT:
+      return "RIGHT";
+      break;
+    default:
+      return "UNKNOWN";
+  }
 }
 
 

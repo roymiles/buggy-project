@@ -22,7 +22,6 @@ MazeLayout::MazeLayout(uint8_t sizeX, uint8_t sizeY, String description)
 
     if (this->valid)
     {
-;
         printf("Valid\n");
 
         /*
@@ -390,3 +389,4 @@ int MazeLayout::test()
     return 0;
 
 }
+

@@ -62,6 +62,10 @@ public:
   Vector nextWorkingCell();
   dir* dijkstras();
   bool isFinished();
+
+  // Convert enum to string
+  String getDirection(dir d);
 };
 
 #endif
+

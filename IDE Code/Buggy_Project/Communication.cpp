@@ -19,3 +19,4 @@ Communication::Communication()
 Communication::~Communication()
 {
 }
+

@@ -20,10 +20,9 @@
 #define trigPin 8 // Trigger Pin
 
 #include "Arduino.h"
-#include "CollisionSensor.h" // This object is of type "CollisionSensor"
 
 #pragma once
-class UltraSonicSensor: public CollisionSensor
+class UltraSonicSensor
 {
 public:
 	UltraSonicSensor();
@@ -40,3 +39,4 @@ public:
 };
 
 #endif
+

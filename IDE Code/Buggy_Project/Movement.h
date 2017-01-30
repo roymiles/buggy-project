@@ -51,6 +51,9 @@ public:
   
   // ISR handler for timer
   static void timerIsr();
+
+  // Convert enums to strings (typically for debugging at serial output)
+  String getMovement(movements cm);
   
 private:
 
@@ -60,4 +63,5 @@ private:
 };
 
 #endif
+
 

@@ -11,24 +11,30 @@
 #define GridSensor_h
 
 #include "Arduino.h"
-#include "GridSensor.h"
+#include "Movement.h"
+
+enum sensorPosition {NA, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
 
 #pragma once
 class GridSensor
 {
 public:
   unsigned int sensorReading;
+  sensorPosition currentPosition;
 
-	GridSensor();
+	GridSensor(sensorPosition sp);
 	~GridSensor();
 
   void test();
+  void motorCorrection();
 
   /*
    * Retrieve the current cell read by the IR colour sensors
    */
   unsigned int getCurrentCell();
   bool hasChangedCell();
+  void debugLoop();
 };
 
 #endif
+

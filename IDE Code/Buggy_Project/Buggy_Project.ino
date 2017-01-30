@@ -9,20 +9,26 @@
 #include "UltraSonicSensor.h"
 #include "Movement.h"
 #include "PathFinding.h"
+#include "SensorControl.h"
 
 UltraSonicSensor *uss;
 Movement *m;
 PathFinding *p;
+SensorControl *sc;
 
-#define MAX_QUEUE_COUNT 10
+#define MAX_QUEUE_COUNT 100
 unsigned int mvCount = 0;
-movements movementQueue[MAX_QUEUE_COUNT] = {FORWARD, TURNING_RIGHT};
+movements movementQueue[MAX_QUEUE_COUNT] = {FORWARD /* first one */, BACKWARDS, BACKWARDS, TURNING_LEFT, TURNING_LEFT, FORWARD /* second one */,
+                                            TURNING_RIGHT, FORWARD, FORWARD, TURNING_LEFT /* third one */, TURNING_RIGHT, TURNING_RIGHT, FORWARD, FORWARD, FORWARD /* fourth one */,
+                                            TURNING_RIGHT, FORWARD, FORWARD, TURNING_LEFT /* fifth one */, TURNING_RIGHT, TURNING_RIGHT, FORWARD, FORWARD, FORWARD /* sixth one */,
+                                            TURNING_RIGHT, FORWARD, FORWARD, TURNING_LEFT /* seventh one */, TURNING_RIGHT, TURNING_RIGHT, FORWARD, FORWARD, FORWARD /* eight one */
+                                           };
 
 void setup() {
 
-  int i;
-  for(i = 4; i <= 7; i++){
-    pinMode(i, OUTPUT);  
+  uint8_t i;
+  for (i = 4; i <= 7; i++) {
+    pinMode(i, OUTPUT);
   }
 
   // For debugging
@@ -30,33 +36,31 @@ void setup() {
   while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
   }
-  
+
   Serial.println("Program start");
 
   // Create the objects we need, DONT create more than one copy.
-  uss = new UltraSonicSensor();
-  m   = new Movement();
-  //p   = new PathFinding(MAZE_X_MAX, MAZE_Y_MAX, "*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*0705*1107*1104*0600*1317*#", Vector(0, 0));
-  //MazeLayout::test();
+  // uss = new UltraSonicSensor();
+  m    = new Movement();
+  sc   = new SensorControl();
+  
+  // p   = new PathFinding(MAZE_X_MAX, MAZE_Y_MAX, "*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*0705*1107*1104*0600*1317*#", Vector(0, 0));
+  // MazeLayout::test();
 }
 
 
-double distance;
+float distance;
 bool isFinished = false;
 void loop() {
-  //m->Test();
-  //distance = uss->getDistanceToNearestObject();
-
-  // Delay 50ms
-  //delay(50);
+  //sc->debugLoop();
 
   /*
-   * Move using the serial input
-   */
-  /*if(Serial.available()) {
+     Move using the serial input WASD
+  */
+  if (Serial.available()) {
     char val = Serial.read();
-    if(val != -1) {
-      switch(val) {
+    if (val != -1) {
+      switch (val) {
         case 'w': //Move Forward
           m->moveForward();
           break;
@@ -65,7 +69,7 @@ void loop() {
           break;
         case 'a': //Turn Left
           m->turnLeft();
-          break;       
+          break;
         case 'd': //Turn Right
           m->turnRight();
           break;
@@ -77,18 +81,17 @@ void loop() {
           break;
       }
     }
-    else{
-      m->stopMovement();  
+    else {
+      m->stopMovement();
     }
-  }*/
-
+  }
 
   /*
-   * Iterrate through the movements in the queue
-   */
+     Iterate through the movements in the queue
+  */
 
   // Buggy is not doing anything, so move onto the next movement
-  if(Movement::currentMovement == IDLE && isFinished == false){
+  /*if(Movement::currentMovement == IDLE && isFinished == false){ //&& buttonPressed == true
     // Call the appropriate movement operation
     switch(movementQueue[mvCount]){
       case FORWARD:
@@ -106,19 +109,20 @@ void loop() {
       case TURNING_RIGHT:
         m->turnRight();
         delay(100);
-        break;    
+        break;
     }
 
     // Only increment, if mvCount is within the array bounds
     if(mvCount < MAX_QUEUE_COUNT){
-      // Increment the movement counter    
+      // Increment the movement counter
       Serial.println("Incrementing movement counter");
-      Serial.println("Current movement = " + Movement::currentMovement);
-      mvCount++;  
+      Serial.println("Current movement: " + m->getMovement(Movement::currentMovement));
+      mvCount++;
     }else{
       Serial.println("Finished");
-      isFinished = true;  
+      isFinished = true;
     }
-  } 
+    }*/
 
 }
+

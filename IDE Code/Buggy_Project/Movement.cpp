@@ -1,9 +1,15 @@
 #include "Movement.h"
 
-//#include "Timer.h" // For the timer interrupts
+/*
+ * Same as E1, E2 (Speed controls)
+ */
+int LEFT_MTR = 6;
+int RIGHT_MTR = 5;
 
-int E1 = 5;     // M1 Speed Control
-int E2 = 6;     // M2 Speed Control
+// E1 = RIGHT = 5
+// E2 = LEFT  = 6
+//int E1 = 5;     // M1 Speed Control
+//int E2 = 6;     // M2 Speed Control
 int M1 = 4;     // M1 Direction Control
 int M2 = 7;     // M1 Direction Control
 
@@ -19,15 +25,24 @@ const int Motor2  = 7;      // Motor1 Direction Control
 const byte LRE    = 1;      // Left rotary encoder pin holder value
 const byte RRE    = 0;      // Right rotary encoder pin holder value
 
-volatile byte LRC = 0;      // Left rotary encoder count
-volatile byte RRC = 0;      // Right rotary encoder count
+volatile uint8_t LRC = 0;      // Left rotary encoder count
+volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
-unsigned int normalisedRotationalDistance = 100;    // The encoder distance to correspond to a 90 degrees turn
-unsigned int normalisedMovementDistance   = 100;    // The encoder distance to correspond to moving forward 1 cell
+//unsigned int normalisedRotationalDistance = 100;    // The encoder distance to correspond to a 90 degrees turn
+//unsigned int normalisedMovementDistance   = 100;    // The encoder distance to correspond to moving forward 1 cell
+unsigned int rotationalSpeed = 100;
+unsigned int movementSpeed   = 100;
 unsigned int targetDistance;
 
 static unsigned int timerCount = 0;
+
+// TODO: These variables will be functions of the motor speeds
+// The time (in ms) corresponding to a movement of 1 square
+const unsigned int movementTimerCount = 15;
+
+// The time (in ms) corresponding to a rotation of 90 degrees
+const unsigned int turningTimerCount = 10;
 
 movements Movement::currentMovement = IDLE;
 
@@ -38,8 +53,11 @@ Movement::Movement()
     pinMode(i,OUTPUT);
   }
 
-  //attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
-  //attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
+  pinMode(2,INPUT_PULLUP);
+  pinMode(3,INPUT_PULLUP);
+  
+  attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
+  attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
 
   currentMovement = IDLE;
   targetDistance  = -1;
@@ -81,10 +99,10 @@ void Movement::ISRRightEncoder(){
 }
 
 void Movement::moveForward(){
-  targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
-  analogWrite (E1,targetDistance);
+  //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
+  analogWrite (RIGHT_MTR,movementSpeed+20);
   digitalWrite(M1,HIGH);    
-  analogWrite (E2,targetDistance);    
+  analogWrite (LEFT_MTR,movementSpeed+20);    
   digitalWrite(M2,LOW);
 
   Serial.println("Moving forward");
@@ -94,10 +112,10 @@ void Movement::moveForward(){
 }
 
 void Movement::moveBackwards(){
-  targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
-  analogWrite (E1,targetDistance);
+  //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
+  analogWrite (RIGHT_MTR,movementSpeed);
   digitalWrite(M1,LOW);    
-  analogWrite (E2,targetDistance);    
+  analogWrite (LEFT_MTR,movementSpeed);    
   digitalWrite(M2,HIGH);
 
   Serial.println("Moving backwards");
@@ -112,10 +130,10 @@ void Movement::turn(double degrees) {
 }
 
 void Movement::turnLeft() {
-  targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
-  analogWrite (E1,targetDistance);
+  //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
+  analogWrite (RIGHT_MTR,rotationalSpeed);
   digitalWrite(M1,LOW);   
-  analogWrite (E2,targetDistance);    
+  analogWrite (LEFT_MTR,rotationalSpeed);    
   digitalWrite(M2,LOW);
 
   Serial.println("Turning left");
@@ -124,10 +142,10 @@ void Movement::turnLeft() {
 }
 
 void Movement::turnRight() {
-  targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
-  analogWrite (E1,targetDistance);
+  //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
+  analogWrite (RIGHT_MTR,rotationalSpeed);
   digitalWrite(M1,HIGH);    
-  analogWrite (E2,targetDistance);    
+  analogWrite (LEFT_MTR,rotationalSpeed);    
   digitalWrite(M2,HIGH);
 
   Serial.println("Turning right");
@@ -157,10 +175,17 @@ void Movement::stopMovement(){
 /// --------------------------
 void Movement::timerIsr()
 {
-    // If the buggy is moving/turning and the timer count has exceeded
-    if(currentMovement != IDLE && timerCount > 10){
+    // If the buggy is *moving* and the timer count has exceeded
+    if( (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementTimerCount){
       timerCount = 0;
       Serial.println("Finished moving");
+      stopMovement();
+    }
+
+    // If the buggy is *turning* and the timer count has exceeded
+    if( (currentMovement == TURNING_LEFT || currentMovement == TURNING_RIGHT) && timerCount > turningTimerCount){
+      timerCount = 0;
+      Serial.println("Finished turning");
       stopMovement();
     }
     
@@ -170,6 +195,31 @@ void Movement::timerIsr()
      // Serial.println("1 second has passed");
       //timerCount = 0;
     //}
+}
+
+/*
+ * Convert the movement enum to a string (for debugging)
+ */
+String Movement::getMovement(movements cm){
+  switch(cm){
+    case BACKWARDS:
+      return "BACKWARDS";
+      break;
+    case FORWARD:
+      return "FORWARDS";
+      break;
+    case TURNING_LEFT:
+      return "TURNING_LEFT";
+      break;
+    case TURNING_RIGHT:
+      return "TURNING_RIGHT";
+      break;
+    case IDLE:
+      return "IDLE";
+      break;
+    default:
+      return "UNKNOWN";
+  }
 }
 
 
