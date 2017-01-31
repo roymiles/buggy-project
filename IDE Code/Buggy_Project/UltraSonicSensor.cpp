@@ -32,7 +32,7 @@ UltraSonicSensor::~UltraSonicSensor()
 {
 }
 
-float UltraSonicSensor::getDistanceToNearestObject(){
+float UltraSonicSensor::getDistance(){
   /* 
    *  The following trigPin/echoPin cycle is used to determine the
    *  distance of the nearest object by bouncing soundwaves off of it. 
@@ -71,7 +71,7 @@ float UltraSonicSensor::getDistanceToNearestObject(){
 }
 
 bool UltraSonicSensor::isCollision(){
-  float distance = getDistanceToNearestObject();
+  float distance = getDistance();
   // Check if distance is valid (within range)
   if(distance < maximumRange && distance > minimumRange){
     if(distance < THRESHOLD_DISTANCE){

@@ -20,19 +20,31 @@ enum sensorPosition {UNKNOWN_POSITION, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM
 class GridSensor
 {
 public:
-  colour firstSensorReading; // First colour reading
+  colour initialSensorReading; // First colour reading
   sensorPosition currentPosition;
+  const uint16_t grayScaleThreshold = 243; // Lower: black, Higher: white
 
 	GridSensor(sensorPosition sp);
 	~GridSensor();
 
   void test();
 
-  /*
+  /**
    * Retrieve the current cell read by the IR colour sensors
    */
   colour getCurrentCell();
+
+  /**
+   * Returns true or false, depending on whether the current colour reading differs from the
+   * initialSensorReading (which is set at the start of the motor movement by sensor
+   * control)
+   */
   bool hasChangedCell();
+
+  /**
+   * Convert RGB to BLACK/WHITE
+   */
+  colour convertToColour(uint16_t clear);
 
   /**
    * Print the response of the RGB colour sensors

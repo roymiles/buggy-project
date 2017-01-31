@@ -29,16 +29,20 @@ public:
    */
   void movementInit();
 
+  void debug();
+  colour debugColour();
+
   /**
    * Read from the IR RGB colour sensors and adjust the motor controls to compensate
    */
   void motorCorrection();
 
+  /**
+   * Convert enums to strings (typically for debugging at serial output)
+   */
+  String getColour(colour c);
 private:
   Movement *m;
-
-  colour initialColourTopLeft;
-  colour initialColourTopRight;  
 
 };
 

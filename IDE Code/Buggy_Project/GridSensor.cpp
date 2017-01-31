@@ -10,43 +10,20 @@
     @version 1.0 11/12/2016
 */
 
+/* Connect SCL    to analog 5
+   Connect SDA    to analog 4
+   Connect VDD    to 3.3V DC
+   Connect GROUND to common ground */
+
 #include "GridSensor.h"
-
-// See examples https://github.com/pololu/qtr-sensors-arduino/tree/master/examples
-/*#include "QTRSensors.h"
-
-#define NUM_SENSORS   2     // number of sensors used
-#define TIMEOUT       2500  // waits for 2500 us for sensor outputs to go low
-#define EMITTER_PIN   2     // emitter is controlled by digital pin 2
-
-unsigned int ERR   = 1;
-unsigned int WHITE = 2;
-unsigned int BLACK = 3;
-
-// Create instance of sensors. Only using one sensor connected to pin 12
-QTRSensorsAnalog qtra((unsigned char[]) {12},  NUM_SENSORS, TIMEOUT, EMITTER_PIN); 
-unsigned int sensorValues[NUM_SENSORS];
-unsigned int defaultValue    = 4000;
-unsigned int colourThreshold = 2000;*/
 
 // Using ADAFruit RGB colour sensors
 #include <Wire.h>
 #include "Adafruit_TCS34725.h"
 
-// Pick analog outputs, for the UNO these three work well
-// use ~560  ohm resistor between Red & Blue, ~1K for green (its brighter)
-#define redpin 3
-#define greenpin 5
-#define bluepin 6
-// for a common anode LED, connect the common pin to +5V
-// for common cathode, connect the common to ground
-
-// set to false if using a common cathode LED
-#define commonAnode true
-
-// our RGB -> eye-recognized gamma color
-byte gammatable[256];
-
+/*
+ * Initialise with specific int time and gain values
+ */
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
 
 GridSensor::GridSensor(sensorPosition sp)
@@ -58,28 +35,8 @@ GridSensor::GridSensor(sensorPosition sp)
     Serial.println("Found sensor");
   } else {
     Serial.println("No TCS34725 found ... check your connections");
+    Serial.println("Halting execution...");
     while (1); // halt!
-  }
-  
-  // use these three pins to drive an LED
-  pinMode(redpin, OUTPUT);
-  pinMode(greenpin, OUTPUT);
-  pinMode(bluepin, OUTPUT);
-  
-  // thanks PhilB for this gamma table!
-  // it helps convert RGB colors to what humans see
-  for (int i=0; i<256; i++) {
-    float x = i;
-    x /= 255;
-    x = pow(x, 2.5);
-    x *= 255;
-      
-    if (commonAnode) {
-      gammatable[i] = 255 - x;
-    } else {
-      gammatable[i] = x;      
-    }
-    //Serial.println(gammatable[i]);
   }
 }
 
@@ -105,23 +62,20 @@ void GridSensor::test() {
  * Retrieve the current cell read by the IR colour sensors
  */
 colour GridSensor::getCurrentCell() {
-  /*unsigned int reading;
-  reading = qtra.readLine(sensorValues);
-  
-  if(reading == defaultValue){
-    return ERR;
-  }else if(reading <= colourThreshold){
-    return WHITE;
-  }else{
-    return BLACK;
-  }*/
+  /*
+   * Get the raw data from the sensor
+   */
+  uint16_t r, g, b, c, colorTemp, lux;
+  tcs.getRawData(&r, &g, &b, &c);
+  //colorTemp = tcs.calculateColorTemperature(r, g, b);
+  //lux = tcs.calculateLux(r, g, b);
 
-  return WHITE;
+  return this->convertToColour(c);
 }
 
 
 bool GridSensor::hasChangedCell() {
-  if(firstSensorReading == getCurrentCell()) {
+  if(initialSensorReading == getCurrentCell()) {
     // Current cell has not changed
     return false;
   }else{
@@ -131,6 +85,10 @@ bool GridSensor::hasChangedCell() {
 
 void GridSensor::debug(){
   uint16_t clear, red, green, blue;
+
+  delay(60);  // takes 50ms to read 
+  
+  tcs.getRawData(&red, &green, &blue, &clear);  
   
   Serial.print("C:\t"); Serial.print(clear);
   Serial.print("\tR:\t"); Serial.print(red);
@@ -147,12 +105,15 @@ void GridSensor::debug(){
   Serial.print("\t");
   Serial.print((int)r, HEX); Serial.print((int)g, HEX); Serial.print((int)b, HEX);
   Serial.println();
+}
 
-  //Serial.print((int)r ); Serial.print(" "); Serial.print((int)g);Serial.print(" ");  Serial.println((int)b );
-
-  analogWrite(redpin, gammatable[(int)r]);
-  analogWrite(greenpin, gammatable[(int)g]);
-  analogWrite(bluepin, gammatable[(int)b]);
+colour GridSensor::convertToColour(uint16_t clear){
+  //uint16_t average = (red + green + blue) / 3;
+  if(clear > grayScaleThreshold){
+    return WHITE;
+  }else{
+    return BLACK;
+  }
 }
 
 

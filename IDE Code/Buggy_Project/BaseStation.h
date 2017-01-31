@@ -28,13 +28,12 @@
 #define MSG_NO_CONNECTION "No Connection"
 
 #include "Arduino.h"
-#include "Communication.h"
 #include "MazeLayout.h"
 #include "SPI.h"
 #include <WiFi.h>
 
 #pragma once
-class BaseStation: public Communication
+class BaseStation
 {
 public:
   BaseStation();

@@ -37,6 +37,7 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
+  delay(5000);
   Serial.println("Program start");
 
   // Create the objects we need, DONT create more than one copy.
@@ -52,25 +53,32 @@ void setup() {
 float distance;
 bool isFinished = false;
 void loop() {
-  //sc->debugLoop();
+  //sc->debug();
+  Serial.println(sc->getColour(sc->debugColour()));
+  delay(500);
+  //sc->motorCorrection();
 
   /*
      Move using the serial input WASD
   */
-  if (Serial.available()) {
+  /*if (Serial.available()) {
     char val = Serial.read();
     if (val != -1) {
       switch (val) {
         case 'w': //Move Forward
+          sc->movementInit();
           m->moveForward();
           break;
         case 's': //Move Backward
+          sc->movementInit();
           m->moveBackwards();
           break;
         case 'a': //Turn Left
+          sc->movementInit();
           m->turnLeft();
           break;
         case 'd': //Turn Right
+          sc->movementInit();
           m->turnRight();
           break;
         case 'z':
@@ -84,13 +92,15 @@ void loop() {
     else {
       m->stopMovement();
     }
-  }
+  }*/
 
   /*
-     Iterate through the movements in the queue
-  */
+   * Iterate through the movements in the queue
+   */
 
-  // Buggy is not doing anything, so move onto the next movement
+  /* 
+   * Buggy is not doing anything, so move onto the next movement 
+   */
   /*if(Movement::currentMovement == IDLE && isFinished == false){ //&& buttonPressed == true
     // Call the appropriate movement operation
     switch(movementQueue[mvCount]){

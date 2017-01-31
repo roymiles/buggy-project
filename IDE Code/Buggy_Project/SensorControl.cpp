@@ -16,20 +16,32 @@ SensorControl::SensorControl(Movement *m)
   
   // Create instances of the grid sensors for each position
   gs_top_left   = new GridSensor(sensorPosition::TOP_LEFT);
-  gs_top_right  = new GridSensor(sensorPosition::TOP_RIGHT);
+  //gs_top_right  = new GridSensor(sensorPosition::TOP_RIGHT);
 }
-
 
 SensorControl::~SensorControl()
 {
+}
+
+void SensorControl::debug(){
+  gs_top_left->debug();
+}
+
+colour SensorControl::debugColour(){
+  //s_top_left->debug();
+  return gs_top_left->getCurrentCell();
 }
 
 /**
  * Get the initial readings prior to movement
  */
 void SensorControl::movementInit(){
-  gs_top_left->firstSensorReading  = gs_top_left->getCurrentCell();
-  gs_top_right->firstSensorReading = gs_top_right->getCurrentCell();
+  gs_top_left->initialSensorReading  = gs_top_left->getCurrentCell();
+  gs_top_right->initialSensorReading = gs_top_right->getCurrentCell();
+
+  if(gs_top_left->initialSensorReading != gs_top_right->initialSensorReading){
+    Serial.println("Initial sensor readings are not the same!");
+  }
 }
 
 /**
@@ -41,7 +53,7 @@ void SensorControl::motorCorrection(){
     // The IR sensors should see the same colour for all movement
 
     left_changed  = gs_top_left->hasChangedCell();
-    right_changed = gs_top_right->hasChangedCell();
+    right_changed = gs_top_right->hasChangedCell(); 
 
     // Left sensor has changed but right sensor has not
     if(left_changed && !right_changed){
@@ -63,6 +75,45 @@ void SensorControl::motorCorrection(){
     }else if(right_changed && left_changed){
       this->m->stopMovement();
     }
+  }else if(Movement::currentMovement == TURNING_LEFT){
+    /* 
+     * Stop movement when LEFT sensor has changed cell
+     */
+    left_changed  = gs_top_left->hasChangedCell();
+    right_changed = gs_top_right->hasChangedCell(); 
+     
+    if(left_changed && right_changed){
+      this->m->stopMovement();
+    }
+    
+    
+  }else if(Movement::currentMovement == TURNING_RIGHT){
+    /* 
+     * Stop movement when RIGHT sensor has changed cell
+     */
+    left_changed  = gs_top_left->hasChangedCell();
+    right_changed = gs_top_right->hasChangedCell(); 
+     
+    if(left_changed && right_changed){
+      this->m->stopMovement();
+    }
+  }
+}
+
+
+/*
+ * Convert the movement enum to a string (for debugging)
+ */
+String SensorControl::getColour(colour c){
+  switch(c){
+    case WHITE:
+      return "WHITE";
+      break;
+    case BLACK:
+      return "BLACK";
+      break;
+    default:
+      return "UNKNOWN";
   }
 }
 

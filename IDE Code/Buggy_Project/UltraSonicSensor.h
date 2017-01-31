@@ -33,7 +33,7 @@ public:
   long duration, distance; // Duration used to calculate distance
 
 	// Return in cm the distance to an object
-	float getDistanceToNearestObject();
+	float getDistance();
 
   bool isCollision();
 };
