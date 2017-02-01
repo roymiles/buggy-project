@@ -44,16 +44,16 @@ movements Movement::currentMovement = IDLE;
 
 Movement::Movement()
 {
-  int i; 
+  /*int i; 
   for(i = 4; i <= 7; i++){
     pinMode(i,OUTPUT);
-  }
+  }*/
 
   pinMode(2,INPUT_PULLUP);
   pinMode(3,INPUT_PULLUP);
   
-  attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
-  attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
+  //attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
+  //attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
 
   currentMovement = IDLE;
 

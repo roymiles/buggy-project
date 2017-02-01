@@ -20,11 +20,15 @@ enum sensorPosition {UNKNOWN_POSITION, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM
 class GridSensor
 {
 public:
-  colour initialSensorReading; // First colour reading
+  /*
+   * First colour readings
+   */
+  colour initialSensorReading;
+  
   sensorPosition currentPosition;
   const uint16_t grayScaleThreshold = 243; // Lower: black, Higher: white
 
-	GridSensor(sensorPosition sp);
+	GridSensor();
 	~GridSensor();
 
   void test();

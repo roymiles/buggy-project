@@ -26,10 +26,10 @@ movements movementQueue[MAX_QUEUE_COUNT] = {FORWARD /* first one */, BACKWARDS, 
 
 void setup() {
 
-  uint8_t i;
+  /*uint8_t i;
   for (i = 4; i <= 7; i++) {
     pinMode(i, OUTPUT);
-  }
+  }*/
 
   // For debugging
   Serial.begin(9600);      // open the serial port at 9600 bps:
@@ -54,9 +54,26 @@ float distance;
 bool isFinished = false;
 void loop() {
   //sc->debug();
-  Serial.println(sc->getColour(sc->debugColour()));
+
+  //Serial.println(sc->getColour(sc->debugColour()));
+  sc->debug();
   delay(500);
   //sc->motorCorrection();
+
+  if (Serial.available()) {
+    char val = Serial.read();
+    if (val != -1) {
+      switch (val) {
+        case 'q':
+          sc->enableLeftSensor();
+          break;
+        case 'e':
+          sc->enableRightSensor();
+          break;
+      }
+    }
+  }
+  
 
   /*
      Move using the serial input WASD
@@ -66,32 +83,38 @@ void loop() {
     if (val != -1) {
       switch (val) {
         case 'w': //Move Forward
-          sc->movementInit();
-          m->moveForward();
+          //sc->movementInit();
+          //m->moveForward();
           break;
         case 's': //Move Backward
-          sc->movementInit();
-          m->moveBackwards();
+          //sc->movementInit();
+          //m->moveBackwards();
           break;
         case 'a': //Turn Left
-          sc->movementInit();
-          m->turnLeft();
+          //sc->movementInit();
+          //m->turnLeft();
           break;
         case 'd': //Turn Right
-          sc->movementInit();
-          m->turnRight();
+          //sc->movementInit();
+          //m->turnRight();
           break;
         case 'z':
           Serial.println("Serial Working...");
           break;
         case 'x':
-          m->stopMovement();
+          //m->stopMovement();
+          break;
+        case 'q':
+          sc->enableLeftSensor();
+          break;
+        case 'e':
+          sc->enableRightSensor();
           break;
       }
     }
-    else {
-      m->stopMovement();
-    }
+    //else {
+    //  m->stopMovement();
+    //}
   }*/
 
   /*

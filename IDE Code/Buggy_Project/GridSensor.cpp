@@ -26,9 +26,9 @@
  */
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_4X);
 
-GridSensor::GridSensor(sensorPosition sp)
+GridSensor::GridSensor()
 {
-  this->currentPosition = sp;
+  //this->currentPosition = sp;
 
   // Setup the sensor
   if (tcs.begin()) {

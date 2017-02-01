@@ -18,8 +18,9 @@
 class SensorControl
 {
 public:
-  GridSensor *gs_top_left; // Top left
-  GridSensor *gs_top_right; // Top right
+  GridSensor *gs;
+  colour initialSensorReading_topLeft;
+  colour initialSensorReading_topRight;
 
   SensorControl(Movement *m);
   ~SensorControl();
@@ -31,6 +32,12 @@ public:
 
   void debug();
   colour debugColour();
+
+  /**
+   * Control the MUX to enable/disable communication with appropriate IR Grid sensor
+   */
+  void enableLeftSensor();
+  void enableRightSensor();
 
   /**
    * Read from the IR RGB colour sensors and adjust the motor controls to compensate

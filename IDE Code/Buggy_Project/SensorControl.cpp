@@ -9,14 +9,20 @@
 
 #include "SensorControl.h"
 
+int SENSOR_MUX = 9;     // Output pin to control the MUX
 
 SensorControl::SensorControl(Movement *m)
 {
   this->m = m;
+
+  // Mux output
+  pinMode(SENSOR_MUX, OUTPUT);
   
-  // Create instances of the grid sensors for each position
-  gs_top_left   = new GridSensor(sensorPosition::TOP_LEFT);
-  //gs_top_right  = new GridSensor(sensorPosition::TOP_RIGHT);
+  digitalWrite(SENSOR_MUX, LOW);
+  delay(100);
+  
+  // Create instances of the grid sensor
+  gs = new GridSensor();
 }
 
 SensorControl::~SensorControl()
@@ -24,23 +30,49 @@ SensorControl::~SensorControl()
 }
 
 void SensorControl::debug(){
-  gs_top_left->debug();
+  enableLeftSensor();
+  gs->debug();
+
+  enableRightSensor();
+  gs->debug();
 }
 
 colour SensorControl::debugColour(){
-  //s_top_left->debug();
-  return gs_top_left->getCurrentCell();
+  return gs->getCurrentCell();
+}
+
+
+void SensorControl::enableLeftSensor(){
+  Serial.println("Enabling left colour sensor:");
+  digitalWrite(SENSOR_MUX, HIGH);
+  gs->initialSensorReading = initialSensorReading_topLeft;
+}
+
+void SensorControl::enableRightSensor(){
+  Serial.println("Enabling right colour sensor:");
+  digitalWrite(SENSOR_MUX, LOW);
+  gs->initialSensorReading = initialSensorReading_topRight; 
 }
 
 /**
  * Get the initial readings prior to movement
  */
 void SensorControl::movementInit(){
-  gs_top_left->initialSensorReading  = gs_top_left->getCurrentCell();
-  gs_top_right->initialSensorReading = gs_top_right->getCurrentCell();
+  enableLeftSensor();
+  initialSensorReading_topLeft  = gs->getCurrentCell();
 
-  if(gs_top_left->initialSensorReading != gs_top_right->initialSensorReading){
+  enableRightSensor();
+  initialSensorReading_topRight = gs->getCurrentCell();
+
+  /*
+   * Check the starting position is valid
+   */
+  if(initialSensorReading_topLeft != initialSensorReading_topRight){
     Serial.println("Initial sensor readings are not the same!");
+    Serial.println("Halting...");
+    while (true) {
+      ; // Halt execution
+    }
   }
 }
 
@@ -52,8 +84,11 @@ void SensorControl::motorCorrection(){
   if(Movement::currentMovement == FORWARD || Movement::currentMovement == BACKWARDS){
     // The IR sensors should see the same colour for all movement
 
-    left_changed  = gs_top_left->hasChangedCell();
-    right_changed = gs_top_right->hasChangedCell(); 
+    enableLeftSensor();
+    left_changed  = gs->hasChangedCell();
+
+    enableRightSensor();
+    right_changed = gs->hasChangedCell(); 
 
     // Left sensor has changed but right sensor has not
     if(left_changed && !right_changed){
@@ -79,8 +114,11 @@ void SensorControl::motorCorrection(){
     /* 
      * Stop movement when LEFT sensor has changed cell
      */
-    left_changed  = gs_top_left->hasChangedCell();
-    right_changed = gs_top_right->hasChangedCell(); 
+    enableLeftSensor();
+    left_changed  = gs->hasChangedCell();
+
+    enableRightSensor();
+    right_changed = gs->hasChangedCell(); 
      
     if(left_changed && right_changed){
       this->m->stopMovement();
@@ -91,8 +129,11 @@ void SensorControl::motorCorrection(){
     /* 
      * Stop movement when RIGHT sensor has changed cell
      */
-    left_changed  = gs_top_left->hasChangedCell();
-    right_changed = gs_top_right->hasChangedCell(); 
+    enableLeftSensor();
+    left_changed  = gs->hasChangedCell();
+
+    enableRightSensor();
+    right_changed = gs->hasChangedCell(); 
      
     if(left_changed && right_changed){
       this->m->stopMovement();
