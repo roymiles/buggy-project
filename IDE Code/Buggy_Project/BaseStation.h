@@ -1,5 +1,5 @@
 /**
-    BaseStation.h 
+    BaseStation.h
     Purpose: Connect to the maze beacon and base station to provide control
       and maze information to the buggy.
 
@@ -12,10 +12,10 @@
 
 #ifdef WIFI_SHIELD_EXISTS
 
-#define NETWORK_SSID "maze_beacon"
-#define NETWORK_NUMBER 0
+#define BASE_NETWORK_SSID "maze_beacon"
+#define BASE_NETWORK_NUMBER 0
 // IP address for the web server
-#define NETWORK_IP "10.10.10.10"
+#define BASE_NETWORK_IP "10.10.10.10"
 // No. attempts to connect
 #define CONNECT_TIMEOUT 5
 // Allowed time for establishing connection (ms)
@@ -38,21 +38,25 @@ class BaseStation
 public:
   BaseStation();
   ~BaseStation();
-  
+
+
+  // Connect to the BaseStation
+  int connect();
+
   // Can maze beacon be found by the Wifi Shield
   bool mazeBeaconExists();
   // Attempt a connection to the beacon, and return success
   bool mazeBeaconConnect(int attempts);
 
-  // Get maze description
-  MazeLayout* getMazeLayout();
+  // Download maze description
+  int getMazeLayout(MazeLayout* layout);
 
 private:
-		
+
 	WiFiClient wifiClient;
 	boolean wifi_init, wifi_connect;
 	String full_ssid;
-  
+
 };
 
 #endif
