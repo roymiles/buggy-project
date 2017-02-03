@@ -151,9 +151,9 @@ void Movement::turnLeft() {
 
 void Movement::turnRight() {
   //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
-  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
+  analogWrite (RIGHT_MTR, defaultRotationalSpeed-20);
   digitalWrite(M1, HIGH);    
-  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
+  analogWrite (LEFT_MTR, defaultRotationalSpeed-20);    
   digitalWrite(M2, HIGH);
 
   leftMotorSpeed  = defaultRotationalSpeed;

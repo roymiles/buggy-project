@@ -5,7 +5,7 @@
     @author Roy Miles
     @version 1.0 11/12/2016
 */
-
+#include <AnalogMultiButton.h>
 #include "UltraSonicSensor.h"
 #include "Movement.h"
 #include "PathFinding.h"
@@ -14,8 +14,17 @@
 UltraSonicSensor *uss;
 Movement *m;
 PathFinding *p;
-
 SensorControl *sc;
+
+const int BUTTONS_PIN    = A0;
+const int BUTTONS_TOTAL  = 5;
+const int UP_BUTTON      = 0;
+const int LEFT_BUTTON    = 1;
+const int DOWN_BUTTON    = 2;
+const int RIGHT_BUTTON   = 3;
+const int STOP_BUTTON    = 4;
+const int BUTTONS_VALUES[BUTTONS_TOTAL] = {0,145,329,505,743};
+AnalogMultiButton buttons(BUTTONS_PIN,BUTTONS_TOTAL,BUTTONS_VALUES);
 
 #define MAX_QUEUE_COUNT 100
 unsigned int mvCount = 0;
@@ -49,6 +58,32 @@ void setup() {
 float distance;
 bool isFinished = false;
 void loop() {
+  buttons.update();
+  if(buttons.onRelease(UP_BUTTON))
+  {
+    Serial.println("Up button pressed");
+  }
+
+  if(buttons.onRelease(LEFT_BUTTON))
+  {
+    Serial.println("Left button pressed");
+  }
+
+  if(buttons.onRelease(DOWN_BUTTON))
+  {
+    Serial.println("Down button pressed");
+  }
+
+  if(buttons.onRelease(RIGHT_BUTTON))
+  {
+    Serial.println("Right button pressed");
+  }
+
+  if(buttons.onRelease(STOP_BUTTON))
+  {
+    Serial.println("Stop button pressed");
+  }      
+  
   //sc->debug();
   //delay(1000);    
 
@@ -75,7 +110,7 @@ void loop() {
   /*
      Move using the serial input WASD
   */
-  if (Serial.available()) {
+  /*if (Serial.available()) {
     char val = Serial.read();
     if (val != -1) {
       switch (val) {
