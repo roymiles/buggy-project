@@ -14,6 +14,7 @@
 UltraSonicSensor *uss;
 Movement *m;
 PathFinding *p;
+
 SensorControl *sc;
 
 #define MAX_QUEUE_COUNT 100
@@ -25,11 +26,6 @@ movements movementQueue[MAX_QUEUE_COUNT] = {FORWARD /* first one */, BACKWARDS, 
                                            };
 
 void setup() {
-
-  /*uint8_t i;
-  for (i = 4; i <= 7; i++) {
-    pinMode(i, OUTPUT);
-  }*/
 
   // For debugging
   Serial.begin(9600);      // open the serial port at 9600 bps:
@@ -54,13 +50,14 @@ float distance;
 bool isFinished = false;
 void loop() {
   //sc->debug();
+  //delay(1000);    
 
   //Serial.println(sc->getColour(sc->debugColour()));
-  sc->debug();
-  delay(500);
+  //sc->debug();
+  //delay(500);
   //sc->motorCorrection();
 
-  if (Serial.available()) {
+  /*if (Serial.available()) {
     char val = Serial.read();
     if (val != -1) {
       switch (val) {
@@ -72,50 +69,54 @@ void loop() {
           break;
       }
     }
-  }
+  }*/
   
 
   /*
      Move using the serial input WASD
   */
-  /*if (Serial.available()) {
+  if (Serial.available()) {
     char val = Serial.read();
     if (val != -1) {
       switch (val) {
         case 'w': //Move Forward
-          //sc->movementInit();
-          //m->moveForward();
+          sc->movementInit();
+          m->moveForward();
           break;
         case 's': //Move Backward
-          //sc->movementInit();
-          //m->moveBackwards();
+          sc->movementInit();
+          m->moveBackwards();
           break;
         case 'a': //Turn Left
-          //sc->movementInit();
-          //m->turnLeft();
+          sc->movementInit();
+          m->turnLeft();
           break;
         case 'd': //Turn Right
-          //sc->movementInit();
-          //m->turnRight();
+          sc->movementInit();
+          m->turnRight();
           break;
         case 'z':
           Serial.println("Serial Working...");
           break;
         case 'x':
-          //m->stopMovement();
+          m->stopMovement();
           break;
         case 'q':
-          sc->enableLeftSensor();
+          //sc->enableLeftSensor();
           break;
         case 'e':
-          sc->enableRightSensor();
+          //sc->enableRightSensor();
           break;
       }
     }
-    //else {
-    //  m->stopMovement();
-    //}
-  }*/
+    else {
+      m->stopMovement();
+    }
+  }
+
+  if(Movement::currentMovement != IDLE){
+    sc->motorCorrection();
+  }
 
   /*
    * Iterate through the movements in the queue

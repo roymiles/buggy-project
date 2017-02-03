@@ -43,15 +43,19 @@ colour SensorControl::debugColour(){
 
 
 void SensorControl::enableLeftSensor(){
-  Serial.println("Enabling left colour sensor:");
+  //Serial.println("Enabling left colour sensor:");
   digitalWrite(SENSOR_MUX, HIGH);
   gs->initialSensorReading = initialSensorReading_topLeft;
+  //Serial.println("Initial reading left: " + getColour(initialSensorReading_topLeft));
+  delay(100);  
 }
 
 void SensorControl::enableRightSensor(){
-  Serial.println("Enabling right colour sensor:");
+  //Serial.println("Enabling right colour sensor:");
   digitalWrite(SENSOR_MUX, LOW);
   gs->initialSensorReading = initialSensorReading_topRight; 
+  //Serial.println("Initial reading right: " + getColour(initialSensorReading_topLeft));
+  delay(100);
 }
 
 /**
@@ -64,16 +68,24 @@ void SensorControl::movementInit(){
   enableRightSensor();
   initialSensorReading_topRight = gs->getCurrentCell();
 
+  Serial.println("LEFT sensor starting on:  " + getColour(initialSensorReading_topLeft));
+  Serial.println("RIGHT sensor starting on: " + getColour(initialSensorReading_topRight));
+
+  delay(1000);
+
   /*
    * Check the starting position is valid
+   * Each sensor should read opposite colours
    */
-  if(initialSensorReading_topLeft != initialSensorReading_topRight){
-    Serial.println("Initial sensor readings are not the same!");
+  if(initialSensorReading_topLeft == initialSensorReading_topRight){
+    Serial.println("Initial sensor readings are the same!");
     Serial.println("Halting...");
     while (true) {
       ; // Halt execution
     }
   }
+
+  debug();
 }
 
 /**
@@ -91,20 +103,24 @@ void SensorControl::motorCorrection(){
     right_changed = gs->hasChangedCell(); 
 
     // Left sensor has changed but right sensor has not
-    if(left_changed && !right_changed){
+    if(right_changed && !left_changed){
       // Need to turn slightly to the RIGHT to compensate
 
-      // Increase LEFT motor by 1 and reduce RIGHT motor by 1
-      this->m->increaseLeftMotor();
-      this->m->decreaseRightMotor();
-
-    // Right sensor has changed but left sensor has not      
-    }else if(right_changed && !left_changed){
-      // Need to turn slightly to the LEFT to compensate
-
+      Serial.println("Deviating to the LEFT. Attempting to compensate...");
       // Increase RIGHT motor by 1 and reduce LEFT motor by 1
       this->m->increaseRightMotor();
       this->m->decreaseLeftMotor();
+      delay(50);
+      
+    // Right sensor has changed but left sensor has not      
+    }else if(left_changed && !right_changed){
+      // Need to turn slightly to the LEFT to compensate
+
+      Serial.println("Deviating to the RIGHT. Attempting to compensate...");
+      // Increase LEFT motor by 1 and reduce RIGHT motor by 1
+      this->m->increaseLeftMotor();
+      this->m->decreaseRightMotor();
+      delay(50);
 
     // Both sensors have changed value (since initial reading) and so finish movement
     }else if(right_changed && left_changed){

@@ -26,7 +26,12 @@ public:
   colour initialSensorReading;
   
   sensorPosition currentPosition;
-  const uint16_t grayScaleThreshold = 243; // Lower: black, Higher: white
+  /*
+   * At 2cm, WHITE ~ 2100 and BLACK  2700
+   * Average is 11850
+   */
+  const uint16_t grayScaleThreshold = 11850; // Lower: black, Higher: white
+  
 
 	GridSensor();
 	~GridSensor();

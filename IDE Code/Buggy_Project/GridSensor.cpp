@@ -70,7 +70,9 @@ colour GridSensor::getCurrentCell() {
   //colorTemp = tcs.calculateColorTemperature(r, g, b);
   //lux = tcs.calculateLux(r, g, b);
 
-  return this->convertToColour(c);
+  //Serial.print("Clear (getCurrentCell):\t"); Serial.println(c);
+
+  return convertToColour(c);
 }
 
 
@@ -84,6 +86,14 @@ bool GridSensor::hasChangedCell() {
 }
 
 void GridSensor::debug(){
+  if (tcs.begin()) {
+    Serial.println("Found sensor");
+  } else {
+    Serial.println("No TCS34725 found ... check your connections");
+    Serial.println("Halting execution...");
+    while (1); // halt!
+  }
+  
   uint16_t clear, red, green, blue;
 
   delay(60);  // takes 50ms to read 
@@ -110,8 +120,10 @@ void GridSensor::debug(){
 colour GridSensor::convertToColour(uint16_t clear){
   //uint16_t average = (red + green + blue) / 3;
   if(clear > grayScaleThreshold){
+    //Serial.println("WHITE");
     return WHITE;
   }else{
+    //Serial.println("BLACK");
     return BLACK;
   }
 }
