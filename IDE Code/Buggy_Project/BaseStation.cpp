@@ -7,8 +7,10 @@ and maze information to the buggy.
 @version 1.0 12/12/2016
 */
 
-#ifdef WIFI_SHIELD_EXISTS
 #include "BaseStation.h"
+
+#ifdef WIFI_SHIELD_EXISTS
+
 #include "String.h"
 #include <SPI.h>
 #include <WiFi.h>
@@ -27,11 +29,11 @@ BaseStation::BaseStation()
 	}
 	else {
 
-		if (NETWORK_NUMBER == 0) {
-			full_ssid = NETWORK_SSID;
+		if (BASE_NETWORK_NUMBER == 0) {
+			full_ssid = BASE_NETWORK_SSID;
 		}
 		else {
-			full_ssid = NETWORK_SSID + '_' + String(NETWORK_NUMBER, DEC);
+			full_ssid = BASE_NETWORK_SSID + '_' + String(BASE_NETWORK_NUMBER, DEC);
 		}
 
 		wifi_init = true;
@@ -78,6 +80,11 @@ bool BaseStation::mazeBeaconExists()
 bool BaseStation::mazeBeaconConnect(int attempts)
 {
 
+    // If already connected to another network, disconnect.
+    if (WiFi.status() == WL_CONNECTED) {
+        WiFi.disconnect();
+    }
+
 	// Assign full_ssid to temporary buffer.
 	char* buf = (char*)malloc(full_ssid.length());
 	full_ssid.toCharArray(buf, full_ssid.length());
@@ -93,7 +100,7 @@ bool BaseStation::mazeBeaconConnect(int attempts)
 		// If connected, break and return true
 		if (WiFi.begin(buf) == WL_CONNECTED) {
 
-			if (wifiClient.connect(NETWORK_IP, 80)) {
+			if (wifiClient.connect(BASE_NETWORK_IP, 80)) {
 				wifi_connect = true;
 				break;
 			}
@@ -114,7 +121,7 @@ MazeLayout* BaseStation::getMazeLayout() {
 	if (wifi_init && wifi_connect) {
 
 		wifiClient.println("GET / HTTP/1.1");
-		wifiClient.println("Host: " + (String)NETWORK_IP);
+		wifiClient.println("Host: " + (String)BASE_NETWORK_IP);
 		wifiClient.println("Connection: close");
 		wifiClient.println();
 
