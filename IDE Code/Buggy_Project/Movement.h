@@ -54,6 +54,11 @@ public:
   void decreaseLeftMotor();
   void increaseRightMotor();
   void decreaseRightMotor();
+
+  void enableLeftMotor();
+  void disableLeftMotor();
+  void enableRightMotor();
+  void disableRightMotor();
   
   // ISR handler for timer
   static void timerIsr();

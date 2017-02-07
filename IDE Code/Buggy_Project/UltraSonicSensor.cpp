@@ -6,6 +6,8 @@
     @author Roy Miles
     @version 1.0 11/12/2016
 
+    ** DEPRECATED **
+
     HC-SR04 Ping distance sensor:
     VCC to arduino 5v 
     GND to arduino GND

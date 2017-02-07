@@ -27,8 +27,9 @@ public:
 
   /**
    * Get the initial readings prior to movement
+   * @return true or false depending on whether successful
    */
-  void movementInit();
+  bool movementInit();
 
   void debug();
   colour debugColour();

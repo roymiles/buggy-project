@@ -30,7 +30,7 @@ public:
    * At 2cm, WHITE ~ 2100 and BLACK  2700
    * Average is 11850
    */
-  const uint16_t grayScaleThreshold = 11850; // Lower: black, Higher: white
+  const uint16_t grayScaleThreshold = 1500; // Lower: black, Higher: white (1698+3218)/2 = 2458
   
 
 	GridSensor();

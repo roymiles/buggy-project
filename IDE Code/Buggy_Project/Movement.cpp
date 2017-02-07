@@ -3,8 +3,8 @@
 /*
  * Speed controls
  */
-int LEFT_MTR = 6;
-int RIGHT_MTR = 5;
+int LEFT_MTR = 5;
+int RIGHT_MTR = 6;
 
 int M1 = 4;     // M1 Direction Control
 int M2 = 7;     // M1 Direction Control
@@ -25,20 +25,27 @@ volatile uint8_t LRC = 0;      // Left rotary encoder count
 volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
-unsigned int defaultRotationalSpeed = 100;
-unsigned int defaultMovementSpeed   = 100;
+unsigned int defaultRotationalSpeed = 120;
+unsigned int defaultMovementSpeed   = 60;
 
 unsigned int leftMotorSpeed;
 unsigned int rightMotorSpeed;
 
 static unsigned int timerCount = 0;
 
+#define MAX_OUT_CHARS 16  // max nbr of characters to be sent on any one serial command
+char buffer[MAX_OUT_CHARS + 1];  // buffer used to format a line (+1 is for trailing 0)
+
+int upperLimit = 150;
+int lowerLimit = 70;
+int motorSensitivity = 4; // By how much do the motor values incremenent or decrement to compensate
+
 // TODO: These variables will be functions of the motor speeds
 // The time (in ms) corresponding to a movement of 1 square
 const unsigned int movementTimerCount = 15;
 
 // The time (in ms) corresponding to a rotation of 90 degrees
-const unsigned int turningTimerCount = 10;
+const unsigned int turningTimerCount = 12;
 
 movements Movement::currentMovement = IDLE;
 
@@ -62,8 +69,8 @@ Movement::Movement()
   // Pin 13 has an LED connected on most Arduino boards
   pinMode(13, OUTPUT);    
   
-  //Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
-  //Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
+  Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
+  Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
   
   Serial.println("Movement module.");
 
@@ -151,9 +158,9 @@ void Movement::turnLeft() {
 
 void Movement::turnRight() {
   //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
-  analogWrite (RIGHT_MTR, defaultRotationalSpeed-20);
+  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
   digitalWrite(M1, HIGH);    
-  analogWrite (LEFT_MTR, defaultRotationalSpeed-20);    
+  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
   digitalWrite(M2, HIGH);
 
   leftMotorSpeed  = defaultRotationalSpeed;
@@ -170,24 +177,14 @@ void Movement::stopMovement(){
   digitalWrite(Enable1,LOW);   
   digitalWrite(Enable2,LOW); 
 
-  currentMovement = IDLE;
+  Movement::currentMovement = IDLE;
 
   // Reset the encoder counters
   LRC = 0;
   RRC = 0;  
 }
 
-#define MAX_OUT_CHARS 16  // max nbr of characters to be sent on any one serial command
-char buffer[MAX_OUT_CHARS + 1];  // buffer used to format a line (+1 is for trailing 0)
-
-int upperLimit = 200;
-int lowerLimit = 50;
-int motorSensitivity = 5; // By how much do the motor values incremenent or decrement to compensate
 void Movement::increaseLeftMotor(){
-  sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
-  Serial.println(buffer);
-  sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
-  Serial.println(buffer);
   if(leftMotorSpeed <= upperLimit){
     leftMotorSpeed += motorSensitivity;
     analogWrite (LEFT_MTR, leftMotorSpeed);
@@ -199,17 +196,13 @@ void Movement::decreaseLeftMotor(){
   Serial.println(buffer);
   sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
   Serial.println(buffer);
-  if(leftMotorSpeed >= lowerLimit){
-    leftMotorSpeed -= motorSensitivity;
-    analogWrite (LEFT_MTR, leftMotorSpeed);
-  }
+  //if(leftMotorSpeed >= lowerLimit){
+  //  leftMotorSpeed -= motorSensitivity;
+  //  analogWrite (LEFT_MTR, leftMotorSpeed);
+  //}
 }
 
 void Movement::increaseRightMotor(){
-  sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
-  Serial.println(buffer);
-  sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
-  Serial.println(buffer);
   if(rightMotorSpeed <= upperLimit){
     rightMotorSpeed += motorSensitivity;
     analogWrite (RIGHT_MTR, rightMotorSpeed);
@@ -221,10 +214,26 @@ void Movement::decreaseRightMotor(){
   Serial.println(buffer);
   sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
   Serial.println(buffer);
-  if(rightMotorSpeed >= lowerLimit){
-    rightMotorSpeed -= motorSensitivity;
-    analogWrite (RIGHT_MTR, rightMotorSpeed);
-  }
+  //if(rightMotorSpeed >= lowerLimit){
+  //  rightMotorSpeed -= motorSensitivity;
+  //  analogWrite (RIGHT_MTR, rightMotorSpeed);
+  //}
+}
+
+void Movement::enableLeftMotor(){
+  analogWrite (LEFT_MTR, defaultMovementSpeed);
+}
+
+void Movement::disableLeftMotor(){
+  analogWrite (LEFT_MTR, 0);
+}
+
+void Movement::enableRightMotor(){
+  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+}
+
+void Movement::disableRightMotor(){
+  analogWrite (RIGHT_MTR, 0);
 }
 
 /// --------------------------
@@ -233,16 +242,16 @@ void Movement::decreaseRightMotor(){
 void Movement::timerIsr()
 {
     // If the buggy is *moving* and the timer count has exceeded
-    if( (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementTimerCount){
+   /*if( (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementTimerCount){
       timerCount = 0;
       Serial.println("Finished moving");
       stopMovement();
-    }
+    }*/
 
     // If the buggy is *turning* and the timer count has exceeded
     if( (currentMovement == TURNING_LEFT || currentMovement == TURNING_RIGHT) && timerCount > turningTimerCount){
       timerCount = 0;
-      Serial.println("Finished turning");
+      Serial.println("Finished turning (by timer interrupt)");
       stopMovement();
     }
     
