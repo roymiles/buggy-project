@@ -13,14 +13,20 @@
 #include "Arduino.h"
 #include "GridSensor.h"
 #include "Movement.h"
+#include "SideGridSensor.h"
 
 #pragma once
+
 class SensorControl
 {
 public:
   GridSensor *gs;
-  colour initialSensorReading_topLeft;
-  colour initialSensorReading_topRight;
+  SideGridSensor *sgs;
+  colour initialSensorReading_left;
+  colour initialSensorReading_right;
+  
+  enum positionState {NA, WHITE_BLACK, BLACK_WHITE};
+  positionState currentPositionState = BLACK_WHITE; // Will alternate at start of movement init!
 
   SensorControl(Movement *m);
   ~SensorControl();
@@ -46,9 +52,18 @@ public:
   void motorCorrection();
 
   /**
+   * Following functions are for the side sensors
+   * Get the colours measured form the side sensors
+   */
+  void getSideSensorColours();
+  colour SensorControl::convertSideSensorValueToColour(unsigned int value);
+
+  /**
    * Convert enums to strings (typically for debugging at serial output)
+   * @return string output
    */
   String getColour(colour c);
+  String getPositionState(positionState ps);
 private:
   Movement *m;
 

@@ -25,8 +25,9 @@ volatile uint8_t LRC = 0;      // Left rotary encoder count
 volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
-unsigned int defaultRotationalSpeed = 120;
-unsigned int defaultMovementSpeed   = 60;
+unsigned int defaultRotationalSpeed = 70;
+unsigned int defaultMovementSpeed   = 70;
+unsigned int defaultSkidSpeed       = 60;
 
 unsigned int leftMotorSpeed;
 unsigned int rightMotorSpeed;
@@ -37,8 +38,8 @@ static unsigned int timerCount = 0;
 char buffer[MAX_OUT_CHARS + 1];  // buffer used to format a line (+1 is for trailing 0)
 
 int upperLimit = 150;
-int lowerLimit = 70;
-int motorSensitivity = 4; // By how much do the motor values incremenent or decrement to compensate
+int lowerLimit = 40;
+int motorSensitivity = 20; // By how much do the motor values incremenent or decrement to compensate
 
 // TODO: These variables will be functions of the motor speeds
 // The time (in ms) corresponding to a movement of 1 square
@@ -60,8 +61,8 @@ Movement::Movement()
   pinMode(2,INPUT_PULLUP);
   pinMode(3,INPUT_PULLUP);
   
-  //attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
-  //attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
+  attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
+  attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
 
   currentMovement = IDLE;
 
@@ -221,7 +222,7 @@ void Movement::decreaseRightMotor(){
 }
 
 void Movement::enableLeftMotor(){
-  analogWrite (LEFT_MTR, defaultMovementSpeed);
+  analogWrite (LEFT_MTR, defaultSkidSpeed);
 }
 
 void Movement::disableLeftMotor(){
@@ -229,7 +230,7 @@ void Movement::disableLeftMotor(){
 }
 
 void Movement::enableRightMotor(){
-  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+  analogWrite (RIGHT_MTR, defaultSkidSpeed);
 }
 
 void Movement::disableRightMotor(){

@@ -52,7 +52,7 @@ void setup() {
   // uss = new UltraSonicSensor();
   m    = new Movement();
   sc   = new SensorControl(m);
-  us = new Ultrasonic(ULTRA_SONIC_PIN);
+  us   = new Ultrasonic(ULTRA_SONIC_PIN);
   
   // p   = new PathFinding(MAZE_X_MAX, MAZE_Y_MAX, "*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*0705*1107*1104*0600*1317*#", Vector(0, 0));
   // MazeLayout::test();

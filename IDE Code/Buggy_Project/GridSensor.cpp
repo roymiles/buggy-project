@@ -36,7 +36,7 @@ GridSensor::GridSensor()
   } else {
     Serial.println("No TCS34725 found ... check your connections");
     Serial.println("Halting execution...");
-    while (1); // halt!
+    //while (1); // halt!
   }
 }
 
@@ -45,18 +45,6 @@ GridSensor::~GridSensor()
 {
 }
 
-void GridSensor::test() {
-  /*qtra.read(sensorValues);
-
-  // Print the sensor values
-  unsigned char i;
-  for (i = 0; i < NUM_SENSORS; i++)
-  {
-    Serial.print(sensorValues[i]);
-  }
-  Serial.println(" ");
-  delay(250);*/
-}
 
 /*
  * Retrieve the current cell read by the IR colour sensors

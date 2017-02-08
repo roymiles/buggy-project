@@ -10,8 +10,6 @@
 #include "SensorControl.h"
 
 int SENSOR_MUX = 9;     // Output pin to control the MUX
-enum positionState {NA, WHITE_BLACK, BLACK_WHITE};
-positionState currentPositionState = BLACK_WHITE; // Will alternate at start of movement init!
 
 SensorControl::SensorControl(Movement *m)
 {
@@ -25,6 +23,9 @@ SensorControl::SensorControl(Movement *m)
   
   // Create instances of the grid sensor
   gs = new GridSensor();
+
+  // These sensors are alligned with the wheels of the buggy
+  sgs = new SideGridSensor();
 }
 
 SensorControl::~SensorControl()
@@ -47,16 +48,16 @@ colour SensorControl::debugColour(){
 void SensorControl::enableLeftSensor(){
   //Serial.println("Enabling left colour sensor:");
   digitalWrite(SENSOR_MUX, LOW);
-  gs->initialSensorReading = initialSensorReading_topLeft;
-  //Serial.println("Initial reading left: " + getColour(initialSensorReading_topLeft));
+  gs->initialSensorReading = initialSensorReading_left;
+  //Serial.println("Initial reading left: " + getColour(initialSensorReading_left));
   delay(100);  
 }
 
 void SensorControl::enableRightSensor(){
   //Serial.println("Enabling right colour sensor:");
   digitalWrite(SENSOR_MUX, HIGH);
-  gs->initialSensorReading = initialSensorReading_topRight; 
-  //Serial.println("Initial reading right: " + getColour(initialSensorReading_topLeft));
+  gs->initialSensorReading = initialSensorReading_right; 
+  //Serial.println("Initial reading right: " + getColour(initialSensorReading_left));
   delay(100);
 }
 
@@ -65,30 +66,30 @@ void SensorControl::enableRightSensor(){
  */
 bool SensorControl::movementInit(){  
   enableLeftSensor();
-  initialSensorReading_topLeft  = gs->getCurrentCell();
+  initialSensorReading_left  = gs->getCurrentCell();
 
   enableRightSensor();
-  initialSensorReading_topRight = gs->getCurrentCell();
+  initialSensorReading_right = gs->getCurrentCell();
 
-  // Alternate at the start of every init
+  // Alternate at the start of every movement
   if(currentPositionState == WHITE_BLACK){
     currentPositionState = BLACK_WHITE;
     Serial.println("Initial state is BLACK_WHITE");
-    if(initialSensorReading_topLeft == WHITE && initialSensorReading_topRight == BLACK){
+    if(initialSensorReading_left == WHITE && initialSensorReading_right == BLACK){
       // On completely the wrong grid position
       Serial.println("Wrong position!");
     }
   }else{
     currentPositionState = WHITE_BLACK;
     Serial.println("Initial state is WHITE_BLACK");
-    if(initialSensorReading_topLeft == BLACK && initialSensorReading_topRight == WHITE){
+    if(initialSensorReading_left == BLACK && initialSensorReading_right == WHITE){
       // On completely the wrong grid position
       Serial.println("Wrong position!");
     }
   }  
 
-  Serial.println("LEFT sensor starting on:  " + getColour(initialSensorReading_topLeft));
-  Serial.println("RIGHT sensor starting on: " + getColour(initialSensorReading_topRight));
+  Serial.println("LEFT sensor starting on:  " + getColour(initialSensorReading_left));
+  Serial.println("RIGHT sensor starting on: " + getColour(initialSensorReading_right));
 
   delay(1000);
 
@@ -96,21 +97,18 @@ bool SensorControl::movementInit(){
    * Check the starting position is valid
    * Each sensor should read opposite colours
    */
-  if(initialSensorReading_topLeft == initialSensorReading_topRight){
+  if(initialSensorReading_left == initialSensorReading_right){
     Serial.println("Initial sensor readings are the same!");
-    colour startingSquare = initialSensorReading_topLeft;
+    colour startingSquare = initialSensorReading_left;
     switch(currentPositionState){
       case WHITE_BLACK:
-        Serial.println("WHITE_BLACK state");
-        if(startingSquare == WHITE){
-          // Started facing the left, so need to compensate
-          // Set the values to what they should* be
-          initialSensorReading_topLeft  = WHITE;
-          initialSensorReading_topRight = BLACK;
-        }else if(startingSquare == BLACK){
-          // Started facing the right
-          initialSensorReading_topLeft  = WHITE;
-          initialSensorReading_topRight = BLACK;
+        if(startingSquare == WHITE || startingSquare == BLACK){
+          /*
+           * Set the initial values to what they are supposed to be
+           * The motorCorrection will comepensate in real time
+           */
+          initialSensorReading_left  = WHITE;
+          initialSensorReading_right = BLACK;
         }else{
           Serial.println("Unknown grid square");
           return false;
@@ -118,15 +116,13 @@ bool SensorControl::movementInit(){
         break;
 
       case BLACK_WHITE:
-        Serial.println("BLACK_WHITE state");
-        if(startingSquare == WHITE){
-          // Started facing the right, so need to compensate
-          initialSensorReading_topLeft  = BLACK;
-          initialSensorReading_topRight = WHITE;
-        }else if(startingSquare == BLACK){
-          // Started facing the left
-          initialSensorReading_topLeft  = BLACK;
-          initialSensorReading_topRight = WHITE;
+        if(startingSquare == WHITE || startingSquare == BLACK){
+          /*
+           * Set the initial values to what they are supposed to be
+           * The motorCorrection will comepensate in real time
+           */
+          initialSensorReading_left  = BLACK;
+          initialSensorReading_right = WHITE;
         }else{
           Serial.println("Unknown grid square");
           return false;
@@ -148,10 +144,28 @@ bool SensorControl::movementInit(){
   return true;
 }
 
+unsigned int sideSensorThreshold = 2000;
+colour sideSensorColours[NUM_SENSORS];
+void SensorControl::getSideSensorColours(){
+  sgs->readSideSensors(); // Make sure the latest values are measured
+
+  sideSensorColours[0] = this->convertSideSensorValueToColour(sgs->sideSensorValues[0]);
+  sideSensorColours[1] = this->convertSideSensorValueToColour(sgs->sideSensorValues[1]);
+}
+
+colour SensorControl::convertSideSensorValueToColour(unsigned int value){
+  if(value < sideSensorThreshold){
+    return WHITE;
+  }else{
+    return BLACK;
+  }
+}
+
 /**
  * Read from the IR RGB colour sensors and adjust the motor controls to compensate
  */
 bool left_changed, right_changed;
+unsigned int motorCorrectionDelay = 100; 
 void SensorControl::motorCorrection(){
   if(Movement::currentMovement == FORWARD || Movement::currentMovement == BACKWARDS){
     // The IR sensors should see the same colour for all movement
@@ -167,35 +181,63 @@ void SensorControl::motorCorrection(){
       // Need to turn slightly to the RIGHT to compensate
 
       Serial.println("Deviating to the LEFT. Attempting to compensate...");
-      // Increase RIGHT motor by 1 and reduce LEFT motor by 1
+      //this->debug();
       /*this->m->increaseLeftMotor();
       this->m->decreaseRightMotor();
       delay(50);*/
-      this->m->disableRightMotor();
-      this->m->enableLeftMotor();
-      delay(50);
+      if(Movement::currentMovement == FORWARD){
+        this->m->disableRightMotor();
+        this->m->enableLeftMotor();
+        
+        //this->m->increaseLeftMotor();
+        //this->m->decreaseRightMotor();
+      }else if(Movement::currentMovement == BACKWARDS){
+        /*
+         * Opposite polarity for going backwards
+         */
+        this->m->disableLeftMotor();
+        this->m->enableRightMotor();
+
+        //this->m->increaseRightMotor();
+        //this->m->decreaseLeftMotor();
+      }
+      delay(motorCorrectionDelay);
       
     // Right sensor has changed but left sensor has not      
     }else if(left_changed && !right_changed){
       // Need to turn slightly to the LEFT to compensate
 
       Serial.println("Deviating to the RIGHT. Attempting to compensate...");
-      // Increase LEFT motor by 1 and reduce RIGHT motor by 1
+      //this->debug();
       /*this->m->increaseLeftMotor();
       this->m->decreaseRightMotor();
       delay(50);*/
-      this->m->disableLeftMotor();
-      this->m->enableRightMotor();
-      delay(50);
+      if(Movement::currentMovement == FORWARD){
+        this->m->disableLeftMotor();
+        this->m->enableRightMotor();
+
+        //this->m->increaseRightMotor();
+        //this->m->decreaseLeftMotor(); 
+      }else if(Movement::currentMovement == BACKWARDS){
+        /*
+         * Opposite polarity for going backwards
+         */
+        this->m->disableRightMotor();
+        this->m->enableLeftMotor();
+
+        //this->m->increaseLeftMotor();
+        //wthis->m->decreaseRightMotor();     
+      }
+      delay(motorCorrectionDelay);
 
     // Both sensors have changed value (since initial reading) and so finish movement
     }else if(right_changed && left_changed){
       Movement::stopMovement();
     }else{
-      // On track
+      // On track, so keep both motors enabled
       this->m->enableLeftMotor();
       this->m->enableRightMotor();
-      delay(50);
+      delay(motorCorrectionDelay);
     }
   }else if(Movement::currentMovement == TURNING_LEFT){
     /* 
@@ -229,7 +271,7 @@ void SensorControl::motorCorrection(){
 }
 
 
-/*
+/**
  * Convert the movement enum to a string (for debugging)
  */
 String SensorControl::getColour(colour c){
@@ -242,6 +284,19 @@ String SensorControl::getColour(colour c){
       break;
     default:
       return "UNKNOWN";
+  }
+}
+
+String SensorControl::getPositionState(positionState ps){
+  switch(ps){
+    case WHITE_BLACK:
+      return "WHITE_BLACK";
+      break;
+    case BLACK_WHITE:
+      return "BLACK_WHITE";
+      break;
+    default:
+      return "UNKNOWN"; 
   }
 }
 

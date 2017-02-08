@@ -35,9 +35,7 @@ public:
 
 	GridSensor();
 	~GridSensor();
-
-  void test();
-
+  
   /**
    * Retrieve the current cell read by the IR colour sensors
    */
