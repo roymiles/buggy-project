@@ -1,152 +1,107 @@
 /**
-BaseStation.cpp
-Purpose: Connect to the maze beacon and base station to provide control
-and maze information to the buggy.
+    BaseStation.cpp
+    Purpose: Communication Module for the Buggy to talk with the command
+             BaseStation.
 
-@author J. Hawkins, Roy Miles
-@version 1.0 12/12/2016
+    @author J. Hawkins
+    @version 1.0 3/2/2017
 */
 
 #include "BaseStation.h"
 
-#ifdef WIFI_SHIELD_EXISTS
-
-#include "String.h"
-#include <SPI.h>
-#include <WiFi.h>
-
 BaseStation::BaseStation()
 {
+    //  Check if a shield is available
+    this->bufferSize = BASE_DEFAULT_BUFFER_SIZE;
 
-	// Start 'disconnected'
-	wifi_connect = false;
+    /*if (WiFi.status() == WL_NO_SHIELD) {
+        Serial.println("No shield.");
+        this->wifi_enabled = false;
+    } else this->wifi_enabled = true;*/
+    this->wifi_enabled = true;
 
-	if (WiFi.status() == WL_NO_SHIELD) {
-
-		// Prevent further use of the base station
-		wifi_init = false;
-
-	}
-	else {
-
-		if (BASE_NETWORK_NUMBER == 0) {
-			full_ssid = BASE_NETWORK_SSID;
-		}
-		else {
-			full_ssid = BASE_NETWORK_SSID + '_' + String(BASE_NETWORK_NUMBER, DEC);
-		}
-
-		wifi_init = true;
-
-	}
+    this->ssid = BASE_SSID;
 
 }
-
 
 BaseStation::~BaseStation()
 {
-
-	if (wifi_connect) {
-		wifiClient.stop();
-	}
-
-}
-
-bool BaseStation::mazeBeaconExists()
-{
-
-	// Don't bother if WiFi is not setup.
-	if (wifi_init) {
-
-		// Find number of available networks
-		byte numSSID = WiFi.scanNetworks();
-		String cssid;
-
-		// Compare each SSID with expected, return true on match
-		for (int cNet = 0; cNet < numSSID; cNet++) {
-
-			cssid = WiFi.SSID(cNet);
-			if (cssid.equals(full_ssid))
-				return true;
-
-		}
-
-	}
-
-	return false;
-
-}
-
-bool BaseStation::mazeBeaconConnect(int attempts)
-{
-
-    // If already connected to another network, disconnect.
     if (WiFi.status() == WL_CONNECTED) {
-        WiFi.disconnect();
+       WiFi.disconnect();
     }
-
-	// Assign full_ssid to temporary buffer.
-	char* buf = (char*)malloc(full_ssid.length());
-	full_ssid.toCharArray(buf, full_ssid.length());
-
-	WiFi.begin(buf);
-
-	for (int attempt = 0; attempt < attempts; attempt++) {
-
-		// Wait for connection to establish
-		delay(CONNECT_TIME);
+}
 
 
-		// If connected, break and return true
-		if (WiFi.begin(buf) == WL_CONNECTED) {
+int BaseStation::connect() {
 
-			if (wifiClient.connect(BASE_NETWORK_IP, 80)) {
-				wifi_connect = true;
-				break;
-			}
+    if (this->wifi_enabled) {
+
+        // If already connected, disconnect.
+        if (WiFi.status() == WL_CONNECTED) {
+            WiFi.disconnect();
+        }
+
+        bool exists = false;
+        // Check Network Exists
+        uint8_t numNet = WiFi.scanNetworks();
+        for (int cNet = 0; cNet < numNet; cNet++) {
+
+            if (this->ssid.equals(WiFi.SSID(cNet))) {
+                exists = true;
+                // Break to prevent further processing
+                break;
+            }
 
 		}
 
-	}
+		// Initialise connection
+        char* buf = (char*)malloc(this->ssid.length());
+        this->ssid.toCharArray(buf, this->ssid.length());
 
-	// Avoid memory leak and clear temporary buffer
-	free(buf);
+		WiFi.begin(buf);
 
-	return wifi_connect;
+		for (int atmpt = 0; atmpt < BASE_CONNECT_ATTEMPTS; atmpt++) {
 
-}
+            delay(BASE_CONNECT_TIME);
 
-MazeLayout* BaseStation::getMazeLayout() {
+            if (WiFi.begin(buf) && wClient.connect(BASE_NETWORK_IP, BASE_NETWORK_PORT)){
 
-	if (wifi_init && wifi_connect) {
+                this->wifi_connect = true;
+                free(buf);
+                return BASE_CONNECT_SUCCESS;
 
-		wifiClient.println("GET / HTTP/1.1");
-		wifiClient.println("Host: " + (String)BASE_NETWORK_IP);
-		wifiClient.println("Connection: close");
-		wifiClient.println();
+            }
 
-		// Wait for response
-		String response = "";
-		while (wifiClient.available())
-			response = response + wifiClient.read();
-
-		// When disconnected, stop
-		if (!wifiClient.connected())
-			wifiClient.stop();
-
-		// Check response is valid
-		String description = response;
-
-		// Check maze description is valid
-		if (MazeLayout::isValid(description)) {
-			// Return new MazeLayout object
-			return new MazeLayout(description);
 		}
-		else NULL;
 
-	}
-	else return NULL;
+        free(buf);
+
+		return BASE_CONNECT_FAILURE;
+
+    } else return EXCEPTION_NO_SHIELD;
 
 }
-#endif
 
+int BaseStation::listen() {
+
+    if (this->wClient.available()) {
+
+        int read = 0;
+        // Only read in available bytes or fill buffer.
+        while (this->wClient.available()) {
+
+            // Read in current byte
+            this->buffer[read] = this->wClient.read();
+            // Printout byte
+            Serial.print(this->buffer[read]);
+
+            if (++read > this->bufferSize) {
+                // Need to extend buffer.
+            }
+
+        }
+
+
+    } return BASE_NO_DATA;
+
+}
