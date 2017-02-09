@@ -13,6 +13,7 @@ int SENSOR_MUX = 9;     // Output pin to control the MUX
 
 SensorControl::SensorControl(Movement *m)
 {
+  Serial.println("Sensor control instance");
   this->m = m;
 
   // Mux output
@@ -47,7 +48,7 @@ colour SensorControl::debugColour(){
 
 void SensorControl::enableLeftSensor(){
   //Serial.println("Enabling left colour sensor:");
-  digitalWrite(SENSOR_MUX, LOW);
+  digitalWrite(SENSOR_MUX, HIGH);
   gs->initialSensorReading = initialSensorReading_left;
   //Serial.println("Initial reading left: " + getColour(initialSensorReading_left));
   delay(100);  
@@ -55,7 +56,7 @@ void SensorControl::enableLeftSensor(){
 
 void SensorControl::enableRightSensor(){
   //Serial.println("Enabling right colour sensor:");
-  digitalWrite(SENSOR_MUX, HIGH);
+  digitalWrite(SENSOR_MUX, LOW);
   gs->initialSensorReading = initialSensorReading_right; 
   //Serial.println("Initial reading right: " + getColour(initialSensorReading_left));
   delay(100);
@@ -63,13 +64,25 @@ void SensorControl::enableRightSensor(){
 
 /**
  * Get the initial readings prior to movement
+ * @return true or false depending on whether initial starting position is correct
  */
 bool SensorControl::movementInit(){  
+  Serial.print("Start of movementInit()");
   enableLeftSensor();
   initialSensorReading_left  = gs->getCurrentCell();
 
   enableRightSensor();
   initialSensorReading_right = gs->getCurrentCell();
+
+  this->getSideSensorColours();
+  initialSideSensorReading_left = convertSideSensorValueToColour(sgs->sideSensorValues[0]);
+  initialSideSensorReading_right = convertSideSensorValueToColour(sgs->sideSensorValues[1]);
+
+  Serial.print("Left side sensor: ");
+  Serial.println(getColour(initialSideSensorReading_left));
+
+  Serial.print("Right side sensor: ");
+  Serial.println(getColour(initialSideSensorReading_right));  
 
   // Alternate at the start of every movement
   if(currentPositionState == WHITE_BLACK){
@@ -90,8 +103,6 @@ bool SensorControl::movementInit(){
 
   Serial.println("LEFT sensor starting on:  " + getColour(initialSensorReading_left));
   Serial.println("RIGHT sensor starting on: " + getColour(initialSensorReading_right));
-
-  delay(1000);
 
   /*
    * Check the starting position is valid
@@ -133,9 +144,7 @@ bool SensorControl::movementInit(){
         Serial.println("Unknown position state.");
         return false;
     }
-    //while (true) {
-    //  ; // Halt execution
-    //}
+    
     debug();
     return true;
   }
@@ -144,7 +153,7 @@ bool SensorControl::movementInit(){
   return true;
 }
 
-unsigned int sideSensorThreshold = 2000;
+unsigned int sideSensorThreshold = 1000;
 colour sideSensorColours[NUM_SENSORS];
 void SensorControl::getSideSensorColours(){
   sgs->readSideSensors(); // Make sure the latest values are measured
@@ -163,112 +172,128 @@ colour SensorControl::convertSideSensorValueToColour(unsigned int value){
 
 /**
  * Read from the IR RGB colour sensors and adjust the motor controls to compensate
+ * Read from the side sensor to determine if movement has finished
  */
-bool left_changed, right_changed;
+bool left_changed, right_changed, sideLeft_changed, sideRight_changed;
 unsigned int motorCorrectionDelay = 100; 
+unsigned int numberOfSideSensorChanges = 0; // Used for determining when a rotation has finished
 void SensorControl::motorCorrection(){
-  if(Movement::currentMovement == FORWARD || Movement::currentMovement == BACKWARDS){
-    // The IR sensors should see the same colour for all movement
+  switch(Movement::currentMovement){
+    case FORWARD:
+    case BACKWARDS:
+      // The IR sensors should see the same colour for all movement
 
-    enableLeftSensor();
-    left_changed  = gs->hasChangedCell();
-
-    enableRightSensor();
-    right_changed = gs->hasChangedCell(); 
-
-    // Left sensor has changed but right sensor has not
-    if(right_changed && !left_changed){
-      // Need to turn slightly to the RIGHT to compensate
-
-      Serial.println("Deviating to the LEFT. Attempting to compensate...");
-      //this->debug();
-      /*this->m->increaseLeftMotor();
-      this->m->decreaseRightMotor();
-      delay(50);*/
-      if(Movement::currentMovement == FORWARD){
-        this->m->disableRightMotor();
-        this->m->enableLeftMotor();
+      /*
+       * Determine whether the sensors are now reading different values
+       */
+      enableLeftSensor();
+      left_changed  = gs->hasChangedCell();
+  
+      enableRightSensor();
+      right_changed = gs->hasChangedCell(); 
+  
+      // Left sensor has changed but right sensor has not
+      if(right_changed && !left_changed){
+        // Need to turn slightly to the RIGHT to compensate
+  
+        Serial.println("Deviating to the LEFT. Attempting to compensate...");
+        if(Movement::currentMovement == FORWARD){
+          
+          this->m->disableRightMotor();
+          this->m->enableLeftMotor();
+          
+        }else if(Movement::currentMovement == BACKWARDS){
+          /*
+           * Opposite polarity for going backwards
+           */
+          this->m->disableLeftMotor();
+          this->m->enableRightMotor();
+          
+        }
         
-        //this->m->increaseLeftMotor();
-        //this->m->decreaseRightMotor();
-      }else if(Movement::currentMovement == BACKWARDS){
-        /*
-         * Opposite polarity for going backwards
-         */
-        this->m->disableLeftMotor();
-        this->m->enableRightMotor();
-
-        //this->m->increaseRightMotor();
-        //this->m->decreaseLeftMotor();
-      }
-      delay(motorCorrectionDelay);
-      
-    // Right sensor has changed but left sensor has not      
-    }else if(left_changed && !right_changed){
-      // Need to turn slightly to the LEFT to compensate
-
-      Serial.println("Deviating to the RIGHT. Attempting to compensate...");
-      //this->debug();
-      /*this->m->increaseLeftMotor();
-      this->m->decreaseRightMotor();
-      delay(50);*/
-      if(Movement::currentMovement == FORWARD){
-        this->m->disableLeftMotor();
-        this->m->enableRightMotor();
-
-        //this->m->increaseRightMotor();
-        //this->m->decreaseLeftMotor(); 
-      }else if(Movement::currentMovement == BACKWARDS){
-        /*
-         * Opposite polarity for going backwards
-         */
-        this->m->disableRightMotor();
+        delay(motorCorrectionDelay);
+        
+      // Right sensor has changed but left sensor has not      
+      }else if(left_changed && !right_changed){
+        // Need to turn slightly to the LEFT to compensate
+  
+        Serial.println("Deviating to the RIGHT. Attempting to compensate...");
+        if(Movement::currentMovement == FORWARD){
+          
+          this->m->disableLeftMotor();
+          this->m->enableRightMotor();
+  
+        }else if(Movement::currentMovement == BACKWARDS){
+          /*
+           * Opposite polarity for going backwards
+           */
+          this->m->disableRightMotor();
+          this->m->enableLeftMotor();
+          
+        }
+        delay(motorCorrectionDelay);
+  
+      }else{
+        // On track, so keep both motors enabled
         this->m->enableLeftMotor();
-
-        //this->m->increaseLeftMotor();
-        //wthis->m->decreaseRightMotor();     
+        this->m->enableRightMotor();
+        delay(motorCorrectionDelay);
       }
-      delay(motorCorrectionDelay);
+  
+      /*
+       * Check if buggy has moved onto the next cell 
+       */
+      /*getSideSensorColours();
+      sideLeft_changed  = (initialSideSensorReading_left != convertSideSensorValueToColour(sgs->sideSensorValues[0]));
+      sideRight_changed = (initialSideSensorReading_right != convertSideSensorValueToColour(sgs->sideSensorValues[1]));
+      
+      if(sideLeft_changed && sideRight_changed){
+        Movement::stopMovement();
+      }*/
+      
+      break;
 
-    // Both sensors have changed value (since initial reading) and so finish movement
-    }else if(right_changed && left_changed){
-      Movement::stopMovement();
-    }else{
-      // On track, so keep both motors enabled
-      this->m->enableLeftMotor();
-      this->m->enableRightMotor();
-      delay(motorCorrectionDelay);
-    }
-  }else if(Movement::currentMovement == TURNING_LEFT){
-    /* 
-     * Stop movement when LEFT sensor has changed cell
-     */
-    enableLeftSensor();
-    left_changed  = gs->hasChangedCell();
-
-    enableRightSensor();
-    right_changed = gs->hasChangedCell(); 
-     
-    if(left_changed && right_changed){
-      Movement::stopMovement();
-    }
+    case TURNING_LEFT:
+      /* 
+       * Stop movement when LEFT sensor has changed cell
+       */
+      enableLeftSensor();
+      left_changed  = gs->hasChangedCell();
+  
+      enableRightSensor();
+      right_changed = gs->hasChangedCell(); 
+       
+      if(left_changed && right_changed){
+        Movement::stopMovement();
+      }
+      
+      break;
+      
+    case TURNING_RIGHT:
+      /* 
+       * Stop movement when RIGHT sensor has changed cell
+       */
+      enableLeftSensor();
+      left_changed  = gs->hasChangedCell();
+  
+      enableRightSensor();
+      right_changed = gs->hasChangedCell(); 
+       
+      if(left_changed && right_changed){
+        Movement::stopMovement();
+      }
+      
+      break;
     
-    
-  }else if(Movement::currentMovement == TURNING_RIGHT){
-    /* 
-     * Stop movement when RIGHT sensor has changed cell
-     */
-    enableLeftSensor();
-    left_changed  = gs->hasChangedCell();
-
-    enableRightSensor();
-    right_changed = gs->hasChangedCell(); 
-     
-    if(left_changed && right_changed){
-      Movement::stopMovement();
-    }
-  }
-}
+    default:
+      Serial.println("Code should not reach here... Halting...");
+      while(true){
+        ; // Suspend the program
+      }
+      
+  } // end switch 
+  
+} // end func
 
 
 /**

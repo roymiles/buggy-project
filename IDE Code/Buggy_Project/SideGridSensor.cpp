@@ -12,10 +12,15 @@
 // monitor as numbers from 0 (maximum reflectance) to 2500 (minimum reflectance).
 
 // sensors 0 through 1 are connected to digital pins 3 through 4, respectively
+
+/*
+ * LEFT sensor PIN 3
+ * RIGHT sensor PIN 4
+ */
 QTRSensorsRC qtrrc_sideSensors((unsigned char[]) {3,4}, NUM_SENSORS, TIMEOUT, EMITTER_PIN); 
 
 SideGridSensor::SideGridSensor(){
-  
+  Serial.println("Side grid sensor instance");
 }
 
 SideGridSensor::~SideGridSensor(){
@@ -24,15 +29,23 @@ SideGridSensor::~SideGridSensor(){
 
 /**
  * Values = 2500 are BLACK low values are WHITE
+ * Generally, large values are BLACK and lower values are WHITE (this is contrary to the RGB sensors)
  */
 SideGridSensor::readSideSensors(){
   // read raw sensor values
   qtrrc_sideSensors.read(sideSensorValues);
 
-  // print the sensor values as numbers from 0 to 2500, where 0 means maximum reflectance and
-  // 2500 means minimum reflectance
+  /* 
+   * print the sensor values as numbers from 0 to 2500, where 0 means maximum reflectance and 
+   * 2500 means minimum reflectance
+   */
   for (unsigned char i = 0; i < NUM_SENSORS; i++)
   {
+    if(i == 0){
+      Serial.print("Left: ");
+    }else{
+      Serial.print("Right: ");
+    }
     Serial.print(sideSensorValues[i]);
     Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
   }

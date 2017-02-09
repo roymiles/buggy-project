@@ -52,7 +52,7 @@ void setup() {
   // uss = new UltraSonicSensor();
   m    = new Movement();
   sc   = new SensorControl(m);
-  us   = new Ultrasonic(ULTRA_SONIC_PIN);
+  //us   = new Ultrasonic(ULTRA_SONIC_PIN);
   
   // p   = new PathFinding(MAZE_X_MAX, MAZE_Y_MAX, "*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*0705*1107*1104*0600*1317*#", Vector(0, 0));
   // MazeLayout::test();
@@ -103,69 +103,51 @@ void loop() {
     sc->motorCorrection();
   }*/
   
-  //sc->debug();
-  //delay(1000);   
- //sc->movementInit();
-  //delay(1000); 
-
-  //Serial.println(sc->getColour(sc->debugColour()));
-  //sc->debug();
-  //delay(500);
-  //sc->motorCorrection();
-
-  /*if (Serial.available()) {
-    char val = Serial.read();
-    if (val != -1) {
-      switch (val) {
-        case 'q':
-          sc->enableLeftSensor();
-          break;
-        case 'e':
-          sc->enableRightSensor();
-          break;
-      }
-    }
-  }*/
-  
-
   /*
      Move using the serial input WASD
   */
   if (Serial.available()) {
+    Serial.print(".");
     char val = Serial.read();
     if (val != -1) {
       switch (val) {
         case 'w': //Move Forward
+        
           if(sc->movementInit()){
             m->moveForward();
           }
+          
           break;
+          
         case 's': //Move Backward
+        
           if(sc->movementInit()){
             m->moveBackwards();
           }
+          
           break;
+        
         case 'a': //Turn Left
+        
           if(sc->movementInit()){
             m->turnLeft();
           }
+          
           break;
+        
         case 'd': //Turn Right
+        
           if(sc->movementInit()){
             m->turnRight();
           }
+          
           break;
+        
         case 'z':
           Serial.println("Serial Working...");
           break;
         case 'x':
           Movement::stopMovement();
-          break;
-        case 'q':
-          //sc->enableLeftSensor();
-          break;
-        case 'e':
-          //sc->enableRightSensor();
           break;
       }
     }
@@ -178,24 +160,27 @@ void loop() {
   Serial.print("Object distance: ");
   Serial.println(us->RangeInCentimeters);
   delay(500);*/
-  
-  if(Movement::currentMovement != IDLE){
+
+  /*
+   * Only perform motor correction if the buggy is moving
+   */
+  /*if(Movement::currentMovement != IDLE){
     sc->motorCorrection();
-  }
+  }*/
 
   /*
    * Check for a collision
    * Only do collision detection for forward movement
    */
-  if(Movement::currentMovement == FORWARD){
+  /*if(Movement::currentMovement == FORWARD){
     us->MeasureInCentimeters();
     //Serial.print("Object distance: ");
     //Serial.println(us->RangeInCentimeters);
     if(us->RangeInCentimeters <= collisionDistance && us->RangeInCentimeters != 0){
       Serial.println("Object in path");
-      //wwMovement::stopMovement();
+      //Movement::stopMovement();
     }
-  }
+  }*/
   
   /*
    * Iterate through the movements in the queue

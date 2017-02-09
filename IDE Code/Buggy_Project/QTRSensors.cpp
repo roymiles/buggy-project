@@ -41,6 +41,8 @@
 void QTRSensors::init(unsigned char *pins, unsigned char numSensors,
   unsigned char emitterPin)
 {
+
+    Serial.println("QTR init");
     calibratedMinimumOn=0;
     calibratedMaximumOn=0;
     calibratedMinimumOff=0;

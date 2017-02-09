@@ -21,9 +21,13 @@ class SensorControl
 {
 public:
   GridSensor *gs;
-  SideGridSensor *sgs;
   colour initialSensorReading_left;
   colour initialSensorReading_right;
+
+  SideGridSensor *sgs;
+  colour initialSideSensorReading_left;
+  colour initialSideSensorReading_right;
+  
   
   enum positionState {NA, WHITE_BLACK, BLACK_WHITE};
   positionState currentPositionState = BLACK_WHITE; // Will alternate at start of movement init!

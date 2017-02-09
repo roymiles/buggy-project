@@ -29,6 +29,7 @@ Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS3472
 GridSensor::GridSensor()
 {
   //this->currentPosition = sp;
+  Serial.println("Grid sensor instance");
 
   // Setup the sensor
   if (tcs.begin()) {
