@@ -6,14 +6,11 @@
 int LEFT_MTR = 5;
 int RIGHT_MTR = 6;
 
+/*
+ * Direction controls
+ */
 int M1 = 4;     // M1 Direction Control
 int M2 = 7;     // M1 Direction Control
-
-// assuming pwm movement 
-const int Enable1 = 5;      // Motor1 Speed Control
-const int Enable2 = 6;      // Motor2 Speed Control
-const int Motor1  = 4;      // Motor1 Direction Control
-const int Motor2  = 7;      // Motor1 Direction Control
 
 /*
  * The encoder pins are 2,3
@@ -57,9 +54,10 @@ Movement::Movement()
   for(i = 4; i <= 7; i++){
     pinMode(i, OUTPUT); 
   }  
-  
-  pinMode(2,INPUT_PULLUP);
-  pinMode(3,INPUT_PULLUP);
+
+  // What is this?
+  // pinMode(2,INPUT_PULLUP);
+  // pinMode(3,INPUT_PULLUP);
   
   //attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
   //attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
@@ -68,7 +66,7 @@ Movement::Movement()
 
   // Initialize the digital pin as an output.
   // Pin 13 has an LED connected on most Arduino boards
-  pinMode(13, OUTPUT);    
+  // pinMode(13, OUTPUT);    
   
   Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
   Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
@@ -175,14 +173,16 @@ void Movement::turnRight() {
 void Movement::stopMovement(){
   Serial.println("Stopping buggy");
   
-  digitalWrite(Enable1,LOW);   
-  digitalWrite(Enable2,LOW); 
+  digitalWrite(LEFT_MTR,LOW);   
+  digitalWrite(RIGHT_MTR,LOW); 
 
   Movement::currentMovement = IDLE;
 
   // Reset the encoder counters
   LRC = 0;
   RRC = 0;  
+
+  delay(100); // Allow things to settle
 }
 
 void Movement::increaseLeftMotor(){
@@ -245,14 +245,14 @@ void Movement::timerIsr()
     // If the buggy is *moving* and the timer count has exceeded
    /*if( (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementTimerCount){
       timerCount = 0;
-      Serial.println("Finished moving");
+      Serial.println("Finished moving - timer interrupt");
       stopMovement();
     }*/
 
     // If the buggy is *turning* and the timer count has exceeded
     if( (currentMovement == TURNING_LEFT || currentMovement == TURNING_RIGHT) && timerCount > turningTimerCount){
       timerCount = 0;
-      Serial.println("Finished turning (by timer interrupt)");
+      Serial.println("Finished turning - timer interrupt");
       stopMovement();
     }
     

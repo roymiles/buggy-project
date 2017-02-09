@@ -108,10 +108,12 @@ void loop() {
   /*
      Move using the serial input WASD
   */
-  //Serial.print(".");
-  //delay(100);
 
-  Serial.println("");
+  /*
+   * Test whether the sensors are working
+   */
+  sc->debug();
+  delay(100);
   /*if (Serial.available()) {
     //Serial.print(".");
     char val = Serial.read();

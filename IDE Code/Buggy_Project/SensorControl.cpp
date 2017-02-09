@@ -97,7 +97,7 @@ bool SensorControl::movementInit(){
   initialSensorReading_right = gs->getCurrentCell();*/
 
   /*
-   * Simple Sensors
+   * Simple Front Sensors
    */
   getFrontSensorColours();
   initialFrontSensorReading_left = convertFrontSensorValueToColour(fgs->frontSensorValues[0]);
@@ -286,15 +286,15 @@ void SensorControl::motorCorrection(){
         Serial.println("Deviating to the LEFT. Attempting to compensate...");
         if(Movement::currentMovement == FORWARD){
           
-          this->m->disableRightMotor();
-          this->m->enableLeftMotor();
+          m->disableRightMotor();
+          m->enableLeftMotor();
           
         }else if(Movement::currentMovement == BACKWARDS){
           /*
            * Opposite polarity for going backwards
            */
-          this->m->disableLeftMotor();
-          this->m->enableRightMotor();
+          m->disableLeftMotor();
+          m->enableRightMotor();
           
         }
         
@@ -307,23 +307,23 @@ void SensorControl::motorCorrection(){
         Serial.println("Deviating to the RIGHT. Attempting to compensate...");
         if(Movement::currentMovement == FORWARD){
           
-          this->m->disableLeftMotor();
-          this->m->enableRightMotor();
+          m->disableLeftMotor();
+          m->enableRightMotor();
   
         }else if(Movement::currentMovement == BACKWARDS){
           /*
            * Opposite polarity for going backwards
            */
-          this->m->disableRightMotor();
-          this->m->enableLeftMotor();
+          m->disableRightMotor();
+          m->enableLeftMotor();
           
         }
         delay(motorCorrectionDelay);
   
       }else{
         // On track, so keep both motors enabled
-        this->m->enableLeftMotor();
-        this->m->enableRightMotor();
+        m->enableLeftMotor();
+        m->enableRightMotor();
         delay(motorCorrectionDelay);
       }
   
