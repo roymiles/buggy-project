@@ -64,13 +64,17 @@ void Adafruit_TCS34725::write8 (uint8_t reg, uint32_t value)
 /**************************************************************************/
 uint8_t Adafruit_TCS34725::read8(uint8_t reg)
 {
+  //Serial.println("Start read8"); // Roy
   Wire.beginTransmission(TCS34725_ADDRESS);
+  //Serial.println("Begin-Mid read8"); // Roy
+  
   #if ARDUINO >= 100
   Wire.write(TCS34725_COMMAND_BIT | reg);
   #else
   Wire.send(TCS34725_COMMAND_BIT | reg);
   #endif
   Wire.endTransmission();
+  //Serial.println("Mid read8"); // Roy
 
   Wire.requestFrom(TCS34725_ADDRESS, 1);
   #if ARDUINO >= 100
@@ -78,6 +82,8 @@ uint8_t Adafruit_TCS34725::read8(uint8_t reg)
   #else
   return Wire.receive();
   #endif
+
+  //Serial.println("End read8"); // Roy
 }
 
 /**************************************************************************/
@@ -164,14 +170,20 @@ Adafruit_TCS34725::Adafruit_TCS34725(tcs34725IntegrationTime_t it, tcs34725Gain_
 boolean Adafruit_TCS34725::begin(void) 
 {
   Wire.begin();
+
+  //Serial.println("Begin front sensors"); // Roy
   
   /* Make sure we're actually connected */
   uint8_t x = read8(TCS34725_ID);
+  //Serial.println("Begin-Mid front sensors"); // Roy
+  
   if ((x != 0x44) && (x != 0x10))
   {
     return false;
   }
   _tcs34725Initialised = true;
+
+  //Serial.println("Mid front sensors"); // Roy
 
   /* Set default integration time and gain */
   setIntegrationTime(_tcs34725IntegrationTime);
@@ -179,6 +191,8 @@ boolean Adafruit_TCS34725::begin(void)
 
   /* Note: by default, the device is in power down mode on bootup */
   enable();
+
+  Serial.println("End front sensors"); // Roy
 
   return true;
 }

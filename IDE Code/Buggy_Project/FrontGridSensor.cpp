@@ -1,4 +1,4 @@
-#include "SideGridSensor.h"
+#include "FrontGridSensor.h"
 
 // This example is designed for use with eight QTR-1RC sensors or the eight sensors of a
 // QTR-8RC module.  These reflectance sensors should be connected to digital inputs 3 to 10.
@@ -11,19 +11,19 @@
 // paper and sliding the sensor across it.  It prints the sensor values to the serial 
 // monitor as numbers from 0 (maximum reflectance) to 2500 (minimum reflectance).
 
-// sensors 0 through 1 are connected to digital pins 3 through 4, respectively
+// sensors 0 through 1 are connected to digital pins 1 through 2, respectively
 
 /*
- * LEFT sensor PIN 3
- * RIGHT sensor PIN 4
+ * LEFT sensor PIN 1
+ * RIGHT sensor PIN 2
  */
-QTRSensorsRC qtrrc_sideSensors((unsigned char[]) {3,4}, SIDE_NUM_SENSORS, SIDE_TIMEOUT, SIDE_EMITTER_PIN); 
+QTRSensorsRC qtrrc_frontSensors((unsigned char[]) {1,2}, FRONT_NUM_SENSORS, FRONT_TIMEOUT, FRONT_EMITTER_PIN); 
 
-SideGridSensor::SideGridSensor(){
-  Serial.println("Side grid sensor instance");
+FrontGridSensor::FrontGridSensor(){
+  Serial.println("Front grid sensor instance");
 }
 
-SideGridSensor::~SideGridSensor(){
+FrontGridSensor::~FrontGridSensor(){
   
 }
 
@@ -31,22 +31,22 @@ SideGridSensor::~SideGridSensor(){
  * Values = 2500 are BLACK low values are WHITE
  * Generally, large values are BLACK and lower values are WHITE (this is contrary to the RGB sensors)
  */
-SideGridSensor::readSideSensors(){
+FrontGridSensor::readFrontSensors(){
   // read raw sensor values
-  qtrrc_sideSensors.read(sideSensorValues);
+  qtrrc_frontSensors.read(frontSensorValues);
 
   /* 
    * print the sensor values as numbers from 0 to 2500, where 0 means maximum reflectance and 
    * 2500 means minimum reflectance
    */
-  for (unsigned char i = 0; i < SIDE_NUM_SENSORS; i++)
+  for (unsigned char i = 0; i < FRONT_NUM_SENSORS; i++)
   {
     if(i == 0){
       Serial.print("Left: ");
     }else{
       Serial.print("Right: ");
     }
-    Serial.print(sideSensorValues[i]);
+    Serial.print(frontSensorValues[i]);
     Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
   }
 

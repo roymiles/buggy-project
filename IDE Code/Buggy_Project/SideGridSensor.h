@@ -4,9 +4,9 @@
 #include "QTRSensors.h"
 #include "Arduino.h" // Used for serial printing
 
-#define NUM_SENSORS   2     // number of sensors used
-#define TIMEOUT       2500  // waits for 2500 microseconds for sensor outputs to go low
-#define EMITTER_PIN   2     // emitter is controlled by digital pin 2 *NOT USED*
+#define SIDE_NUM_SENSORS   2     // number of sensors used
+#define SIDE_TIMEOUT       2500  // waits for 2500 microseconds for sensor outputs to go low
+#define SIDE_EMITTER_PIN   2     // emitter is controlled by digital pin 2 *NOT USED*
 
 #pragma once
 class SideGridSensor
@@ -15,7 +15,7 @@ public:
   SideGridSensor();
   ~SideGridSensor();
 
-  unsigned int sideSensorValues[NUM_SENSORS];
+  unsigned int sideSensorValues[SIDE_NUM_SENSORS];
 
   readSideSensors();
 

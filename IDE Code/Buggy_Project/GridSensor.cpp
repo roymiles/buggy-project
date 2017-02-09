@@ -54,12 +54,13 @@ colour GridSensor::getCurrentCell() {
   /*
    * Get the raw data from the sensor
    */
+  Serial.println("getCurrentCell");
   uint16_t r, g, b, c, colorTemp, lux;
   tcs.getRawData(&r, &g, &b, &c);
   //colorTemp = tcs.calculateColorTemperature(r, g, b);
   //lux = tcs.calculateLux(r, g, b);
 
-  //Serial.print("Clear (getCurrentCell):\t"); Serial.println(c);
+  Serial.print("**** Clear:\t"); Serial.println(c);
 
   return convertToColour(c);
 }

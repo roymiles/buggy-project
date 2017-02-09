@@ -36,6 +36,8 @@
 #ifndef _TCS34725_H_
 #define _TCS34725_H_
 
+#include "Arduino.h" // Roy
+
 #if ARDUINO >= 100
  #include <Arduino.h>
 #else

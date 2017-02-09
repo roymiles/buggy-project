@@ -14,6 +14,7 @@
 #include "GridSensor.h"
 #include "Movement.h"
 #include "SideGridSensor.h"
+#include "FrontGridSensor.h"
 
 #pragma once
 
@@ -27,13 +28,18 @@ public:
   SideGridSensor *sgs;
   colour initialSideSensorReading_left;
   colour initialSideSensorReading_right;
-  
-  
+
+  FrontGridSensor *fgs;
+  colour initialFrontSensorReading_left;
+  colour initialFrontSensorReading_right;  
+   
   enum positionState {NA, WHITE_BLACK, BLACK_WHITE};
   positionState currentPositionState = BLACK_WHITE; // Will alternate at start of movement init!
 
   SensorControl(Movement *m);
   ~SensorControl();
+
+  void getStartPosition();
 
   /**
    * Get the initial readings prior to movement
@@ -56,11 +62,13 @@ public:
   void motorCorrection();
 
   /**
-   * Following functions are for the side sensors
-   * Get the colours measured form the side sensors
+   * Following functions are for the side/front sensors
+   * Get the colours measured form the side/front sensors
    */
   void getSideSensorColours();
+  void getFrontSensorColours();
   colour SensorControl::convertSideSensorValueToColour(unsigned int value);
+  colour SensorControl::convertFrontSensorValueToColour(unsigned int value);
 
   /**
    * Convert enums to strings (typically for debugging at serial output)

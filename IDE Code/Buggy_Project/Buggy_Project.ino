@@ -6,7 +6,7 @@
     @version 1.0 11/12/2016
 */
 #include <AnalogMultiButton.h>
-//#include "UltraSonicSensor.h"
+//#include "UltraSonicSensor.h" REDUNDANT IMPLEMENTATION
 #include "UltraSonic.h"
 #include "Movement.h"
 #include "PathFinding.h"
@@ -53,6 +53,8 @@ void setup() {
   m    = new Movement();
   sc   = new SensorControl(m);
   //us   = new Ultrasonic(ULTRA_SONIC_PIN);
+
+  sc->getStartPosition();
   
   // p   = new PathFinding(MAZE_X_MAX, MAZE_Y_MAX, "*#*#*#*#A0507A0604D0206B0001D1302D1000A1307*0003*0303*0405*0705*1107*1104*0600*1317*#", Vector(0, 0));
   // MazeLayout::test();
@@ -106,8 +108,12 @@ void loop() {
   /*
      Move using the serial input WASD
   */
-  if (Serial.available()) {
-    Serial.print(".");
+  //Serial.print(".");
+  //delay(100);
+
+  Serial.println("");
+  /*if (Serial.available()) {
+    //Serial.print(".");
     char val = Serial.read();
     if (val != -1) {
       switch (val) {
@@ -154,7 +160,7 @@ void loop() {
     else {
       Movement::stopMovement();
     }
-  }
+  }*/
 
   /*us->MeasureInCentimeters();
   Serial.print("Object distance: ");
