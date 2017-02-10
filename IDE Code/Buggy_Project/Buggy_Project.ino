@@ -12,6 +12,8 @@
 #include "PathFinding.h"
 #include "SensorControl.h"
 
+#include "Movement.h"
+
 //UltraSonicSensor *uss;
 Ultrasonic *us;
 Movement *m;
@@ -52,7 +54,7 @@ void setup() {
   // uss = new UltraSonicSensor();
   m    = new Movement();
   sc   = new SensorControl(m);
-  //us   = new Ultrasonic(ULTRA_SONIC_PIN);
+  us   = new Ultrasonic(ULTRA_SONIC_PIN);
 
   sc->getStartPosition();
   
@@ -63,7 +65,8 @@ void setup() {
 
 float distance;
 bool isFinished = false;
-long collisionDistance = 8; 
+long collisionDistance = 1; 
+movements previousMovement = FORWARD; // Always start movement with all the sensors on same squares
 
 void loop() {
   /*buttons.update();
@@ -112,43 +115,57 @@ void loop() {
   /*
    * Test whether the sensors are working
    */
-  sc->debug();
-  delay(100);
-  /*if (Serial.available()) {
+  //sc->debug();
+  //delay(2000);
+  if (Serial.available()) {
     //Serial.print(".");
     char val = Serial.read();
     if (val != -1) {
       switch (val) {
         case 'w': //Move Forward
-        
-          if(sc->movementInit()){
+
+          if(sc->movementInit(previousMovement)){
             m->moveForward();
+            previousMovement = FORWARD;
           }
           
           break;
           
         case 's': //Move Backward
         
-          if(sc->movementInit()){
+          if(sc->movementInit(previousMovement)){
             m->moveBackwards();
+            previousMovement = BACKWARDS;
           }
           
           break;
         
         case 'a': //Turn Left
         
-          if(sc->movementInit()){
+          if(sc->movementInit(previousMovement)){
             m->turnLeft();
+            previousMovement = TURNING_LEFT;
           }
           
           break;
         
         case 'd': //Turn Right
         
-          if(sc->movementInit()){
+          if(sc->movementInit(previousMovement)){
             m->turnRight();
+            previousMovement = TURNING_RIGHT;
           }
           
+          break;
+
+        case 'q':
+          Serial.println("Changed to WHITE_BLACK");
+          currentPositionState = WHITE_BLACK;
+          break;
+
+        case 'e':
+          Serial.println("Changed to BLACK_WHITE");
+          currentPositionState = BLACK_WHITE;
           break;
         
         case 'z':
@@ -162,8 +179,11 @@ void loop() {
     else {
       Movement::stopMovement();
     }
-  }*/
+  }
 
+  /*
+   * Debugging the ultrasonic sensor
+   */
   /*us->MeasureInCentimeters();
   Serial.print("Object distance: ");
   Serial.println(us->RangeInCentimeters);
@@ -172,23 +192,24 @@ void loop() {
   /*
    * Only perform motor correction if the buggy is moving
    */
-  /*if(Movement::currentMovement != IDLE){
+  if(Movement::currentMovement != IDLE){
     sc->motorCorrection();
-  }*/
+  }
 
   /*
    * Check for a collision
    * Only do collision detection for forward movement
    */
-  /*if(Movement::currentMovement == FORWARD){
+  if(Movement::currentMovement == FORWARD){
     us->MeasureInCentimeters();
     //Serial.print("Object distance: ");
     //Serial.println(us->RangeInCentimeters);
-    if(us->RangeInCentimeters <= collisionDistance && us->RangeInCentimeters != 0){
-      Serial.println("Object in path");
-      //Movement::stopMovement();
+    if(us->RangeInCentimeters <= collisionDistance /*&& us->RangeInCentimeters != 0*/){
+      Serial.println("Stopping, object in path");
+      previousMovement = BACKWARDS; // Because the front and back sensors will be on opposite grid colours
+      Movement::stopMovement();
     }
-  }*/
+  }
   
   /*
    * Iterate through the movements in the queue

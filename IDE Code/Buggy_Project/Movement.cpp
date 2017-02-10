@@ -23,7 +23,7 @@ volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
 unsigned int defaultRotationalSpeed = 70;
-unsigned int defaultMovementSpeed   = 70;
+unsigned int defaultMovementSpeed   = 90;
 unsigned int defaultSkidSpeed       = 60;
 
 unsigned int leftMotorSpeed;
@@ -68,8 +68,8 @@ Movement::Movement()
   // Pin 13 has an LED connected on most Arduino boards
   // pinMode(13, OUTPUT);    
   
-  Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
-  Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
+  //Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
+  //Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
   
   Serial.println("Movement module.");
 

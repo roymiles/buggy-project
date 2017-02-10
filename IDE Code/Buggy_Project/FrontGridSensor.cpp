@@ -11,13 +11,13 @@
 // paper and sliding the sensor across it.  It prints the sensor values to the serial 
 // monitor as numbers from 0 (maximum reflectance) to 2500 (minimum reflectance).
 
-// sensors 0 through 1 are connected to digital pins 1 through 2, respectively
+// sensors 0 through 1 are connected to digital pins 2 through 3, respectively
 
 /*
  * LEFT sensor PIN 1
  * RIGHT sensor PIN 2
  */
-QTRSensorsRC qtrrc_frontSensors((unsigned char[]) {1,2}, FRONT_NUM_SENSORS, FRONT_TIMEOUT, FRONT_EMITTER_PIN); 
+QTRSensorsRC qtrrc_frontSensors((unsigned char[]) {2,3}, FRONT_NUM_SENSORS, FRONT_TIMEOUT, FRONT_EMITTER_PIN); 
 
 FrontGridSensor::FrontGridSensor(){
   Serial.println("Front grid sensor instance");
@@ -39,7 +39,7 @@ FrontGridSensor::readFrontSensors(){
    * print the sensor values as numbers from 0 to 2500, where 0 means maximum reflectance and 
    * 2500 means minimum reflectance
    */
-  for (unsigned char i = 0; i < FRONT_NUM_SENSORS; i++)
+  /*for (unsigned char i = 0; i < FRONT_NUM_SENSORS; i++)
   {
     if(i == 0){
       Serial.print("Left: ");
@@ -50,5 +50,5 @@ FrontGridSensor::readFrontSensors(){
     Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
   }
 
-  Serial.println();
+  Serial.println();*/
 }

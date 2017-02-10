@@ -6,7 +6,7 @@
 
 #define SIDE_NUM_SENSORS   2     // number of sensors used
 #define SIDE_TIMEOUT       2500  // waits for 2500 microseconds for sensor outputs to go low
-#define SIDE_EMITTER_PIN   2     // emitter is controlled by digital pin 2 *NOT USED*
+#define SIDE_EMITTER_PIN   13    // emitter is controlled by digital pin 2 *NOT USED*
 
 #pragma once
 class SideGridSensor

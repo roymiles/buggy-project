@@ -17,7 +17,7 @@
  * LEFT sensor PIN 3
  * RIGHT sensor PIN 4
  */
-QTRSensorsRC qtrrc_sideSensors((unsigned char[]) {3,4}, SIDE_NUM_SENSORS, SIDE_TIMEOUT, SIDE_EMITTER_PIN); 
+QTRSensorsRC qtrrc_sideSensors((unsigned char[]) {8,9}, SIDE_NUM_SENSORS, SIDE_TIMEOUT, SIDE_EMITTER_PIN); 
 
 SideGridSensor::SideGridSensor(){
   Serial.println("Side grid sensor instance");
@@ -39,7 +39,7 @@ SideGridSensor::readSideSensors(){
    * print the sensor values as numbers from 0 to 2500, where 0 means maximum reflectance and 
    * 2500 means minimum reflectance
    */
-  for (unsigned char i = 0; i < SIDE_NUM_SENSORS; i++)
+  /*for (unsigned char i = 0; i < SIDE_NUM_SENSORS; i++)
   {
     if(i == 0){
       Serial.print("Left: ");
@@ -50,5 +50,5 @@ SideGridSensor::readSideSensors(){
     Serial.print('\t'); // tab to format the raw data into columns in the Serial monitor
   }
 
-  Serial.println();
+  Serial.println();*/
 }

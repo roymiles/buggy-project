@@ -18,10 +18,13 @@
 
 #pragma once
 
+enum positionState {NA, WHITE_BLACK, BLACK_WHITE};
+static positionState currentPositionState = BLACK_WHITE; // Will alternate at start of movement init
+
 class SensorControl
 {
 public:
-  GridSensor *gs;
+  //GridSensor *gs;
   colour initialSensorReading_left;
   colour initialSensorReading_right;
 
@@ -30,22 +33,22 @@ public:
   colour initialSideSensorReading_right;
 
   FrontGridSensor *fgs;
-  colour initialFrontSensorReading_left;
-  colour initialFrontSensorReading_right;  
-   
-  enum positionState {NA, WHITE_BLACK, BLACK_WHITE};
-  positionState currentPositionState = BLACK_WHITE; // Will alternate at start of movement init!
+  // Uses the same values as GridSensor
+  /*colour initialFrontSensorReading_left;
+  colour initialFrontSensorReading_right;*/
 
   SensorControl(Movement *m);
   ~SensorControl();
 
   void getStartPosition();
+  void togglePositionState();
+  bool isValidColour(colour c);
 
   /**
    * Get the initial readings prior to movement
    * @return true or false depending on whether successful
    */
-  bool movementInit();
+  bool movementInit(movements pm);
 
   void debug();
   colour debugColour();
@@ -67,14 +70,14 @@ public:
    */
   void getSideSensorColours();
   void getFrontSensorColours();
-  colour SensorControl::convertSideSensorValueToColour(unsigned int value);
-  colour SensorControl::convertFrontSensorValueToColour(unsigned int value);
+  colour convertSideSensorValueToColour(unsigned int value);
+  colour convertFrontSensorValueToColour(unsigned int value);
 
   /**
    * Convert enums to strings (typically for debugging at serial output)
    * @return string output
    */
-  String getColour(colour c);
+  String colourToString(colour c);
   String getPositionState(positionState ps);
 private:
   Movement *m;
