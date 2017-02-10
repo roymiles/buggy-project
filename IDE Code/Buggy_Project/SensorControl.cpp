@@ -129,6 +129,7 @@ void SensorControl::enableRightSensor(){
  * Get the initial readings prior to movement
  * @return true or false depending on whether initial starting position is correct
  */
+bool frontSensorsStartedOnSameColour = false;
 bool SensorControl::movementInit(movements pm){  
   Serial.println("movementInit");
   
@@ -187,11 +188,14 @@ bool SensorControl::movementInit(movements pm){
            * The motorCorrection will comepensate in real time
            */
 
+          frontSensorsStartedOnSameColour = true;
           if(pm == BACKWARDS || pm == TURNING_LEFT || pm == TURNING_RIGHT){
              // Opposite polarity for backwards or turns
+            Serial.println("Front sensors should be BLACK_WHITE");
             initialSensorReading_left  = BLACK;
             initialSensorReading_right = WHITE;
           }else{
+            Serial.println("Front sensors should be WHITE_BLACK");
             initialSensorReading_left  = WHITE;
             initialSensorReading_right = BLACK;
           }
@@ -210,9 +214,11 @@ bool SensorControl::movementInit(movements pm){
 
           if(pm == BACKWARDS){
              // Opposite polarity for backwards
+             Serial.println("Front sensors should be WHITE_BLACK");
             initialSensorReading_left  = WHITE;
             initialSensorReading_right = BLACK;
           }else{
+            Serial.println("Front sensors should be BLACK_WHITE");
             initialSensorReading_left  = BLACK;
             initialSensorReading_right = WHITE;
           }
@@ -230,6 +236,8 @@ bool SensorControl::movementInit(movements pm){
     
     //debug();
     return true;
+  }else{
+    frontSensorsStartedOnSameColour = false; // Opposite values
   }
 
   //debug();
@@ -320,6 +328,14 @@ void SensorControl::motorCorrection(){
           initialSensorReading_right = WHITE;
         }    
       }
+
+      /*
+       * Check if buggy has moved onto the next cell 
+       */
+      getSideSensorColours();
+      sideLeft_changed  = (initialSideSensorReading_left  != sideSensorColours[0]);
+      sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);
+
     
       // The IR sensors should see the same colour for all movement
 
@@ -358,7 +374,7 @@ void SensorControl::motorCorrection(){
         }
 
         // Give a bit of time for the correction to take affect on the buggy position
-        delay(motorCorrectionDelay);
+        //delay(motorCorrectionDelay);
         
       // Right sensor has changed but left sensor has not      
       }else if(left_changed && !right_changed && currentDeviatingState != LEFT_NOT_CHANGED){
@@ -389,29 +405,22 @@ void SensorControl::motorCorrection(){
           m->enableLeftMotor();
           
         }
-        delay(motorCorrectionDelay);
+        //delay(motorCorrectionDelay);
   
       }else{
         // On track, so keep both motors enabled
         currentDeviatingState = NONE;
         m->enableLeftMotor();
         m->enableRightMotor();
-        delay(motorCorrectionDelay);
+        //delay(motorCorrectionDelay);
       }
-  
-      /*
-       * Check if buggy has moved onto the next cell 
-       */
-      getSideSensorColours();
-      sideLeft_changed  = (initialSideSensorReading_left  != sideSensorColours[0]);
-      sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);
 
       /*
        * If both the wheel sensors have changed
        */
       if(sideLeft_changed && sideRight_changed){
         togglePositionState();
-        frontSensorsFlipped = false;
+        frontSensorsFlipped = false; // Reset
         Movement::stopMovement();
       }
       

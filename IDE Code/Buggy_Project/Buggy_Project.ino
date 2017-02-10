@@ -204,7 +204,7 @@ void loop() {
     us->MeasureInCentimeters();
     //Serial.print("Object distance: ");
     //Serial.println(us->RangeInCentimeters);
-    if(us->RangeInCentimeters <= collisionDistance /*&& us->RangeInCentimeters != 0*/){
+    if(us->RangeInCentimeters <= collisionDistance && us->RangeInCentimeters != 0){
       Serial.println("Stopping, object in path");
       previousMovement = BACKWARDS; // Because the front and back sensors will be on opposite grid colours
       Movement::stopMovement();

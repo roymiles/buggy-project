@@ -22,8 +22,8 @@ volatile uint8_t LRC = 0;      // Left rotary encoder count
 volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
-unsigned int defaultRotationalSpeed = 70;
-unsigned int defaultMovementSpeed   = 90;
+unsigned int defaultRotationalSpeed = 60;
+unsigned int defaultMovementSpeed   = 60;
 unsigned int defaultSkidSpeed       = 60;
 
 unsigned int leftMotorSpeed;
