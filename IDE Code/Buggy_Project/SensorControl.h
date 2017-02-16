@@ -18,12 +18,15 @@
 
 #pragma once
 
-enum positionState {NA, WHITE_BLACK, BLACK_WHITE};
-static positionState currentPositionState = BLACK_WHITE; // Will alternate at start of movement init
+enum colourState {NA, WHITE_BLACK, BLACK_WHITE};
+enum crossOrLine {CROSS, LINE};
 
 class SensorControl
 {
 public:
+  static colourState currentColourState; // Will alternate at start of movement init
+  static crossOrLine currentPositionState;
+
   //GridSensor *gs;
   colour initialSensorReading_left;
   colour initialSensorReading_right;
@@ -41,14 +44,15 @@ public:
   ~SensorControl();
 
   void getStartPosition();
-  void togglePositionState();
+  void getPositionState();
+  void toggleColourState();
   bool isValidColour(colour c);
 
   /**
    * Get the initial readings prior to movement
    * @return true or false depending on whether successful
    */
-  bool movementInit(movements pm);
+  bool movementInit(movements pm, movements cm);
 
   void debug();
   colour debugColour();
@@ -78,7 +82,7 @@ public:
    * @return string output
    */
   String colourToString(colour c);
-  String getPositionState(positionState ps);
+  String getColourState(colourState cs);
 private:
   Movement *m;
 

@@ -22,9 +22,9 @@ volatile uint8_t LRC = 0;      // Left rotary encoder count
 volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
-unsigned int defaultRotationalSpeed = 60;
-unsigned int defaultMovementSpeed   = 60;
-unsigned int defaultSkidSpeed       = 60;
+unsigned int defaultRotationalSpeed = 70;
+unsigned int defaultMovementSpeed   = 80;
+unsigned int defaultSkidSpeed       = 70;
 
 unsigned int leftMotorSpeed;
 unsigned int rightMotorSpeed;
@@ -35,17 +35,19 @@ static unsigned int timerCount = 0;
 char buffer[MAX_OUT_CHARS + 1];  // buffer used to format a line (+1 is for trailing 0)
 
 int upperLimit = 150;
-int lowerLimit = 40;
+int lowerLimit = 60;
 int motorSensitivity = 20; // By how much do the motor values incremenent or decrement to compensate
 
 // TODO: These variables will be functions of the motor speeds
-// The time (in ms) corresponding to a movement of 1 square
-const unsigned int movementTimerCount = 15;
+// The time (in tenths of ms) corresponding to a movement of 1 square
+const unsigned int movementTimerCount = 150;
+const unsigned int movementToggleCount = 1; // Every 0.1 seconds
 
 // The time (in ms) corresponding to a rotation of 90 degrees
 const unsigned int turningTimerCount = 12;
 
 movements Movement::currentMovement = IDLE;
+movementCompensation Movement::currentMovementCompensation = ON_TRACK;
 
 Movement::Movement()
 {
@@ -68,8 +70,8 @@ Movement::Movement()
   // Pin 13 has an LED connected on most Arduino boards
   // pinMode(13, OUTPUT);    
   
-  //Timer1.initialize(100000); // set a timer of length 100000 microseconds (or 0.1 sec - or 10Hz => the led will blink 5 times, 5 cycles of on-and-off, per second)
-  //Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
+  Timer1.initialize(100000); // set a timer of length 100000 microseconds (0.1 seconds)
+  Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
   
   Serial.println("Movement module.");
 
@@ -193,14 +195,15 @@ void Movement::increaseLeftMotor(){
 }
 
 void Movement::decreaseLeftMotor(){
-  sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
+  analogWrite (LEFT_MTR, defaultSkidSpeed);
+  /*sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
   Serial.println(buffer);
   sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
   Serial.println(buffer);
-  //if(leftMotorSpeed >= lowerLimit){
-  //  leftMotorSpeed -= motorSensitivity;
-  //  analogWrite (LEFT_MTR, leftMotorSpeed);
-  //}
+  if(leftMotorSpeed >= lowerLimit){
+    leftMotorSpeed -= motorSensitivity;
+    analogWrite (LEFT_MTR, leftMotorSpeed);
+  }*/
 }
 
 void Movement::increaseRightMotor(){
@@ -211,14 +214,15 @@ void Movement::increaseRightMotor(){
 }
 
 void Movement::decreaseRightMotor(){
-  sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
+  analogWrite (RIGHT_MTR, defaultSkidSpeed);
+  /*sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
   Serial.println(buffer);
   sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
   Serial.println(buffer);
-  //if(rightMotorSpeed >= lowerLimit){
-  //  rightMotorSpeed -= motorSensitivity;
-  //  analogWrite (RIGHT_MTR, rightMotorSpeed);
-  //}
+  if(rightMotorSpeed >= lowerLimit){
+    rightMotorSpeed -= motorSensitivity;
+    analogWrite (RIGHT_MTR, rightMotorSpeed);
+  }*/
 }
 
 void Movement::enableLeftMotor(){
@@ -237,9 +241,11 @@ void Movement::disableRightMotor(){
   analogWrite (RIGHT_MTR, 0);
 }
 
+
 /// --------------------------
 /// Custom ISR Timer Routine
 /// --------------------------
+bool motorToggle = false;
 void Movement::timerIsr()
 {
     // If the buggy is *moving* and the timer count has exceeded
@@ -250,10 +256,39 @@ void Movement::timerIsr()
     }*/
 
     // If the buggy is *turning* and the timer count has exceeded
-    if( (currentMovement == TURNING_LEFT || currentMovement == TURNING_RIGHT) && timerCount > turningTimerCount){
+    /*if( (currentMovement == TURNING_LEFT || currentMovement == TURNING_RIGHT || currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > turningTimerCount){
       timerCount = 0;
       Serial.println("Finished turning - timer interrupt");
       stopMovement();
+    }*/
+
+    // If the buggy is moving keep stopping and starting the motors
+    if( (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementToggleCount){
+      timerCount = 0;
+      if(motorToggle){
+        motorToggle = false;
+
+        switch(currentMovementCompensation){
+          case ON_TRACK:
+            analogWrite (RIGHT_MTR, defaultMovementSpeed);
+            analogWrite (LEFT_MTR, defaultMovementSpeed);
+            break;
+          case COMPENSATING_LEFT:
+            analogWrite (RIGHT_MTR, defaultSkidSpeed);
+            analogWrite (LEFT_MTR, 0);
+            break;
+          case COMPENSATING_RIGHT:
+            analogWrite (RIGHT_MTR, 0);
+            analogWrite (LEFT_MTR, defaultSkidSpeed);
+            break;
+        }
+      }else{
+        motorToggle = true;
+        Serial.println("Toggling off");
+        analogWrite (RIGHT_MTR, 0);
+        analogWrite (LEFT_MTR, 0);
+      }
+      
     }
     
     timerCount++;

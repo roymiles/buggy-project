@@ -11,10 +11,17 @@
 
 int SENSOR_MUX = 9;     // Output pin to control the MUX
 
+colourState SensorControl::currentColourState = BLACK_WHITE; // Will alternate at start of movement init
+crossOrLine SensorControl::currentPositionState = LINE;
+
 SensorControl::SensorControl(Movement *m)
 {
   Serial.println("Sensor control instance");
   this->m = m;
+
+  // Initial values
+  currentColourState = BLACK_WHITE; // Will alternate at start of movement init
+  currentPositionState = LINE;  
 
   /* 
    * Mux output RGB Sensors 
@@ -31,6 +38,7 @@ SensorControl::SensorControl(Movement *m)
 
   // These sensors are used as alternatives to the RGB sensors (less complex)
   fgs = new FrontGridSensor();
+ 
 }
 
 SensorControl::~SensorControl()
@@ -84,7 +92,7 @@ void SensorControl::debug(){
   enableRightSensor();
   gs->debug();*/
 
-  Serial.println("DEBUG>>>");
+  Serial.println("DEBUG >>>");
   Serial.println(">>> Front Sensors");
   getFrontSensorColours();
   Serial.print("FRONT LEFT: ");
@@ -98,7 +106,7 @@ void SensorControl::debug(){
   Serial.println(colourToString(sideSensorColours[0]));
   Serial.print("SIDE RIGHT: ");
   Serial.println(colourToString(sideSensorColours[1]));
-  Serial.println("END DEBUG>>>");
+  Serial.println("END DEBUG >>>");
 }
 
 colour SensorControl::debugColour(){
@@ -126,17 +134,14 @@ void SensorControl::enableRightSensor(){
 }*/
 
 /**
- * Get the initial readings prior to movement
+ * Get the initial readings prior to movement and calculate the expected grid sqaures after movement
  * @return true or false depending on whether initial starting position is correct
  */
 bool frontSensorsStartedOnSameColour = false;
-bool SensorControl::movementInit(movements pm){  
-  Serial.println("movementInit");
-  
+bool SensorControl::movementInit(movements pm, movements cm){  
   Serial.print("Previous movement: ");
   Serial.println(m->getMovement(pm));
 
-  Serial.println("---- Getting FRONT sensor measurements...");
   /*
    * RGB Sensors
    */
@@ -152,24 +157,19 @@ bool SensorControl::movementInit(movements pm){
   getFrontSensorColours();  
   initialSensorReading_left  = frontSensorColours[0];
   initialSensorReading_right = frontSensorColours[1];
-
   Serial.print("---- Left front sensor: ");
   Serial.println(colourToString(initialSensorReading_left));
-
   Serial.print("---- Right front sensor: ");
   Serial.println(colourToString(initialSensorReading_right));   
-
-  Serial.println("---- Getting SIDE sensor measurements...");
-  getSideSensorColours();
-  initialSideSensorReading_left  = sideSensorColours[0];
-  initialSideSensorReading_right = sideSensorColours[1];
 
   /*
    * Side Sensors
    */
+  getSideSensorColours();
+  initialSideSensorReading_left  = sideSensorColours[0];
+  initialSideSensorReading_right = sideSensorColours[1];
   Serial.print("---- Left side sensor: ");
   Serial.println(colourToString(initialSideSensorReading_left));
-
   Serial.print("---- Right side sensor: ");
   Serial.println(colourToString(initialSideSensorReading_right));  
 
@@ -177,18 +177,20 @@ bool SensorControl::movementInit(movements pm){
    * Check the starting position is valid
    * Each sensor should read opposite colours
    */
-  if(initialSensorReading_left == initialSensorReading_right){
+  if(initialSensorReading_left == initialSensorReading_right && (cm != TURNING_RIGHT || cm != TURNING_LEFT) ){
+    /*
+     * Front sensors are reading the same value, so the buggy is off track
+     */
     Serial.println("---- Initial sensor readings are the same!");
-    colour startingSquare = initialSensorReading_left; // This is equal to the right reading
-    switch(currentPositionState){
+    colour startingSquare = initialSensorReading_left; // This is equal to the right reading too
+    frontSensorsStartedOnSameColour = true;
+    switch(currentColourState){
       case WHITE_BLACK:
         if(isValidColour(startingSquare)){ // If valid startingSquare
           /*
            * Set the initial values to what they are supposed to be
            * The motorCorrection will comepensate in real time
            */
-
-          frontSensorsStartedOnSameColour = true;
           if(pm == BACKWARDS || pm == TURNING_LEFT || pm == TURNING_RIGHT){
              // Opposite polarity for backwards or turns
             Serial.println("Front sensors should be BLACK_WHITE");
@@ -234,14 +236,14 @@ bool SensorControl::movementInit(movements pm){
         return false;
     }
     
-    //debug();
     return true;
+    
   }else{
     frontSensorsStartedOnSameColour = false; // Opposite values
   }
-
-  //debug();
+  
   return true;
+  
 }
 
 bool SensorControl::isValidColour(colour c){
@@ -260,17 +262,51 @@ void SensorControl::getStartPosition(){
   initialSideSensorReading_left = convertSideSensorValueToColour(sgs->sideSensorValues[0]);
   initialSideSensorReading_right = convertSideSensorValueToColour(sgs->sideSensorValues[1]);
 
+  getFrontSensorColours();  
+  initialSensorReading_left  = frontSensorColours[0];
+  initialSensorReading_right = frontSensorColours[1];  
+
+  Serial.print("---- Left front sensor: ");
+  Serial.println(colourToString(initialSensorReading_left));
+  Serial.print("---- Right front sensor: ");
+  Serial.println(colourToString(initialSensorReading_right));   
+  Serial.print("---- Left side sensor: ");
+  Serial.println(colourToString(initialSideSensorReading_left));
+  Serial.print("---- Right side sensor: ");
+  Serial.println(colourToString(initialSideSensorReading_right));  
+  
+
+  /*
+   * Get the colour state
+   */
   if(initialSideSensorReading_left == WHITE && initialSideSensorReading_right == BLACK){
-      Serial.println("Start position WHITE_BLACK");
-      currentPositionState = WHITE_BLACK; 
+      Serial.println("Start colour state = WHITE_BLACK");
+      currentColourState = WHITE_BLACK; 
   }else if(initialSideSensorReading_left == BLACK && initialSideSensorReading_right == WHITE){
-      Serial.println("Start position BLACK_WHITE");
-      currentPositionState = BLACK_WHITE; 
+      Serial.println("Start colour state = BLACK_WHITE");
+      currentColourState = BLACK_WHITE; 
   }else{
-    Serial.println("Side sensors have the same value... Halting...");
+    Serial.println("Side sensors have the same value...");
+    Serial.println("Please adjust the buggy and start again");
     while(true){
       ; // Halting
     }
+  }
+
+  getPositionState();  
+}
+
+void SensorControl::getPositionState(){
+  /* 
+   * Get the position state 
+   */
+  if(initialSideSensorReading_left != initialSensorReading_left && initialSideSensorReading_right != initialSensorReading_right){
+    // Front sensors are opposite polarity to the back sensors
+    Serial.println("Start position state = CROSS");
+    currentPositionState = CROSS;
+  }else{
+    Serial.println("Start position state = LINE");
+    currentPositionState = LINE;
   }
 }
 
@@ -287,6 +323,9 @@ static deviatingState currentDeviatingState = NONE;
 
 bool isDeviatingAndHasNotChanged = false;
 unsigned int turnCounter = 0; // Used for determining when a rotation has finished
+bool fr = false, fl = false, sr = false, sl = false;
+int colourTransitionCount = 0;
+
 void SensorControl::motorCorrection(){
   /*
   * RGB Sensors
@@ -300,10 +339,17 @@ void SensorControl::motorCorrection(){
   /*
    * Simple Sensors
    */
-   
   getFrontSensorColours();
   left_changed  = (initialSensorReading_left  != frontSensorColours[0]);
   right_changed = (initialSensorReading_right != frontSensorColours[1]);  
+
+  if(right_changed == true){
+    fr = true;
+  }
+
+  if(left_changed == true){
+    fl = true;
+  }
   
   switch(Movement::currentMovement){
 
@@ -336,91 +382,78 @@ void SensorControl::motorCorrection(){
       sideLeft_changed  = (initialSideSensorReading_left  != sideSensorColours[0]);
       sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);
 
-    
-      // The IR sensors should see the same colour for all movement
 
       /*
-       * Determine whether the sensors are now reading different values
+       * The IR sensors should see the same colour for all movement
+       *  Determine whether the sensors are now reading different values
        */  
   
       // Left sensor has changed but right sensor has not
       if(right_changed && !left_changed && currentDeviatingState != RIGHT_NOT_CHANGED){
         // Need to turn slightly to the RIGHT to compensate
+        // delay(50); // To allow for misalignment of front sensors eg one sensor sees next grid first
 
         if(currentDeviatingState = NONE){
           currentDeviatingState = LEFT_NOT_CHANGED;
         }
         
-        // They are not equal
-        if(initialSensorReading_left != initialSensorReading_right){
+        // As soon as the front sensors are different
+        if(frontSensorColours[0] != frontSensorColours[1]){
           currentDeviatingState = CHANGED;
         }
   
         Serial.println("Deviating to the LEFT. Attempting to compensate... Right changed and left has not");
         if(Movement::currentMovement == FORWARD){
-          
-          m->disableRightMotor();
-          m->enableLeftMotor();
+
+          Movement::currentMovementCompensation = COMPENSATING_RIGHT;
           
         }else if(Movement::currentMovement == BACKWARDS){
           /*
            * Opposite polarity for going backwards
            */
-          m->disableLeftMotor();
-          m->enableRightMotor();
-          //m->disableRightMotor();
-          //m->enableLeftMotor();
+          Movement::currentMovementCompensation = COMPENSATING_LEFT;
            
         }
-
-        // Give a bit of time for the correction to take affect on the buggy position
-        //delay(motorCorrectionDelay);
         
       // Right sensor has changed but left sensor has not      
       }else if(left_changed && !right_changed && currentDeviatingState != LEFT_NOT_CHANGED){
         // Need to turn slightly to the LEFT to compensate
+        // delay(100); // To allow for misalignment of front sensors eg one sensor sees next grid first
 
         if(currentDeviatingState = NONE){
           currentDeviatingState = RIGHT_NOT_CHANGED;
         }
 
-        // They are not equal
-        if(initialSensorReading_left != initialSensorReading_right){
+        // As soon as the front sensors are different
+        if(frontSensorColours[0] != frontSensorColours[1]){
           currentDeviatingState = CHANGED;
         }
   
         Serial.println("Deviating to the RIGHT. Attempting to compensate... Left changed and right has not");
         if(Movement::currentMovement == FORWARD){
-          
-          m->disableLeftMotor();
-          m->enableRightMotor();
+          Movement::currentMovementCompensation = COMPENSATING_LEFT;
   
         }else if(Movement::currentMovement == BACKWARDS){
           /*
            * Opposite polarity for going backwards
            */
-          //m->disableLeftMotor();
-          //m->enableRightMotor();
-          m->disableRightMotor();
-          m->enableLeftMotor();
+           Movement::currentMovementCompensation = COMPENSATING_RIGHT;
           
         }
-        //delay(motorCorrectionDelay);
   
       }else{
         // On track, so keep both motors enabled
+        Movement::currentMovementCompensation = ON_TRACK;
         currentDeviatingState = NONE;
-        m->enableLeftMotor();
-        m->enableRightMotor();
-        //delay(motorCorrectionDelay);
       }
 
       /*
        * If both the wheel sensors have changed
        */
       if(sideLeft_changed && sideRight_changed){
-        togglePositionState();
+        toggleColourState();
         frontSensorsFlipped = false; // Reset
+        
         Movement::stopMovement();
       }
       
@@ -431,54 +464,93 @@ void SensorControl::motorCorrection(){
        * Stop movement when LEFT sensor has changed cell
        */
 
+      Movement::currentMovementCompensation = ON_TRACK; // Dont compensate for turns
       getSideSensorColours();
       sideLeft_changed  = (initialSideSensorReading_left  != sideSensorColours[0]);
-      sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);             
-       
-      if(left_changed){
-        if(sideSensorColours[0] != sideSensorColours[1]){ // Check side sensors
-          togglePositionState();
-          Movement::stopMovement();
-        }
+      sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);   
+
+      if(sideRight_changed == true){
+        sr = true;
       }
+
+      if(sideLeft_changed == true){
+        sl = true;
+      }
+
+      /*
+       * FINISHING CONDITIONS
+       * If on a cross (ideal situation) just check for the front right sensor to change
+       * If on a line, check if the back right sensor has changed twice
+       */
+      if( (currentPositionState == CROSS && sr && sl) || (currentPositionState == LINE && sr && sl) ){
+          toggleColourState();
+          Movement::stopMovement();
+
+          /*
+           * Reset flags
+           */
+          fl = false;
+          fr = false;
+          sl = false;
+          sr = false;          
+      }      
       
       break;
-      
+
+    
     case TURNING_RIGHT:
       /* 
        * Stop movement when RIGHT sensor has changed cell
        */
 
+      Movement::currentMovementCompensation = ON_TRACK; // Dont compensate for turns
       getSideSensorColours();
       sideLeft_changed  = (initialSideSensorReading_left  != sideSensorColours[0]);
-      sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);       
-       
-      if(right_changed){ // Check front sensors
-        if(sideSensorColours[0] != sideSensorColours[1]){ // Check side sensors
-          togglePositionState();
+      sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);   
+
+      if(sideRight_changed == true){
+        sr = true;
+      }
+
+      if(sideLeft_changed == true){
+        sl = true;
+      }      
+
+      /*
+       * FINISHING CONDITIONS
+       * If on a cross (ideal situation) just check for the front right sensor to change
+       * If on a line, check if the back right sensor has changed twice
+       */
+      if( (currentPositionState == CROSS && sr && sl) || (currentPositionState == LINE && sr && sl) ){
+          toggleColourState();
           Movement::stopMovement();
-        }
+
+          /*
+           * Reset flags
+           */
+          fl = false;
+          fr = false;
+          sl = false;
+          sr = false;  
       }
       
       break;
     
     default:
-      Serial.println("Code should not reach here... Halting...");
-      while(true){
-        ; // Suspend the program
-      }
+      // Can only end up here if the buggy has stopped due to an interrupt
+      Serial.println("motorCorrection: interrupt triggered");
       
   } // end switch 
   
 } // end func
 
-void SensorControl::togglePositionState(){
-  if(currentPositionState == WHITE_BLACK){
+void SensorControl::toggleColourState(){
+  if(currentColourState == WHITE_BLACK){
     Serial.println("BLACK_WHITE state");
-    currentPositionState = BLACK_WHITE;
+    currentColourState = BLACK_WHITE;
   }else{
     Serial.println("WHITE_BLACK state");
-    currentPositionState = WHITE_BLACK;
+    currentColourState = WHITE_BLACK;
   } 
 }
 
@@ -499,8 +571,8 @@ String SensorControl::colourToString(colour c){
   }
 }
 
-String SensorControl::getPositionState(positionState ps){
-  switch(ps){
+String SensorControl::getColourState(colourState cs){
+  switch(cs){
     case WHITE_BLACK:
       return "WHITE_BLACK";
       break;
