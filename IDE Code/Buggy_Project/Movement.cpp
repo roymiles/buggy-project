@@ -84,27 +84,27 @@ Movement::~Movement()
 {
 }
 
-void Movement::ISRLeftEncoder(){
-    LRC++;
-    Serial.println("Left encoder interrupt triggered");
-    
-    // If the buggy is moving/turning and has exceeded its target distance
-    /*if(LRC >= targetDistance && currentMovement != IDLE){
-      currentMovement = IDLE;
-      Movement::stopMovement();
-    }*/
-}
-
-void Movement::ISRRightEncoder(){
-    RRC++;
-    Serial.println("Right encoder interrupt triggered");
-    
-    // If the buggy is moving/turning and has exceeded its target distance
-    /*if(RRC >= targetDistance && currentMovement != IDLE){
-      currentMovement = IDLE;
-      Movement::stopMovement();
-    }*/
-}
+//void Movement::ISRLeftEncoder(){
+//    LRC++;
+//    Serial.println("Left encoder interrupt triggered");
+//    
+//    // If the buggy is moving/turning and has exceeded its target distance
+//    /*if(LRC >= targetDistance && currentMovement != IDLE){
+//      currentMovement = IDLE;
+//      Movement::stopMovement();
+//    }*/
+//}
+//
+//void Movement::ISRRightEncoder(){
+//    RRC++;
+//    Serial.println("Right encoder interrupt triggered");
+//    
+//    // If the buggy is moving/turning and has exceeded its target distance
+//    /*if(RRC >= targetDistance && currentMovement != IDLE){
+//      currentMovement = IDLE;
+//      Movement::stopMovement();
+//    }*/
+//}
 
 void Movement::moveForward(){
   //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
@@ -188,43 +188,43 @@ void Movement::stopMovement(){
   delay(100); // Allow things to settle
 }
 
-void Movement::increaseLeftMotor(){
-  if(leftMotorSpeed <= upperLimit){
-    leftMotorSpeed += motorSensitivity;
-    analogWrite (LEFT_MTR, leftMotorSpeed);
-  }
-}
-
-void Movement::decreaseLeftMotor(){
-  analogWrite (LEFT_MTR, defaultSkidSpeed);
-  /*sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
-  Serial.println(buffer);
-  sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
-  Serial.println(buffer);
-  if(leftMotorSpeed >= lowerLimit){
-    leftMotorSpeed -= motorSensitivity;
-    analogWrite (LEFT_MTR, leftMotorSpeed);
-  }*/
-}
-
-void Movement::increaseRightMotor(){
-  if(rightMotorSpeed <= upperLimit){
-    rightMotorSpeed += motorSensitivity;
-    analogWrite (RIGHT_MTR, rightMotorSpeed);
-  }
-}
-
-void Movement::decreaseRightMotor(){
-  analogWrite (RIGHT_MTR, defaultSkidSpeed);
-  /*sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
-  Serial.println(buffer);
-  sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
-  Serial.println(buffer);
-  if(rightMotorSpeed >= lowerLimit){
-    rightMotorSpeed -= motorSensitivity;
-    analogWrite (RIGHT_MTR, rightMotorSpeed);
-  }*/
-}
+//void Movement::increaseLeftMotor(){
+//  if(leftMotorSpeed <= upperLimit){
+//    leftMotorSpeed += motorSensitivity;
+//    analogWrite (LEFT_MTR, leftMotorSpeed);
+//  }
+//}
+//
+//void Movement::decreaseLeftMotor(){
+//  analogWrite (LEFT_MTR, defaultSkidSpeed);
+//  /*sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
+//  Serial.println(buffer);
+//  sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
+//  Serial.println(buffer);
+//  if(leftMotorSpeed >= lowerLimit){
+//    leftMotorSpeed -= motorSensitivity;
+//    analogWrite (LEFT_MTR, leftMotorSpeed);
+//  }*/
+//}
+//
+//void Movement::increaseRightMotor(){
+//  if(rightMotorSpeed <= upperLimit){
+//    rightMotorSpeed += motorSensitivity;
+//    analogWrite (RIGHT_MTR, rightMotorSpeed);
+//  }
+//}
+//
+//void Movement::decreaseRightMotor(){
+//  analogWrite (RIGHT_MTR, defaultSkidSpeed);
+//  /*sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
+//  Serial.println(buffer);
+//  sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
+//  Serial.println(buffer);
+//  if(rightMotorSpeed >= lowerLimit){
+//    rightMotorSpeed -= motorSensitivity;
+//    analogWrite (RIGHT_MTR, rightMotorSpeed);
+//  }*/
+//}
 
 void Movement::enableLeftMotor(){
   analogWrite (LEFT_MTR, defaultSkidSpeed);

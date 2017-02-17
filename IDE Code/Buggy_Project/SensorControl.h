@@ -19,8 +19,7 @@
 #pragma once
 
 enum colour {UNKNOWN_COLOUR, WHITE, BLACK};
-enum sensorPosition {UNKNOWN_POSITION, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
-
+// enum sensorPosition {UNKNOWN_POSITION, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
 enum colourState {NA, WHITE_BLACK, BLACK_WHITE};
 enum crossOrLine {CROSS, LINE};
 
@@ -28,6 +27,12 @@ class SensorControl
 {
 public:
   unsigned int positionState; // See Notes
+
+  unsigned int sideSensorThreshold = 1000;
+  colour sideSensorColours[SIDE_NUM_SENSORS];
+
+  unsigned int frontSensorThreshold = 1800;
+  colour frontSensorColours[FRONT_NUM_SENSORS];  
   
   static colourState currentColourState; // Will alternate at start of movement init
   static crossOrLine currentPositionState;
@@ -60,9 +65,7 @@ public:
    * Get the initial readings prior to movement and adjust the buggy if required
    */
   void movementInit(movements pm, movements cm);
-
   void debug();
-  colour debugColour();
 
   /**
    * Wiggle the buggy left and right until the front sensors have opposite polarity
@@ -79,6 +82,8 @@ public:
    * Read from the IR RGB colour sensors and adjust the motor controls to compensate
    */
   void motorCorrection();
+  void checkTransitions();
+  void resetFlagsAndCounts();
 
   /**
    * Following functions are for the side/front sensors

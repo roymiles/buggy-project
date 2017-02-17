@@ -39,7 +39,7 @@ unsigned int mvCount = 0;
 //                                            TURNING_RIGHT, FORWARD, FORWARD, TURNING_LEFT /* seventh one */, TURNING_RIGHT, TURNING_RIGHT, FORWARD, FORWARD, FORWARD /* eight one */
 //                                           };
 
-movements movementQueue[MAX_QUEUE_COUNT] = {TURNING_RIGHT, FORWARD, FORWARD, TURNING_LEFT, FORWARD};
+movements movementQueue[MAX_QUEUE_COUNT] = {TURNING_RIGHT};
 
 void setup() {
 
@@ -70,8 +70,6 @@ bool isFinished             = false;
 long collisionDistance      = 1; 
 movements previousMovement  = FORWARD; // Always start movement with all the sensors on same squares
 bool buttonPressed          = false;
-bool adjustingPosition      = false;
-int numAdjustements         = 0;
 
 void loop() {
   if(buttonPressed == false){
@@ -119,89 +117,6 @@ void loop() {
       m->stopMovement();
     } */
   }
-
-  
-  /*
-     Move using the serial input WASD
-  */
-
-  /*
-   * Test whether the sensors are working
-   */
-  /*sc->debug();
-  delay(2000);*/
-  
-  /*if (Serial.available()) {
-    //Serial.print(".");
-    char val = Serial.read();
-    if (val != -1) {
-      switch (val) {
-        case 'w': //Move Forward
-
-          if(sc->movementInit(previousMovement, FORWARD)){
-            m->moveForward();
-            previousMovement = FORWARD;
-          }
-          
-          break;
-          
-        case 's': //Move Backward
-        
-          if(sc->movementInit(previousMovement, BACKWARDS)){
-            m->moveBackwards();
-            previousMovement = BACKWARDS;
-          }
-          
-          break;
-        
-        case 'a': //Turn Left
-        
-          if(sc->movementInit(previousMovement, TURNING_LEFT)){
-            m->turnLeft();
-            previousMovement = TURNING_LEFT;
-          }
-          
-          break;
-        
-        case 'd': //Turn Right
-        
-          if(sc->movementInit(previousMovement, TURNING_RIGHT)){
-            m->turnRight();
-            previousMovement = TURNING_RIGHT;
-          }
-          
-          break;
-
-        case 'q':
-          Serial.println("Changed to WHITE_BLACK");
-          currentColourState = WHITE_BLACK;
-          break;
-
-        case 'e':
-          Serial.println("Changed to BLACK_WHITE");
-          currentColourState = BLACK_WHITE;
-          break;
-        
-        case 'z':
-          Serial.println("Serial Working...");
-          break;
-        case 'x':
-          Movement::stopMovement();
-          break;
-      }
-    }
-    else {
-      Movement::stopMovement();
-    }
-  }*/
-
-  /*
-   * Debugging the ultrasonic sensor
-   */
-  /*us->MeasureInCentimeters();
-  Serial.print("Object distance: ");
-  Serial.println(us->RangeInCentimeters);
-  delay(500);*/
 
   /*
    * Check for a collision

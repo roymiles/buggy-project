@@ -46,17 +46,17 @@ public:
   static void stopMovement();
 
   // Perform the victory roll
-  void victoryRoll() { }
+  // void victoryRoll() { }
   
   // ISR handlers for Rotary Encoders
-  static void ISRRightEncoder();
-  static void ISRLeftEncoder();
+  // static void ISRRightEncoder();
+  // static void ISRLeftEncoder();
 
   // Used by sensor control the compensate for motor inaccuracies 
-  void increaseLeftMotor();
-  void decreaseLeftMotor();
-  void increaseRightMotor();
-  void decreaseRightMotor();
+//  void increaseLeftMotor();
+//  void decreaseLeftMotor();
+//  void increaseRightMotor();
+//  void decreaseRightMotor();
 
   void enableLeftMotor();
   void disableLeftMotor();

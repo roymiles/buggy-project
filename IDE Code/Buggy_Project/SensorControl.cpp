@@ -20,7 +20,7 @@ SensorControl::SensorControl(Movement *m)
   this->m = m;
 
   // Initial values
-  currentColourState = BLACK_WHITE; // Will alternate at start of movement init
+  currentColourState   = BLACK_WHITE; // Will alternate at start of movement init
   currentPositionState = LINE;  
 
   /* 
@@ -45,8 +45,6 @@ SensorControl::~SensorControl()
 {
 }
 
-unsigned int sideSensorThreshold = 1000;
-colour sideSensorColours[SIDE_NUM_SENSORS];
 void SensorControl::getSideSensorColours(){
   sgs->readSideSensors(); // Make sure the latest values are measured
 
@@ -54,8 +52,6 @@ void SensorControl::getSideSensorColours(){
   sideSensorColours[1] = convertSideSensorValueToColour(sgs->sideSensorValues[1]);
 }
 
-unsigned int frontSensorThreshold = 1800;
-colour frontSensorColours[FRONT_NUM_SENSORS];
 void SensorControl::getFrontSensorColours(){
   fgs->readFrontSensors(); // Make sure the latest values are measured
 
@@ -132,12 +128,6 @@ void SensorControl::debug(){
   Serial.println("END DEBUG >>>");
 }
 
-colour SensorControl::debugColour(){
-  //return gs->getCurrentCell();
-  Serial.println("OBSELETE FUNCTION");
-  return WHITE;
-}
-
 
 /*void SensorControl::enableLeftSensor(){
   Serial.println("xxxx Enabling left colour sensor:");
@@ -159,7 +149,6 @@ void SensorControl::enableRightSensor(){
 /**
  * Get the initial readings prior to movement and calculate the expected grid sqaures after movement
  */
-bool frontSensorsStartedOnSameColour = false;
 void SensorControl::movementInit(movements pm, movements cm){  
   Serial.print("Previous movement: ");
   Serial.println(m->getMovement(pm));
@@ -423,16 +412,16 @@ unsigned int SensorControl::colourToNumber(colour c){
  * Read from the side sensor to determine if movement has finished
  */
 bool left_changed, right_changed, sideLeft_changed, sideRight_changed;
-unsigned int motorCorrectionDelay = 10;
 bool frontSensorsFlipped = false; 
 
 enum deviatingState {NONE, LEFT_NOT_CHANGED, RIGHT_NOT_CHANGED, CHANGED};
 static deviatingState currentDeviatingState = NONE;
 
-bool isDeviatingAndHasNotChanged = false;
-unsigned int turnCounter = 0; // Used for determining when a rotation has finished
-bool fr = false, fl = false, sr = false, sl = false;
-int colourTransitionCount = 0;
+// Flags that get set to true whenever a transition has occured and maintain this value for the full movement
+bool frontRightFlag = false, frontLeftFlag = false, sideRightFlag = false, sideLeftFlag = false;
+unsigned int frontRightCount = 0, frontLeftCount = 0, sideRightCount = 0, sideLeftCount = 0;
+
+bool finishCondition;
 
 void SensorControl::motorCorrection(){
   /*
@@ -445,19 +434,24 @@ void SensorControl::motorCorrection(){
   right_changed = gs->hasChangedCell(); */
   
   /*
-   * Simple Sensors
+   * Front sensors
    */
   getFrontSensorColours();
   left_changed  = (initialSensorReading_left  != frontSensorColours[0]);
   right_changed = (initialSensorReading_right != frontSensorColours[1]);  
 
-  if(right_changed == true){
-    fr = true;
-  }
+  /*
+   * Side sensors
+   */
+  getSideSensorColours();
+  sideLeft_changed  = (initialSideSensorReading_left  != sideSensorColours[0]);
+  sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]); 
 
-  if(left_changed == true){
-    fl = true;
-  }
+  /*
+   * Count the transitions using the flag toggles
+   */
+  checkTransitions();
+
   
   switch(Movement::currentMovement){
 
@@ -562,8 +556,8 @@ void SensorControl::motorCorrection(){
       if(sideLeft_changed && sideRight_changed){
         toggleColourState();
         frontSensorsFlipped = false; // Reset
-        
         Movement::stopMovement();
+        resetFlagsAndCounts();     
       }
       
       break;
@@ -578,30 +572,22 @@ void SensorControl::motorCorrection(){
       sideLeft_changed  = (initialSideSensorReading_left  != sideSensorColours[0]);
       sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);   
 
-      if(sideRight_changed == true){
-        sr = true;
-      }
-
-      if(sideLeft_changed == true){
-        sl = true;
-      }
-
       /*
        * FINISHING CONDITIONS
        * If on a cross (ideal situation) just check for the front right sensor to change
        * If on a line, check if the back right sensor has changed twice
        */
-      if( (currentPositionState == CROSS && sr && sl) || (currentPositionState == LINE && sr && sl) ){
+
+      finishCondition = false;
+//      if(positionState == 5 || positionState == 10){
+//        // Ideal LINE. Only the back RIGHT sensor needs to change
+//        finishCondition = sideRight_changed;
+//      }
+       
+      if(finishCondition){
           toggleColourState();
           Movement::stopMovement();
-
-          /*
-           * Reset flags
-           */
-          fl = false;
-          fr = false;
-          sl = false;
-          sr = false;          
+          resetFlagsAndCounts();       
       }      
       
       break;
@@ -615,32 +601,30 @@ void SensorControl::motorCorrection(){
       Movement::currentMovementCompensation = ON_TRACK; // Dont compensate for turns
       getSideSensorColours();
       sideLeft_changed  = (initialSideSensorReading_left  != sideSensorColours[0]);
-      sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);   
-
-      if(sideRight_changed == true){
-        sr = true;
-      }
-
-      if(sideLeft_changed == true){
-        sl = true;
-      }      
+      sideRight_changed = (initialSideSensorReading_right != sideSensorColours[1]);        
 
       /*
        * FINISHING CONDITIONS
        * If on a cross (ideal situation) just check for the front right sensor to change
        * If on a line, check if the back right sensor has changed twice
        */
-      if( (currentPositionState == CROSS && sr && sl) || (currentPositionState == LINE && sr && sl) ){
+      finishCondition = false;
+//      if(positionState == 5 || positionState == 10){
+//        // Ideal LINE. Only the back LEFT sensor needs to change
+//        finishCondition = sideLeft_changed;
+//      }
+//
+//      if(positionState == 6 || positionState == 9){
+//        // Ideal CROSS. Only the front RIGHT and back RIGHT sensors needs to change
+//        finishCondition = (right_changed && sideRight_changed);
+//      }
+
+      
+      
+      if(finishCondition){
           toggleColourState();
           Movement::stopMovement();
-
-          /*
-           * Reset flags
-           */
-          fl = false;
-          fr = false;
-          sl = false;
-          sr = false;  
+          resetFlagsAndCounts();
       }
       
       break;
@@ -652,6 +636,83 @@ void SensorControl::motorCorrection(){
   } // end switch 
   
 } // end func
+
+void SensorControl::resetFlagsAndCounts(){
+  frontLeftFlag   = false;
+  frontRightFlag  = false;
+  sideLeftFlag    = false;
+  sideRightFlag   = false;
+  frontLeftCount  = 0;
+  frontRightCount = 0;
+  sideLeftCount   = 0;
+  sideRightCount  = 0;      
+}
+
+void SensorControl::checkTransitions(){
+  /*
+   * The following conditions toggle and increment the transition count
+   */
+
+   // Front right
+  if(right_changed == true){
+    if(frontRightFlag == false){
+      Serial.println("Front right transition");
+      frontRightFlag = true;
+      frontRightCount++;
+    }
+  }else{
+    if(frontRightFlag == true){
+      Serial.println("Front right transition");
+      frontRightFlag = false;
+      frontRightCount++;
+    }
+  }
+
+  // Front left
+  if(left_changed == true){
+    Serial.println("Front left transition");
+    if(frontLeftFlag == false){
+      frontLeftFlag = true;
+      frontLeftCount++;
+    }
+  }else{
+    if(frontLeftFlag == true){
+      Serial.println("Front left transition");
+      frontLeftFlag = false;
+      frontLeftCount++;
+    }
+  }
+
+  // Side right
+  if(sideRight_changed == true){
+    if(sideRightFlag == false){
+      Serial.println("Side right transition");
+      sideRightFlag = true;
+      sideRightCount++;
+    }
+  }else{
+    if(frontRightFlag == true){
+      Serial.println("Side right transition");
+      sideRightFlag = false;
+      sideRightCount++;
+    }
+  }
+
+  // Side left
+  if(sideLeft_changed == true){
+    Serial.println("Side left transition");
+    if(sideLeftFlag == false){
+      sideLeftFlag = true;
+      sideLeftCount++;
+    }
+  }else{
+    if(sideLeftFlag == true){
+      Serial.println("Side left transition");
+      sideLeftFlag = false;
+      sideLeftCount++;
+    }
+  }
+}
 
 void SensorControl::toggleColourState(){
   if(currentColourState == WHITE_BLACK){
@@ -668,14 +729,18 @@ void SensorControl::toggleColourState(){
  * Convert the movement enum to a string (for debugging)
  */
 String SensorControl::colourToString(colour c){
+  //Serial.println("Here");
   switch(c){
     case WHITE:
+      Serial.println("white");
       return "WHITE";
       break;
     case BLACK:
+      Serial.println("black");
       return "BLACK";
       break;
     default:
+      Serial.println("unknown");
       return "UNKNOWN";
   }
 }
