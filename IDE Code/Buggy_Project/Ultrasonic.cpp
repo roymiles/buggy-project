@@ -19,18 +19,13 @@
   License along with this library; if not, write to the Free Software
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-#include <stdio.h>
-#include <string.h>
-#include <inttypes.h>
+//#include <stdio.h>
+//#include <string.h>
+//#include <inttypes.h>
 #include "Ultrasonic.h"
-
-#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
-#else
-#include "WProgram.h"
-#endif
 
-Ultrasonic::Ultrasonic(int pin)
+Ultrasonic::Ultrasonic(unsigned int pin)
 {
 	_pin = pin;
 }

@@ -28,10 +28,10 @@ class SensorControl
 public:
   unsigned int positionState; // See Notes
 
-  unsigned int sideSensorThreshold = 1000;
+  const unsigned int sideSensorThreshold = 1000;
   colour sideSensorColours[SIDE_NUM_SENSORS];
 
-  unsigned int frontSensorThreshold = 1800;
+  const unsigned int frontSensorThreshold = 1800;
   colour frontSensorColours[FRONT_NUM_SENSORS];  
   
   static colourState currentColourState; // Will alternate at start of movement init
@@ -39,9 +39,9 @@ public:
 
   //GridSensor *gs;
   colour initialSensorReading_left;
-  colour initialSensorReading_leftBackup; // Chip not connected yet
+  // colour initialSensorReading_leftBackup; // Chip not connected yet
   colour initialSensorReading_right;
-  colour initialSensorReading_rightBackup;
+  // colour initialSensorReading_rightBackup;
 
   SideGridSensor *sgs;
   colour initialSideSensorReading_left;

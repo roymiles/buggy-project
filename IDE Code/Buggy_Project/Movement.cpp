@@ -15,11 +15,11 @@ int M2 = 7;     // M1 Direction Control
 /*
  * The encoder pins are 2,3
  */
-const byte LRE    = 1;      // Left rotary encoder pin holder value
-const byte RRE    = 0;      // Right rotary encoder pin holder value
-
-volatile uint8_t LRC = 0;      // Left rotary encoder count
-volatile uint8_t RRC = 0;      // Right rotary encoder count
+//const byte LRE    = 1;      // Left rotary encoder pin holder value
+//const byte RRE    = 0;      // Right rotary encoder pin holder value
+//
+//volatile uint8_t LRC = 0;      // Left rotary encoder count
+//volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
 unsigned int defaultRotationalSpeed = 90;
@@ -34,9 +34,9 @@ static unsigned int timerCount = 0;
 #define MAX_OUT_CHARS 16  // max nbr of characters to be sent on any one serial command
 char buffer[MAX_OUT_CHARS + 1];  // buffer used to format a line (+1 is for trailing 0)
 
-int upperLimit = 150;
-int lowerLimit = 60;
-int motorSensitivity = 20; // By how much do the motor values incremenent or decrement to compensate
+//int upperLimit = 150;
+//int lowerLimit = 60;
+//int motorSensitivity = 20; // By how much do the motor values incremenent or decrement to compensate
 
 // TODO: These variables will be functions of the motor speeds
 // The time (in tenths of ms) corresponding to a movement of 1 square
@@ -51,25 +51,17 @@ movementCompensation Movement::currentMovementCompensation = ON_TRACK;
 
 Movement::Movement()
 {
-  int i;
-  // Enable all the pins for the motors
-  for(i = 4; i <= 7; i++){
-    pinMode(i, OUTPUT); 
-  }  
-
-  // What is this?
-  // pinMode(2,INPUT_PULLUP);
-  // pinMode(3,INPUT_PULLUP);
+  // Enable all the pins for the motors (reduce local variable usage by not using a for loop)
+  pinMode(4, OUTPUT); 
+  pinMode(5, OUTPUT); 
+  pinMode(6, OUTPUT); 
+  pinMode(7, OUTPUT); 
   
   //attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
   //attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
 
   currentMovement = IDLE;
-  isWiggling      = false;
-
-  // Initialize the digital pin as an output.
-  // Pin 13 has an LED connected on most Arduino boards
-  // pinMode(13, OUTPUT);    
+  isWiggling      = false;  
   
   Timer1.initialize(100000); // set a timer of length 100000 microseconds (0.1 seconds)
   Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
@@ -182,8 +174,8 @@ void Movement::stopMovement(){
   Movement::currentMovement = IDLE;
 
   // Reset the encoder counters
-  LRC = 0;
-  RRC = 0;  
+  // LRC = 0;
+  // RRC = 0;  
 
   delay(100); // Allow things to settle
 }
@@ -246,7 +238,7 @@ void Movement::disableRightMotor(){
 /// --------------------------
 /// Custom ISR Timer Routine
 /// --------------------------
-bool motorToggle = false;
+bool motorToggle = false; // Toggle the motors on and off to reduce overshoot due to high speed
 void Movement::timerIsr()
 {
     // If the buggy is *moving* and the timer count has exceeded

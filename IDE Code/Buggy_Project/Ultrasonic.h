@@ -25,13 +25,13 @@
 class Ultrasonic
 {
 	public:
-		Ultrasonic(int pin);
+		Ultrasonic(unsigned int pin);
 		long RangeInCentimeters;
 		long RangeInInches;
 		long duration;
 		void MeasureInCentimeters(void);
 		void MeasureInInches(void);
 	private:
-		int _pin;
+		unsigned int _pin;
 };
 #endif

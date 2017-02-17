@@ -31,7 +31,7 @@ const int BUTTONS_VALUES[BUTTONS_TOTAL] = {0,145,329,505,743};
 AnalogMultiButton buttons(BUTTONS_PIN,BUTTONS_TOTAL,BUTTONS_VALUES);
 
 #define MAX_QUEUE_COUNT 7
-#define ULTRA_SONIC_PIN 11
+const unsigned int ULTRA_SONIC_PIN = 11;
 unsigned int mvCount = 0;
 //movements movementQueue[MAX_QUEUE_COUNT] = {FORWARD /* first one */, BACKWARDS, BACKWARDS, TURNING_LEFT, TURNING_LEFT, FORWARD /* second one */,
 //                                            TURNING_RIGHT, FORWARD, FORWARD, TURNING_LEFT /* third one */, TURNING_RIGHT, TURNING_RIGHT, FORWARD, FORWARD, FORWARD /* fourth one */,
@@ -49,7 +49,7 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
-  Serial.println("Program start... 5 second delay");
+  Serial.println(F("Program start... 5 second delay"));
   delay(5000);
 
   // Create the objects we need, DONT create more than one copy.
@@ -65,7 +65,7 @@ void setup() {
 }
 
 
-float distance;
+float distance              = 20;
 bool isFinished             = false;
 long collisionDistance      = 1; 
 movements previousMovement  = FORWARD; // Always start movement with all the sensors on same squares
@@ -76,7 +76,7 @@ void loop() {
     buttons.update();
     if(buttons.onRelease(UP_BUTTON))
     {
-      Serial.println("Pressed button.. Will begin in 2 seconds");
+      Serial.println(F("Pressed button.. Will begin in 2 seconds"));
       sc->getStartPosition();
       
       delay(2000);
@@ -142,7 +142,7 @@ void loop() {
    */
   if(Movement::currentMovement == IDLE && isFinished == false && buttonPressed == true){
     // Call the appropriate movement operation
-    Serial.println("3 second delay");
+    Serial.println(F("3 second delay"));
     delay(3000);
     switch(movementQueue[mvCount]){
       case FORWARD:
@@ -183,9 +183,9 @@ void loop() {
       Serial.println("Current movement: " + m->getMovement(Movement::currentMovement));
       mvCount++;
     }else{
-      Serial.println("Finished");
+      Serial.println(F("Finished"));
       // isFinished = true;
-      Serial.println("Press the button to go again");
+      Serial.println(F("Press the button to go again"));
       mvCount       = 0;
       buttonPressed = false;
     }
