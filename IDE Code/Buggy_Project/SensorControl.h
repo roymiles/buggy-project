@@ -11,12 +11,15 @@
 #define SensorControl_h
 
 #include "Arduino.h"
-#include "GridSensor.h"
+//#include "GridSensor.h"
 #include "Movement.h"
 #include "SideGridSensor.h"
 #include "FrontGridSensor.h"
 
 #pragma once
+
+enum colour {UNKNOWN_COLOUR, WHITE, BLACK};
+enum sensorPosition {UNKNOWN_POSITION, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
 
 enum colourState {NA, WHITE_BLACK, BLACK_WHITE};
 enum crossOrLine {CROSS, LINE};
@@ -24,6 +27,8 @@ enum crossOrLine {CROSS, LINE};
 class SensorControl
 {
 public:
+  unsigned int positionState; // See Notes
+  
   static colourState currentColourState; // Will alternate at start of movement init
   static crossOrLine currentPositionState;
 
@@ -62,7 +67,7 @@ public:
   /**
    * Wiggle the buggy left and right until the front sensors have opposite polarity
    */
-  void wiggleBuggy();
+  bool wiggleBuggy();
 
   /**
    * Control the MUX to enable/disable communication with appropriate IR Grid sensor

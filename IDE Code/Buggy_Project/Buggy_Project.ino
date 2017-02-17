@@ -9,7 +9,7 @@
 //#include "UltraSonicSensor.h" REDUNDANT IMPLEMENTATION
 #include "UltraSonic.h"
 #include "Movement.h"
-#include "PathFinding.h"
+//#include "PathFinding.h"
 #include "SensorControl.h"
 
 #include "Movement.h"
@@ -17,7 +17,7 @@
 //UltraSonicSensor *uss;
 Ultrasonic *us;
 Movement *m;
-PathFinding *p;
+//PathFinding *p;
 SensorControl *sc;
 
 const int BUTTONS_PIN    = A0;
@@ -86,22 +86,26 @@ void loop() {
     }
 
     
-//    if(buttons.onRelease(LEFT_BUTTON))
-//    {
-//      /*
-//       * Test whether the wiggle is working
-//       */
-//       sc->wiggleBuggy();
-//    }
+    if(buttons.onRelease(LEFT_BUTTON))
+    {
+      /*
+       * Test whether the wiggle is working
+       */
+       //sc->wiggleBuggy();
 
-    /*
+       sc->movementInit(FORWARD, FORWARD);
+    }
+
+    
     if(buttons.onRelease(DOWN_BUTTON))
     {
-      Serial.println("Down button pressed");
-      sc->movementInit();
-      m->moveBackwards();
+      /*
+       * Test whether the sensors are working
+       */
+      sc->debug();
     }
-  
+
+    /*
     if(buttons.onRelease(RIGHT_BUTTON))
     {
       Serial.println("Right button pressed");
