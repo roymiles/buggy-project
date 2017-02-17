@@ -39,7 +39,7 @@ unsigned int mvCount = 0;
 //                                            TURNING_RIGHT, FORWARD, FORWARD, TURNING_LEFT /* seventh one */, TURNING_RIGHT, TURNING_RIGHT, FORWARD, FORWARD, FORWARD /* eight one */
 //                                           };
 
-movements movementQueue[MAX_QUEUE_COUNT] = {FORWARD, FORWARD, BACKWARDS, BACKWARDS, FORWARD, BACKWARDS};
+movements movementQueue[MAX_QUEUE_COUNT] = {TURNING_RIGHT, FORWARD, FORWARD, TURNING_LEFT, FORWARD};
 
 void setup() {
 
@@ -49,8 +49,8 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
 
+  Serial.println("Program start... 5 second delay");
   delay(5000);
-  Serial.println("Program start");
 
   // Create the objects we need, DONT create more than one copy.
   // uss = new UltraSonicSensor();
@@ -83,19 +83,18 @@ void loop() {
       
       delay(2000);
       buttonPressed = true;
-      /*Serial.println("Up button pressed");
-      sc->movementInit();
-      m->moveForward();*/
     }
 
+    
+//    if(buttons.onRelease(LEFT_BUTTON))
+//    {
+//      /*
+//       * Test whether the wiggle is working
+//       */
+//       sc->wiggleBuggy();
+//    }
+
     /*
-    if(buttons.onRelease(LEFT_BUTTON))
-    {
-      Serial.println("Left button pressed");
-      sc->movementInit();
-      m->turnLeft();
-    }
-  
     if(buttons.onRelease(DOWN_BUTTON))
     {
       Serial.println("Down button pressed");
@@ -125,8 +124,9 @@ void loop() {
   /*
    * Test whether the sensors are working
    */
-  //sc->debug();
-  //delay(2000);
+  /*sc->debug();
+  delay(2000);*/
+  
   /*if (Serial.available()) {
     //Serial.print(".");
     char val = Serial.read();
@@ -227,18 +227,14 @@ void loop() {
     delay(3000);
     switch(movementQueue[mvCount]){
       case FORWARD:
-        sc->getPositionState();
-        if(sc->movementInit(previousMovement, FORWARD)){
-          m->moveForward();
-          previousMovement = FORWARD;
-        }
+        sc->movementInit(previousMovement, FORWARD);
+        m->moveForward();
+        previousMovement = FORWARD;
         break;
       case BACKWARDS:
-        sc->getPositionState();
-        if(sc->movementInit(previousMovement, BACKWARDS)){
-          m->moveBackwards();
-          previousMovement = BACKWARDS;
-        }
+        sc->movementInit(previousMovement, BACKWARDS);
+        m->moveBackwards();
+        previousMovement = BACKWARDS;
         break;
 
       /*
@@ -246,74 +242,43 @@ void loop() {
        * This ensures that the rotation is close to 90 degrees
        */
       case TURNING_LEFT:
-        sc->getPositionState();
-//      if(SensorControl::currentPositionState == CROSS){
-          if(sc->movementInit(previousMovement, TURNING_LEFT)){
-            m->turnLeft();
-            previousMovement = TURNING_LEFT;
-          }
-//        }else{
-//          /*
-//           * Buggy is on a LINE, so go backwards by one first
-//           */
-//          /*adjustingPosition = true;
-//          if(sc->movementInit(previousMovement, BACKWARDS)){
-//            m->moveBackwards();
-//            previousMovement = BACKWARDS;
-//          }
-//        }
+        sc->movementInit(previousMovement, TURNING_LEFT);
+        m->turnLeft();
+        previousMovement = TURNING_LEFT;
         break;
       /*
        * Before every turn, the buggy should be on a CROSS
        * This ensures that the rotation is close to 90 degrees
        */
       case TURNING_RIGHT:
-        sc->getPositionState();
-//      if(SensorControl::currentPositionState == CROSS){
-          if(sc->movementInit(previousMovement, TURNING_RIGHT)){
-            m->turnRight();
-            previousMovement = TURNING_RIGHT;
-          }
-//        }else{
-//          /*
-//           * Buggy is on a LINE, so go backwards by one first
-//           */
-//          /*adjustingPosition = true;
-//          if(sc->movementInit(previousMovement, BACKWARDS)){
-//            m->moveBackwards();
-//            previousMovement = BACKWARDS;
-//          }
-//        }
+        sc->movementInit(previousMovement, TURNING_RIGHT);
+        m->turnRight();
+        previousMovement = TURNING_RIGHT;
         break;
         // If IDLE do nothing
     }
 
     // Only increment, if mvCount is within the array bounds
-    if(adjustingPosition == false){
-      if(mvCount < MAX_QUEUE_COUNT){
-        // Increment the movement counter
-        // Serial.println("Incrementing movement counter");
-        Serial.println("Current movement: " + m->getMovement(Movement::currentMovement));
-        mvCount++;
-      }else{
-        Serial.println("Finished");
-        // isFinished = true;
-        Serial.println("Press the button to go again");
-        mvCount       = 0;
-        buttonPressed = false;
-      }
+    if(mvCount < MAX_QUEUE_COUNT){
+      // Increment the movement counter
+      Serial.println("Current movement: " + m->getMovement(Movement::currentMovement));
+      mvCount++;
+    }else{
+      Serial.println("Finished");
+      // isFinished = true;
+      Serial.println("Press the button to go again");
+      mvCount       = 0;
+      buttonPressed = false;
     }
-
-    adjustingPosition = false; // Reset
   }
 
   /*
    * Only perform motor correction if the buggy is moving
    */
-  if(Movement::currentMovement != IDLE){
+  if(Movement::currentMovement != IDLE && isWiggling == false){
     sc->motorCorrection();
-    delay(200);
-  }  
+    delay(200); // Twice the timer interrupt duration
+  } 
 
 }
 

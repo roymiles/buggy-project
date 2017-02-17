@@ -22,7 +22,7 @@ volatile uint8_t LRC = 0;      // Left rotary encoder count
 volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
-unsigned int defaultRotationalSpeed = 70;
+unsigned int defaultRotationalSpeed = 90;
 unsigned int defaultMovementSpeed   = 80;
 unsigned int defaultSkidSpeed       = 70;
 
@@ -65,6 +65,7 @@ Movement::Movement()
   //attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
 
   currentMovement = IDLE;
+  isWiggling      = false;
 
   // Initialize the digital pin as an output.
   // Pin 13 has an LED connected on most Arduino boards
@@ -263,7 +264,7 @@ void Movement::timerIsr()
     }*/
 
     // If the buggy is moving keep stopping and starting the motors
-    if( (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementToggleCount){
+    if( currentMovement != IDLE  && isWiggling == false /*(currentMovement == FORWARD || currentMovement == BACKWARDS)*/ && timerCount > movementToggleCount){
       timerCount = 0;
       if(motorToggle){
         motorToggle = false;
@@ -284,7 +285,7 @@ void Movement::timerIsr()
         }
       }else{
         motorToggle = true;
-        Serial.println("Toggling off");
+        // Serial.println("Toggling off");
         analogWrite (RIGHT_MTR, 0);
         analogWrite (LEFT_MTR, 0);
       }

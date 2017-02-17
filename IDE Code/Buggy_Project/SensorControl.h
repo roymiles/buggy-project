@@ -29,7 +29,9 @@ public:
 
   //GridSensor *gs;
   colour initialSensorReading_left;
+  colour initialSensorReading_leftBackup; // Chip not connected yet
   colour initialSensorReading_right;
+  colour initialSensorReading_rightBackup;
 
   SideGridSensor *sgs;
   colour initialSideSensorReading_left;
@@ -47,15 +49,20 @@ public:
   void getPositionState();
   void toggleColourState();
   bool isValidColour(colour c);
+  unsigned int colourToNumber(colour c);
 
   /**
-   * Get the initial readings prior to movement
-   * @return true or false depending on whether successful
+   * Get the initial readings prior to movement and adjust the buggy if required
    */
-  bool movementInit(movements pm, movements cm);
+  void movementInit(movements pm, movements cm);
 
   void debug();
   colour debugColour();
+
+  /**
+   * Wiggle the buggy left and right until the front sensors have opposite polarity
+   */
+  void wiggleBuggy();
 
   /**
    * Control the MUX to enable/disable communication with appropriate IR Grid sensor

@@ -18,6 +18,7 @@
 enum movements {IDLE, FORWARD, BACKWARDS, TURNING_LEFT, TURNING_RIGHT};
 enum movementCompensation {ON_TRACK, COMPENSATING_LEFT, COMPENSATING_RIGHT};
 static unsigned int timerCounter = 0;
+static bool isWiggling;
 
 class Movement
 {

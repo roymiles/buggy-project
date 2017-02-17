@@ -16,8 +16,9 @@
 /*
  * LEFT sensor PIN 1
  * RIGHT sensor PIN 2
+ * RIGHT BACKUP sensor PIN 13
  */
-QTRSensorsRC qtrrc_frontSensors((unsigned char[]) {2,3}, FRONT_NUM_SENSORS, FRONT_TIMEOUT, FRONT_EMITTER_PIN); 
+QTRSensorsRC qtrrc_frontSensors((unsigned char[]) {2,3, 13}, FRONT_NUM_SENSORS, FRONT_TIMEOUT, FRONT_EMITTER_PIN); 
 
 FrontGridSensor::FrontGridSensor(){
   Serial.println("Front grid sensor instance");
