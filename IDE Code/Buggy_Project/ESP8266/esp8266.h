@@ -41,12 +41,12 @@ public:
 	bool enableAP(String ssid, String password);
 	String getIP();
 	bool setPureDataMode();
+	int available(); // Moved
+	int read(); // Moved
 
 private:
-	int available();
 	void write(String str);
 	void clearBuf();
-	int read();
 	String readData();
 	void flush();	
 	bool setMode(char mode);

@@ -15,14 +15,14 @@
 
 #pragma once
 
-enum movements {IDLE, FORWARD, BACKWARDS, TURNING_LEFT, TURNING_RIGHT};
+enum movements {IDLE, FORWARD, BACKWARDS, TURNING_LEFT, TURNING_RIGHT, DOCKING};
 enum movementCompensation {ON_TRACK, COMPENSATING_LEFT, COMPENSATING_RIGHT};
 static unsigned int timerCounter = 0;
-static bool isWiggling;
 
 class Movement
 {
 public:
+  static bool isWiggling;
   static movements currentMovement;
   static movementCompensation currentMovementCompensation;
 

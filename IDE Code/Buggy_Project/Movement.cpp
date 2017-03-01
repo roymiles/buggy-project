@@ -22,9 +22,9 @@ int M2 = 7;     // M1 Direction Control
 //volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
-unsigned int defaultRotationalSpeed = 90;
+unsigned int defaultRotationalSpeed = 80;
 unsigned int defaultMovementSpeed   = 80;
-unsigned int defaultSkidSpeed       = 70;
+unsigned int defaultSkidSpeed       = 80;
 
 unsigned int leftMotorSpeed;
 unsigned int rightMotorSpeed;
@@ -41,13 +41,15 @@ char buffer[MAX_OUT_CHARS + 1];  // buffer used to format a line (+1 is for trai
 // TODO: These variables will be functions of the motor speeds
 // The time (in tenths of ms) corresponding to a movement of 1 square
 const unsigned int movementTimerCount = 150;
-const unsigned int movementToggleCount = 1; // Every 0.1 seconds
+const unsigned int movementToggleCount = 10; // Every 0.01 seconds
 
 // The time (in ms) corresponding to a rotation of 90 degrees
 const unsigned int turningTimerCount = 12;
-
+  
 movements Movement::currentMovement = IDLE;
 movementCompensation Movement::currentMovementCompensation = ON_TRACK;
+
+bool Movement::isWiggling = false;
 
 Movement::Movement()
 {
@@ -63,7 +65,7 @@ Movement::Movement()
   currentMovement = IDLE;
   isWiggling      = false;  
   
-  Timer1.initialize(100000); // set a timer of length 100000 microseconds (0.1 seconds)
+  Timer1.initialize(10000); // set a timer of length 10000 microseconds (0.01 seconds)
   Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
   
   Serial.println("Movement module.");
@@ -150,11 +152,18 @@ void Movement::turnLeft() {
   currentMovement = TURNING_LEFT;
 }
 
+unsigned int leftMotorCompensation; 
 void Movement::turnRight() {
   //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
-  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
+  if(isWiggling == true){
+    leftMotorCompensation = defaultRotationalSpeed;
+  }else{
+    leftMotorCompensation = defaultRotationalSpeed;
+  }
+  
+  analogWrite (RIGHT_MTR, leftMotorCompensation);
   digitalWrite(M1, HIGH);    
-  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
+  analogWrite (LEFT_MTR, leftMotorCompensation);    
   digitalWrite(M2, HIGH);
 
   leftMotorSpeed  = defaultRotationalSpeed;
@@ -256,7 +265,7 @@ void Movement::timerIsr()
     }*/
 
     // If the buggy is moving keep stopping and starting the motors
-    if( currentMovement != IDLE  && isWiggling == false /*(currentMovement == FORWARD || currentMovement == BACKWARDS)*/ && timerCount > movementToggleCount){
+    if(currentMovement != IDLE  && isWiggling == false /*(currentMovement == FORWARD || currentMovement == BACKWARDS)*/ && timerCount > movementToggleCount){
       timerCount = 0;
       if(motorToggle){
         motorToggle = false;

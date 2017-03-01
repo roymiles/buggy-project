@@ -39,9 +39,9 @@ public:
 
   //GridSensor *gs;
   colour initialSensorReading_left;
-  // colour initialSensorReading_leftBackup; // Chip not connected yet
+  colour initialSensorReading_leftBackup; // Chip not connected yet
   colour initialSensorReading_right;
-  // colour initialSensorReading_rightBackup;
+  colour initialSensorReading_rightBackup;
 
   SideGridSensor *sgs;
   colour initialSideSensorReading_left;
@@ -70,7 +70,7 @@ public:
   /**
    * Wiggle the buggy left and right until the front sensors have opposite polarity
    */
-  bool wiggleBuggy();
+  bool wiggleBuggy(movements pm);
 
   /**
    * Control the MUX to enable/disable communication with appropriate IR Grid sensor
