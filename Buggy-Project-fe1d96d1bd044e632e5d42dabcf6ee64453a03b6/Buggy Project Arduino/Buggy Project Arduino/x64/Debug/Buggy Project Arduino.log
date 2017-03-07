@@ -1,0 +1,163 @@
+﻿  ImageProcessing.cpp
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): warning C4477: 'fprintf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 14 has type 'unsigned __int64'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): note: consider using '%I64u' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49393): note: while compiling class template member function 'const cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::print(const char *const ,const bool) const'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49484): note: see reference to function template instantiation 'const cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::print(const char *const ,const bool) const' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(59025): note: see reference to class template instantiation 'cimg_library::CImg<unsigned char>' being compiled
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(16181): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(14697): note: while compiling class template member function 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(14578): note: see reference to function template instantiation 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(22993): note: see reference to class template instantiation 'cimg_library::CImg<float>::_cimg_math_parser' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(22982): note: while compiling class template member function 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const'
+          with
+          [
+              T=float
+          ]
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(22977): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const' being compiled
+          with
+          [
+              T=float
+          ]
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(34835): note: see reference to class template instantiation 'cimg_library::CImg<float>' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(57857): note: see reference to class template instantiation 'cimg_library::CImg<wchar_t>' being compiled
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(19153): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(19151): note: while compiling class template member function 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(16180): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)' being compiled
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55585): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55585): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55585): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55585): note: consider using '%I64u' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55506): note: while compiling class template member function 'cimg_library::CImgList<unsigned char> &cimg_library::CImgList<unsigned char>::_load_cimg(FILE *const ,const char *const )'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55485): note: see reference to function template instantiation 'cimg_library::CImgList<unsigned char> &cimg_library::CImgList<unsigned char>::_load_cimg(FILE *const ,const char *const )' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(45325): note: see reference to class template instantiation 'cimg_library::CImgList<unsigned char>' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(45289): note: while compiling class template member function 'cimg_library::CImg<int> cimg_library::CImg<unsigned char>::_select(cimg_library::CImgDisplay &,const char *const ,const unsigned int,unsigned int *const ,const int,const int,const int,const bool,const bool,const bool) const'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49536): note: see reference to function template instantiation 'cimg_library::CImg<int> cimg_library::CImg<unsigned char>::_select(cimg_library::CImgDisplay &,const char *const ,const unsigned int,unsigned int *const ,const int,const int,const int,const bool,const bool,const bool) const' being compiled
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55586): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55586): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55586): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55586): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55587): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55587): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55587): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55587): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55588): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55588): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55588): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55588): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55589): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55589): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55589): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55589): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55590): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55590): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55590): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55590): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55591): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55591): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55591): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55591): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55592): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55592): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55592): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55592): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55593): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55593): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55593): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55593): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55594): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55594): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55594): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55594): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55595): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55595): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55595): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55595): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55596): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55596): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55596): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55596): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55597): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55597): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55597): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55597): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55598): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55598): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55598): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55598): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55599): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55599): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55599): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55599): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55600): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55600): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55600): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55600): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55601): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55601): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55601): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55601): note: consider using '%I64u' in the format string
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55602): warning C4477: 'sscanf' : format string '%lu' requires an argument of type 'unsigned long *', but variadic argument 5 has type 'unsigned __int64 *'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55602): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55602): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(55602): note: consider using '%I64u' in the format string
+  Entry.cpp
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(16181): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(14697): note: while compiling class template member function 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(14578): note: see reference to function template instantiation 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(22993): note: see reference to class template instantiation 'cimg_library::CImg<float>::_cimg_math_parser' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(22982): note: while compiling class template member function 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const'
+          with
+          [
+              T=float
+          ]
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(22977): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const' being compiled
+          with
+          [
+              T=float
+          ]
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(34835): note: see reference to class template instantiation 'cimg_library::CImg<float>' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(57857): note: see reference to class template instantiation 'cimg_library::CImg<wchar_t>' being compiled
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(19153): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(19151): note: while compiling class template member function 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(16180): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)' being compiled
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): warning C4477: 'fprintf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 14 has type 'unsigned __int64'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): note: consider using '%I64u' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49393): note: while compiling class template member function 'const cimg_library::CImg<double> &cimg_library::CImg<double>::print(const char *const ,const bool) const'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49484): note: see reference to function template instantiation 'const cimg_library::CImg<double> &cimg_library::CImg<double>::print(const char *const ,const bool) const' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(14445): note: see reference to class template instantiation 'cimg_library::CImg<double>' being compiled
+  Generating Code...
+  Compiling...
+  Testing.cpp
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(16181): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(14697): note: while compiling class template member function 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(14578): note: see reference to function template instantiation 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(22993): note: see reference to class template instantiation 'cimg_library::CImg<float>::_cimg_math_parser' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(22982): note: while compiling class template member function 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const'
+          with
+          [
+              T=float
+          ]
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(22977): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const' being compiled
+          with
+          [
+              T=float
+          ]
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(34835): note: see reference to class template instantiation 'cimg_library::CImg<float>' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(57857): note: see reference to class template instantiation 'cimg_library::CImg<wchar_t>' being compiled
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(19153): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(19151): note: while compiling class template member function 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(16180): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)' being compiled
+c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): warning C4477: 'fprintf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 14 has type 'unsigned __int64'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): note: consider using '%llu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): note: consider using '%Iu' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49407): note: consider using '%I64u' in the format string
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49393): note: while compiling class template member function 'const cimg_library::CImg<double> &cimg_library::CImg<double>::print(const char *const ,const bool) const'
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(49484): note: see reference to function template instantiation 'const cimg_library::CImg<double> &cimg_library::CImg<double>::print(const char *const ,const bool) const' being compiled
+  c:\users\roy\desktop\uni 3rd year\buggy project\arduino\buggy project arduino\buggy project arduino\clmg.h(14445): note: see reference to class template instantiation 'cimg_library::CImg<double>' being compiled
+  Generating Code...
+  Buggy Project Arduino.vcxproj -> C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\x64\Debug\Buggy Project Arduino.exe
+  Buggy Project Arduino.vcxproj -> C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\x64\Debug\Buggy Project Arduino.pdb (Full PDB)

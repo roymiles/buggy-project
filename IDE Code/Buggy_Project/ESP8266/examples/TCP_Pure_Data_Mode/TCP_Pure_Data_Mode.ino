@@ -5,20 +5,18 @@
 #include "esp8266.h"
 #include "SoftwareSerial.h"
 
-#define	ssid		"test"
-#define	password	"12345678"
+#define	ssid		"maze_beacon_1"
+#define	password	""
 #define	serverIP	"192.168.1.1"
-#define serverPort	"8081"
+#define serverPort	"80"
 
 Esp8266 wifi;
-SoftwareSerial mySerial(10, 11); // RX, TX	
 
 void setup() {
 
 	delay(2000);				// it will be better to delay 2s to wait esp8266 module OK
-	Serial.begin(115200);
-	mySerial.begin(115200);
-	wifi.begin(&Serial, &mySerial);		//Serial is used to communicate with esp8266 module, mySerial is used to debug
+	Serial.begin(9600);
+	wifi.begin(&Serial, &Serial);		//Serial is used to communicate with esp8266 module, mySerial is used to debug
 
 	if (wifi.checkEsp8266()) {
 		wifi.debugPrintln("esp8266 is online!");

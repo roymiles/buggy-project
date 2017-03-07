@@ -22,9 +22,9 @@ int M2 = 7;     // M1 Direction Control
 //volatile uint8_t RRC = 0;      // Right rotary encoder count
 
 // Max of 255
-unsigned int defaultRotationalSpeed = 80;
-unsigned int defaultMovementSpeed   = 80;
-unsigned int defaultSkidSpeed       = 80;
+unsigned int defaultRotationalSpeed = 120;
+unsigned int defaultMovementSpeed   = 120;
+unsigned int defaultSkidSpeed       = 120;
 
 unsigned int leftMotorSpeed;
 unsigned int rightMotorSpeed;
@@ -100,6 +100,10 @@ Movement::~Movement()
 //    }*/
 //}
 
+
+/**
+ * Turn on the motors to go forward and reset the timer count
+ */
 void Movement::moveForward(){
   //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
   analogWrite (RIGHT_MTR, defaultMovementSpeed);
@@ -116,6 +120,9 @@ void Movement::moveForward(){
   currentMovement = FORWARD;  
 }
 
+/**
+ * Turn on the motors to go backwards and reset the timer count
+ */
 void Movement::moveBackwards(){
   //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
   analogWrite (RIGHT_MTR, defaultMovementSpeed);
@@ -131,12 +138,10 @@ void Movement::moveBackwards(){
   currentMovement = BACKWARDS;
 }
 
-void Movement::turn(double degrees) {  
-  /*
-   * Yet to be implemented
-   */
-}
 
+/**
+ * Turn on the motors to turn left and reset the timer count
+ */
 void Movement::turnLeft() {
   //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
   analogWrite (RIGHT_MTR, defaultRotationalSpeed);
@@ -152,9 +157,14 @@ void Movement::turnLeft() {
   currentMovement = TURNING_LEFT;
 }
 
+/**
+ * Turn on the motors to go forward and reset the timer count
+ */
 unsigned int leftMotorCompensation; 
 void Movement::turnRight() {
   //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
+
+  // The left wiggling is not as strong as the right wiggle. So can compensate by adjusting the values
   if(isWiggling == true){
     leftMotorCompensation = defaultRotationalSpeed;
   }else{
@@ -174,6 +184,9 @@ void Movement::turnRight() {
   currentMovement = TURNING_RIGHT;
 }
 
+/**
+ * Stop the motors and put the buggy in an IDLE state
+ */
 void Movement::stopMovement(){
   Serial.println("Stopping buggy");
   
@@ -189,6 +202,10 @@ void Movement::stopMovement(){
   delay(100); // Allow things to settle
 }
 
+
+/**
+ * The following compensation functions are no longer used
+ */
 //void Movement::increaseLeftMotor(){
 //  if(leftMotorSpeed <= upperLimit){
 //    leftMotorSpeed += motorSensitivity;
@@ -227,6 +244,9 @@ void Movement::stopMovement(){
 //  }*/
 //}
 
+/**
+ * Functions to enable and disable the motors
+ */
 void Movement::enableLeftMotor(){
   analogWrite (LEFT_MTR, defaultSkidSpeed);
 }
@@ -246,6 +266,7 @@ void Movement::disableRightMotor(){
 
 /// --------------------------
 /// Custom ISR Timer Routine
+/// If the buggy is moving (not wiggling) turn the motors on and off (to compensate for low torque)
 /// --------------------------
 bool motorToggle = false; // Toggle the motors on and off to reduce overshoot due to high speed
 void Movement::timerIsr()

@@ -14,21 +14,18 @@ const byte SENSOR_MUX = 9;     // Output pin to control the MUX
 colourState SensorControl::currentColourState = BLACK_WHITE; // Will alternate at start of movement init
 crossOrLine SensorControl::currentPositionState = LINE;
 
+/**
+ * Constructor
+ * Create instances of the IR sensors
+ */
 SensorControl::SensorControl(Movement *m)
 {
   Serial.println("Sensor control instance");
   this->m = m;
 
   // Initial values
-  currentColourState   = BLACK_WHITE; // Will alternate at start of movement init
-  currentPositionState = LINE;  
-
-  /* 
-   * Mux output RGB Sensors 
-   */
-  /*pinMode(SENSOR_MUX, OUTPUT);
-  digitalWrite(SENSOR_MUX, LOW);
-  delay(100);*/
+  // currentColourState   = BLACK_WHITE; // Will alternate at start of movement init
+  // currentPositionState = LINE;  
   
   // Create instances of the grid sensor
   // gs = new GridSensor();
@@ -45,6 +42,9 @@ SensorControl::~SensorControl()
 {
 }
 
+/**
+ * Read the IR sensor values and store them in an array as enums (colours)
+ */
 void SensorControl::getSideSensorColours(){
   sgs->readSideSensors(); // Make sure the latest values are measured
 
@@ -62,6 +62,7 @@ void SensorControl::getFrontSensorColours(){
 
 /*
  * Used to convert the simple sensor values to a WHITE/BLACK colour
+ * - The thresholds are dependant on the distance of the IR sensors to the ground
  */
 colour SensorControl::convertSideSensorValueToColour(unsigned int value){
   if(value < sideSensorThreshold){
@@ -79,6 +80,9 @@ colour SensorControl::convertFrontSensorValueToColour(unsigned int value){
   }
 }
 
+/**
+ * This function just reads in the IR sensors and prints relevant debug information
+ */
 void SensorControl::debug(){
   /*
    * Debugging the front RGB sensors
@@ -128,42 +132,15 @@ void SensorControl::debug(){
   Serial.println(F("END DEBUG >>>"));
 }
 
-
-/*void SensorControl::enableLeftSensor(){
-  Serial.println("xxxx Enabling left colour sensor:");
-  digitalWrite(SENSOR_MUX, HIGH);
-  // Persist the LEFT or RIGHT sensor value each time it is selected as there is only one grid sensor instance
-  gs->initialSensorReading = initialSensorReading_left;
-  Serial.println("xxxx Initial reading left: " + colourToString(initialSensorReading_left));
-  delay(100);  
-}
-
-void SensorControl::enableRightSensor(){
-  Serial.println("xxxx Enabling right colour sensor:");
-  digitalWrite(SENSOR_MUX, LOW);
-  gs->initialSensorReading = initialSensorReading_right; 
-  Serial.println("xxxx Initial reading right: " + colourToString(initialSensorReading_left));
-  delay(100);
-}*/
-
 /**
  * Get the initial readings prior to movement and calculate the expected grid sqaures after movement
  */
 bool wiggleLeft = 0; // 0 = right
 void SensorControl::movementInit(movements pm, movements cm){  
-  Serial.print(F("Previous movement: "));
-  Serial.println(m->getMovement(pm));
-  Serial.print(F("Current movement: "));
-  Serial.println(m->getMovement(cm));
-
-  /*
-   * RGB Sensors
-   */
-  /*enableLeftSensor();
-  initialSensorReading_left  = gs->getCurrentCell();
-
-  enableRightSensor();
-  initialSensorReading_right = gs->getCurrentCell();*/
+//  Serial.print(F("Previous movement: "));
+//  Serial.println(m->getMovement(pm));
+//  Serial.print(F("Current movement: "));
+//  Serial.println(m->getMovement(cm));
 
   /*
    * Simple Front Sensors (alternative to the RGB Sensors)
@@ -172,12 +149,12 @@ void SensorControl::movementInit(movements pm, movements cm){
   initialSensorReading_left         = frontSensorColours[0];
   initialSensorReading_right        = frontSensorColours[1];
   initialSensorReading_rightBackup  = frontSensorColours[2];
-  Serial.print(F("---- Left front sensor: "));
-  Serial.println(colourToString(initialSensorReading_left));
-  Serial.print(F("---- Right front sensor: "));
-  Serial.println(colourToString(initialSensorReading_right)); 
-  Serial.print("---- Right backup front sensor: ");
-  Serial.println(colourToString(initialSensorReading_rightBackup));   
+//  Serial.print(F("---- Left front sensor: "));
+//  Serial.println(colourToString(initialSensorReading_left));
+//  Serial.print(F("---- Right front sensor: "));
+//  Serial.println(colourToString(initialSensorReading_right)); 
+//  Serial.print("---- Right backup front sensor: ");
+//  Serial.println(colourToString(initialSensorReading_rightBackup));   
 
   /*
    * Side Sensors
@@ -185,17 +162,17 @@ void SensorControl::movementInit(movements pm, movements cm){
   getSideSensorColours();
   initialSideSensorReading_left  = sideSensorColours[0];
   initialSideSensorReading_right = sideSensorColours[1];
-  Serial.print(F("---- Left side sensor: "));
-  Serial.println(colourToString(initialSideSensorReading_left));
-  Serial.print(F("---- Right side sensor: "));
-  Serial.println(colourToString(initialSideSensorReading_right));  
+//  Serial.print(F("---- Left side sensor: "));
+//  Serial.println(colourToString(initialSideSensorReading_left));
+//  Serial.print(F("---- Right side sensor: "));
+//  Serial.println(colourToString(initialSideSensorReading_right));  
 
   // If the front sensors are initially different, wiggle the buggy
   if(initialSensorReading_left == initialSensorReading_right /*&& (cm != TURNING_RIGHT || cm != TURNING_LEFT)*/ ){
     if(pm == TURNING_RIGHT){
       wiggleLeft = 1;
     }
-    wiggleBuggy(pm); // Wiggle the buggy until the front sensors are different
+    wiggleBuggy(pm, false); // Wiggle the buggy until the front sensors are different
   }
 
   // Get the buggy position state CROSS or LINE and the start grid colours
@@ -204,11 +181,11 @@ void SensorControl::movementInit(movements pm, movements cm){
 }
 
 /**
- * Wiggle the buggy left and right (random amounts) untill the front sensors have different values
+ * Wiggle the buggy left and right (for an incrementing amount of time) until the front sensors have different values
  */
-unsigned int wiggleDelay = 100; // 100ms = 0.1s
-const unsigned int postWiggleDelay = 1000; // 1s
-bool SensorControl::wiggleBuggy(movements pm){
+unsigned int wiggleDelay = 200; // 100ms = 0.1s
+const unsigned int postWiggleDelay = 500; // 1s
+bool SensorControl::wiggleBuggy(movements pm, bool isDocking = false){
   Movement::isWiggling = true;
   Serial.println(F("Wiggling buggy"));
   if(wiggleLeft == 1){
@@ -235,11 +212,18 @@ bool SensorControl::wiggleBuggy(movements pm){
   initialSensorReading_right          = frontSensorColours[1];
   initialSensorReading_rightBackup    = frontSensorColours[2];
 
-  if(initialSensorReading_left == initialSensorReading_right){
+  bool finishCondition;
+  if(isDocking){
+    finishCondition = isDocked();
+  }else{
+    finishCondition = (initialSensorReading_left == initialSensorReading_right);
+  }
+
+  if(finishCondition){
     if(wiggleLeft == 0){
       wiggleDelay += 50; // Increase the wiggle duration by 0.05s
     }
-    return wiggleBuggy(pm); // Wiggle buggy in opposite direction
+    return wiggleBuggy(pm, isDocking); // Wiggle buggy in opposite direction
   }else{
     Serial.println(F("Finished wiggling"));
     Movement::isWiggling = false;
@@ -248,6 +232,17 @@ bool SensorControl::wiggleBuggy(movements pm){
   }
 }
 
+/**
+ * This function reads in from the read switch
+ */
+bool SensorControl::isDocked(){
+  // TODO: implement this
+  return true;
+}
+
+/**
+ * Check if the colour is valid
+ */
 bool SensorControl::isValidColour(colour c){
   if(c == WHITE || c == BLACK){
     return true;
@@ -299,6 +294,11 @@ void SensorControl::getStartPosition(){
   getPositionState();  
 }
 
+/**
+ * This function simulates the LUT to enumerate all
+ * the possible colour combinations corresponding
+ * to the expected position
+ */
 void SensorControl::getPositionState(){
   /* 
    * Get the position state 
@@ -316,9 +316,9 @@ void SensorControl::getPositionState(){
     case 4: // 0100
       // Front sensors read WHITE_BLACK and the back sensors are on WHITE. CROSS. Deviating left
       // EDIT: line deviating right
-      Serial.println(F("STATE 4"));
-      Serial.println(F("Starting on a cross, deviating left with front sensors on WHITE_BLACK and back sensors on WHITE"));
-      Serial.println(F("Starting on a line, deviating right with front sensors on WHITE_BLACK and back sensors on WHITE"));
+      Serial.println(F("STATE 4 - WHITE_BLACK - CROSS"));
+      //--Serial.println(F("Starting on a cross, deviating left with front sensors on WHITE_BLACK and back sensors on WHITE"));
+      //--Serial.println(F("Starting on a line, deviating right with front sensors on WHITE_BLACK and back sensors on WHITE"));
 //      initialSideSensorReading_left  = BLACK;
 //      initialSideSensorReading_right = WHITE;
 //      currentColourState = BLACK_WHITE;
@@ -332,8 +332,8 @@ void SensorControl::getPositionState(){
 
     case 5: // 0101
       // Ideal line. WHITE_BLACK
-      Serial.println(F("STATE 5"));
-      Serial.println(F("Ideal line WHITE_BLACK"));
+      Serial.println(F("STATE 5 - WHITE_BLACK - LINE"));
+      //--Serial.println(F("Ideal line WHITE_BLACK"));
       initialSideSensorReading_left  = WHITE;
       initialSideSensorReading_right = BLACK;
       currentColourState = WHITE_BLACK;
@@ -342,8 +342,8 @@ void SensorControl::getPositionState(){
 
     case 6: // 0110
       // Ideal cross. Front WHITE_BLACK, Back BLACK_WHITE
-      Serial.println(F("STATE 6"));
-      Serial.println(F("Ideal cross with front sensors on WHITE_BLACK and back sensors on BLACK_WHITE"));
+      Serial.println(F("STATE 6 - BLACK_WHITE - CROSS"));
+      //--Serial.println(F("Ideal cross with front sensors on WHITE_BLACK and back sensors on BLACK_WHITE"));
       initialSideSensorReading_left  = BLACK;
       initialSideSensorReading_right = WHITE;
       currentColourState = BLACK_WHITE;
@@ -353,9 +353,9 @@ void SensorControl::getPositionState(){
     case 7: // 0111
       // Front sensors read WHITE_BLACK and the back sensors are on BLACK. CROSS. Deviating right
       // EDIT: LINE deviating left
-      Serial.println(F("STATE 7"));
+      Serial.println(F("STATE 7 - WHITE_BLACK - LINE"));
       //Serial.println(F("Starting on a cross, deviating right with front sensors on WHITE_BLACK and back sensors on BLACK"));
-      Serial.println(F("Line deviating left with front sensors on WHITE_BLACK and back sensors on BLACK"));
+      //--Serial.println(F("Line deviating left with front sensors on WHITE_BLACK and back sensors on BLACK"));
 //      initialSideSensorReading_left  = BLACK;
 //      initialSideSensorReading_right = WHITE;
 //      currentColourState = BLACK_WHITE;
@@ -370,9 +370,9 @@ void SensorControl::getPositionState(){
     case 8: // 1000
       // Front sensors read BLACK_WHITE and the back sensors are on WHITE. CROSS. Deviating right
       // EDIT: line deviating left
-      Serial.println(F("STATE 8"));
+      Serial.println(F("STATE 8 - BLACK_WHITE - LINE"));
       //Serial.println(F("Starting on a cross, deviating right with front sensors on BLACK_WHITE and back sensors on WHITE"));
-      Serial.println(F("Starting on a line, deviating left with front sensors on BLACK_WHITE and back sensors on WHITE"));
+      //--Serial.println(F("Starting on a line, deviating left with front sensors on BLACK_WHITE and back sensors on WHITE"));
 //      initialSideSensorReading_left  = WHITE;
 //      initialSideSensorReading_right = BLACK;
 //      currentColourState = WHITE_BLACK;
@@ -386,8 +386,8 @@ void SensorControl::getPositionState(){
 
     case 9: // 1001
       // Ideal cross. Front BLACK_WHITE, Back WHITE_BLACK
-      Serial.println(F("STATE 9"));
-      Serial.println(F("Ideal cross with front sensors on BLACK_WHITE and back sensors on WHITE_BLACK"));
+      Serial.println(F("STATE 9 - WHITE_BLACK - CROSS"));
+      //--Serial.println(F("Ideal cross with front sensors on BLACK_WHITE and back sensors on WHITE_BLACK"));
       initialSideSensorReading_left  = WHITE;
       initialSideSensorReading_right = BLACK;
       currentColourState = WHITE_BLACK;
@@ -396,8 +396,8 @@ void SensorControl::getPositionState(){
 
     case 10: // 1010
       // Ideal line. BLACK_WHITE
-      Serial.println(F("STATE 10"));
-      Serial.println(F("Ideal line BLACK_WHITE"));
+      Serial.println(F("STATE 10 - BLACK_WHITE - LINE"));
+      //--Serial.println(F("Ideal line BLACK_WHITE"));
       initialSideSensorReading_left  = BLACK;
       initialSideSensorReading_right = WHITE;
       currentColourState = BLACK_WHITE;
@@ -407,9 +407,9 @@ void SensorControl::getPositionState(){
     case 11: // 1011
       // Front sensors read BLACK_WHITE and the back sensors are on BLACK. CROSS. Deviating left
       // EDIT: line deviatinh right
-      Serial.println(F("STATE 11"));
+      Serial.println(F("STATE 11 - BLACK_WHITE - LINE"));
       //Serial.println(F("Starting on a cross, deviating left with front sensors on BLACK_WHITE and back sensors on BLACK"));
-      Serial.println(F("Starting on a line, deviating right with front sensors on BLACK_WHITE and back sensors on BLACK"));
+      //--Serial.println(F("Starting on a line, deviating right with front sensors on BLACK_WHITE and back sensors on BLACK"));
 //      initialSideSensorReading_left  = WHITE;
 //      initialSideSensorReading_right = BLACK;
 //      currentColourState = WHITE_BLACK;
@@ -423,7 +423,7 @@ void SensorControl::getPositionState(){
 
     default:
       Serial.println(F("STATE 0-3 or 12-15"));
-      Serial.println(F("Front sensors have the same value"));
+      //--Serial.println(F("Front sensors have the same value"));
       Serial.println(F("Unknown position state. Halting..."));
       while(true){
         ; // Halt
@@ -432,6 +432,9 @@ void SensorControl::getPositionState(){
 
 }
 
+/*
+ * Used to convert a colour to a binary value. For the LUT
+ */
 unsigned int SensorControl::colourToNumber(colour c){
   if(c == WHITE){
     return 0;
@@ -456,15 +459,12 @@ byte frontRightCount = 0, frontLeftCount = 0, sideRightCount = 0, sideLeftCount 
 
 bool finishCondition;
 
+/**
+ * Read the IR sensors and determine if they have changed and how many times they have changed
+ * - Compensate accordingly
+ * - Check if the movement has finished
+ */
 void SensorControl::motorCorrection(){
-  /*
-  * RGB Sensors
-  */
-  /*enableLeftSensor();
-  left_changed  = gs->hasChangedCell();
-  
-  enableRightSensor();
-  right_changed = gs->hasChangedCell(); */
   
   /*
    * Front sensors
@@ -518,7 +518,8 @@ void SensorControl::motorCorrection(){
   
       // Left sensor has changed but right sensor has not
       //if(right_changed && !left_changed && currentDeviatingState != RIGHT_NOT_CHANGED){
-      if(frontSensorColours[0] == frontSensorColours[1] && frontSensorColours[0] != frontSensorColours[2] && currentDeviatingState != RIGHT_NOT_CHANGED){
+      if((frontSensorColours[0] == frontSensorColours[1] && frontSensorColours[0] != frontSensorColours[2])  // Side right sensor is different to the other two sensors
+          && currentDeviatingState != RIGHT_NOT_CHANGED){
         // Need to turn slightly to the RIGHT to compensate
         // delay(50); // To allow for misalignment of front sensors eg one sensor sees next grid first
 
@@ -580,8 +581,10 @@ void SensorControl::motorCorrection(){
 
       /*
        * If both the wheel sensors have changed
+       * Finished movement!
        */
       if(sideLeft_changed && sideRight_changed){
+        consecutiveCollisions = 0; // Movement did not end in a collision
         toggleColourState();
         frontSensorsFlipped = false; // Reset
         Movement::stopMovement();
@@ -609,26 +612,32 @@ void SensorControl::motorCorrection(){
       finishCondition = false;
       if(positionState == 5 || positionState == 10){
         // Ideal LINE. Only the back RIGHT sensor needs to change
-        finishCondition = sideRight_changed;
+        Serial.println("ERROR: SHOULD NOT START TURNS ON LINES?");
+        //finishCondition = sideRight_changed;
+        finishCondition = (sideRightCount > 0);
       }
 
       if(positionState == 6 || positionState == 9){
         // Ideal CROSS. Only the front RIGHT and back RIGHT sensors needs to change
         //finishCondition = (sideLeft_changed && sideLeft_changed);
         finishCondition = (sideLeftCount > 0 && sideRightCount > 0);
+        
       }      
 
       if(positionState == 4 || positionState == 11){
         // CROSS deviating left
-        finishCondition = left_changed;
+        //finishCondition = left_changed;
+        finishCondition = (frontLeftCount > 0);
       }  
  
       if(positionState == 7 || positionState == 8){
         // CROSS deviating right
-        finishCondition = left_changed;
+        //finishCondition = left_changed;
+        finishCondition = (frontLeftCount > 0);
       }       
        
       if(finishCondition){
+          consecutiveCollisions = 0; // Movement did not end in a collision
           toggleColourState();
           Movement::stopMovement();
           resetFlagsAndCounts();       
@@ -655,27 +664,32 @@ void SensorControl::motorCorrection(){
       finishCondition = false;
       if(positionState == 5 || positionState == 10){
         // Ideal LINE. Only the back LEFT sensor needs to change
-        finishCondition = sideLeft_changed;
+        Serial.println("ERROR: SHOULD NOT START TURNS ON LINES?");
+        //finishCondition = sideLeft_changed;
+        finishCondition = (sideLeftCount > 0);
       }
 
       if(positionState == 6 || positionState == 9){
         // Ideal CROSS. Only the front RIGHT and back RIGHT sensors needs to change
-        // finishCondition = (sideLeft_changed && sideRight_changed);
+        //finishCondition = (sideLeft_changed && sideRight_changed);
         finishCondition = (sideLeftCount > 0 && sideRightCount > 0);
       }
 
       if(positionState == 4 || positionState == 11){
         // CROSS deviating left
-        finishCondition = right_changed;
+        //finishCondition = right_changed;
+        finishCondition = (frontRightCount > 0);
       }  
  
       if(positionState == 7 || positionState == 8){
         // CROSS deviating right
-        finishCondition = right_changed;
+        //finishCondition = right_changed;
+        finishCondition = (frontRightCount > 0);
       }   
       
       
       if(finishCondition){
+          consecutiveCollisions = 0; // Movement did not end in a collision
           toggleColourState();
           Movement::stopMovement();
           resetFlagsAndCounts();
@@ -691,6 +705,10 @@ void SensorControl::motorCorrection(){
   
 } // end func
 
+/**
+ * DRY - Reseting all the sensor flags (if colour has changed) and counters (how many times they have changed)
+ * for a given movement
+ */
 void SensorControl::resetFlagsAndCounts(){
   frontLeftFlag   = false;
   frontRightFlag  = false;
@@ -702,6 +720,9 @@ void SensorControl::resetFlagsAndCounts(){
   sideRightCount  = 0;      
 }
 
+/**
+ *  Using the sensor values, calculate how many times they have transitioned
+ */
 void SensorControl::checkTransitions(){
   /*
    * The following conditions toggle and increment the transition count
@@ -768,6 +789,9 @@ void SensorControl::checkTransitions(){
   }
 }
 
+/**
+ * Toggle between BLACK_WHITE and WHITE_BLACK
+ */
 void SensorControl::toggleColourState(){
   if(currentColourState == WHITE_BLACK){
     Serial.println("BLACK_WHITE state");
@@ -780,7 +804,7 @@ void SensorControl::toggleColourState(){
 
 
 /**
- * Convert the movement enum to a string (for debugging)
+ * Convert the movement enum to a string
  */
 String SensorControl::colourToString(colour c){
   switch(c){
@@ -795,6 +819,9 @@ String SensorControl::colourToString(colour c){
   }
 }
 
+/**
+ * Convert colourState enum to a string
+ */
 String SensorControl::getColourState(colourState cs){
   switch(cs){
     case WHITE_BLACK:

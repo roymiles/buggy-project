@@ -14,11 +14,11 @@
 // sensors 0 through 1 are connected to digital pins 2 through 3, respectively
 
 /*
- * LEFT sensor PIN 1
- * RIGHT sensor PIN 2
+ * LEFT sensor PIN 12
+ * RIGHT sensor PIN 10
  * RIGHT BACKUP sensor PIN 13
  */
-QTRSensorsRC qtrrc_frontSensors((unsigned char[]) {2,3, 13}, FRONT_NUM_SENSORS, FRONT_TIMEOUT, FRONT_EMITTER_PIN); 
+QTRSensorsRC qtrrc_frontSensors((unsigned char[]) {12, 10, 13}, FRONT_NUM_SENSORS, FRONT_TIMEOUT, FRONT_EMITTER_PIN); 
 
 FrontGridSensor::FrontGridSensor(){
   Serial.println("Front grid sensor instance");

@@ -37,6 +37,12 @@ public:
   static colourState currentColourState; // Will alternate at start of movement init
   static crossOrLine currentPositionState;
 
+  /* 
+   * If the buggy finished previous movement due to a collision and runs into a collision on current movement 
+   * then don't increment the coordinates
+   */
+  unsigned int consecutiveCollisions = 0; 
+
   //GridSensor *gs;
   colour initialSensorReading_left;
   colour initialSensorReading_leftBackup; // Chip not connected yet
@@ -70,7 +76,12 @@ public:
   /**
    * Wiggle the buggy left and right until the front sensors have opposite polarity
    */
-  bool wiggleBuggy(movements pm);
+  bool wiggleBuggy(movements pm, bool isDocking);
+
+  /**
+   * Check if the read switch is triggered
+   */
+  bool isDocked();
 
   /**
    * Control the MUX to enable/disable communication with appropriate IR Grid sensor
