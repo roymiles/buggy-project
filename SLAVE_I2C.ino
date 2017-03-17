@@ -1,6 +1,6 @@
 #include <Wire.h>
 
-enum I2C_COMMAND : uint16_t // Used for static conversions
+enum I2C_COMMAND : int // Used for static conversions
 {
   MASTER_IDLE = 0, 
   MASTER_MOVING = 1,
@@ -22,12 +22,19 @@ enum I2C_COMMAND : uint16_t // Used for static conversions
   AWAITING_Y = 14,
   AWAITING_ORIENTATION = 15,
 
+  FORWARD = 16,
+  BACKWARDS = 17,
+  TURN_LEFT = 18,
+  TURN_RIGHT = 19,
+
   MIN = 0,
-  MAX = 15
+  MAX = 19
   /*
    * Anything higher is interpreted as a data value
    */
 };
+
+#define SLAVE_ID 44
 
 uint16_t dataToCommand(uint16_t d){ 
   return  d + (MAX+1);
@@ -52,11 +59,21 @@ positionDataState currentPositionDataState = PS_NA;
 // Include the required Wire library for I2C<br>#include <Wire.h>
 uint16_t recievedVal = 0;
 void setup() {
+  Serial.begin(9600);    // serial / USB port
   Serial.println("Slave setup");
   // Start the I2C Bus as Slave on address 9
-  Wire.begin(44); 
+  Wire.begin(SLAVE_ID); 
   // Attach a function to trigger when something is received.
   Wire.onReceive(receiveEvent);
+
+  // When the master requests data from the slave
+  Wire.onRequest(requestEvent); // register event
+}
+
+void requestEvent() {
+  Serial.print("Transmitting: ");
+  Serial.println(commandToString(I2C_COMMAND::MASTER_IDLE));
+  Wire.write(I2C_COMMAND::MASTER_IDLE); // respond with message
 }
 
 void receiveEvent(int bytes) {
@@ -157,9 +174,22 @@ String commandToString(I2C_COMMAND cmd){
     case AWAITING_ORIENTATION:
       return "AWAITING_ORIENTATION";
       break;
+
+    case BACKWARDS:
+      return "BACKWARDS";
+      break;
+    case FORWARD:
+      return "FORWARDS";
+      break;
+    case TURN_LEFT:
+      return "TURN_LEFT";
+      break;
+    case TURN_RIGHT:
+      return "TURN_RIGHT";
+      break;      
     
     default:
-      return "DATA";
+      return "DATA or UNKNOWN";
   }
 }
 

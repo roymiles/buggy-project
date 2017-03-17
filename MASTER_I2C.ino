@@ -2,7 +2,7 @@
 // #include "EasyTransferI2C.h"
 
 uint16_t randomNumber;
-enum I2C_COMMAND : uint16_t // Used for static conversions
+enum I2C_COMMAND : int // Used for static conversions
 {
   MASTER_IDLE = 0, 
   MASTER_MOVING = 1,
@@ -23,14 +23,21 @@ enum I2C_COMMAND : uint16_t // Used for static conversions
   AWAITING_X = 13,
   AWAITING_Y = 14,
   AWAITING_ORIENTATION = 15,
+  
+  FORWARD = 16,
+  BACKWARDS = 17,
+  TURN_LEFT = 18,
+  TURN_RIGHT = 19,
 
   MIN = 0,
-  MAX = 15
+  MAX = 19
 
   /*
    * Anything higher is interpreted as a data value
    */
 };
+
+#define SLAVE_ID 44
 
 uint16_t dataToCommand(uint16_t d){ 
   return  d + (MAX+1);
@@ -42,15 +49,16 @@ uint16_t commandToData(I2C_COMMAND cmd){
 
 int val = 0;
 void setup() {
-  Serial.println("Master setup");
   // Start the I2C Bus as Master
-  Wire.begin();  
+  Wire.begin();
+
+  Serial.begin(9600);  // start serial for output
 }
 void loop() {
   /*
    * Master wants to transmit current buggy position
    */
-  Wire.beginTransmission(44); // transmit to device #44 (0x2c)
+  Wire.beginTransmission(SLAVE_ID); // transmit to device #44 (0x2c)
                               // device address is specified in datasheet
   Serial.print("Transmitting: ");
   Serial.println(commandToString(I2C_COMMAND::MASTER_SEND_POSITION));                            
@@ -61,7 +69,7 @@ void loop() {
   /*
    * Send current x-coordinate
    */
-  Wire.beginTransmission(44);
+  Wire.beginTransmission(SLAVE_ID);
   Serial.print("Transmitting: ");
   //generate a random number
   randomNumber = 20;
@@ -73,7 +81,7 @@ void loop() {
   /*
    * Send current y-coordinate
    */
-  Wire.beginTransmission(44);
+  Wire.beginTransmission(SLAVE_ID);
   Serial.print("Transmitting: ");
   //generate a random number
   randomNumber = 18;
@@ -85,12 +93,43 @@ void loop() {
   /*
    * Send current orientation
    */
-  Wire.beginTransmission(44);
+  Wire.beginTransmission(SLAVE_ID);
   Serial.print("Transmitting: ");
   Serial.println(commandToString(I2C_COMMAND::WEST));                            
   Wire.write(I2C_COMMAND::WEST); 
   Wire.endTransmission();
   delay(1000);
+
+  /*
+   * Request new movement from slave
+   * FORWARD, BACKWARDS, LEFT or RIGHT
+   */
+  Serial.println("Requesting 2 bytes from slave");
+  Wire.requestFrom(SLAVE_ID, 2);    // request 2 bytes from slave device #44
+  
+  char recievedVal[2];
+  uint8_t i = 0;
+  Serial.print("Raw: ");
+  while (Wire.available()) {          // slave may send less than requested
+    char c = Wire.read();             // receive a byte as character
+    recievedVal[i] = c;
+    Serial.print(c);
+    i++;
+  }
+  Serial.println();
+
+  /*
+   * I have literally no idea how this works
+   */
+  I2C_COMMAND cmd = static_cast<I2C_COMMAND>(recievedVal[0]); //(recievedVal[1] << 8) | recievedVal[0];
+//  Serial.print("tmp:" );
+//  Serial.println(tmp);
+//  Serial.print("forward: ");
+//  Serial.println(I2C_COMMAND::FORWARD);
+  //I2C_COMMAND cmd = static_cast<I2C_COMMAND>(recievedVal[0] | recievedVal[1] << 8);
+  Serial.print("Recieved: ");
+  Serial.println(commandToString(cmd));
+  delay(500);
 }
 
 String commandToString(I2C_COMMAND cmd){
@@ -132,7 +171,7 @@ String commandToString(I2C_COMMAND cmd){
       break;
     case WEST:
       return "WEST";
-      break;
+      break;      
 
     case NA:
       return "NA";
@@ -146,8 +185,21 @@ String commandToString(I2C_COMMAND cmd){
     case AWAITING_ORIENTATION:
       return "AWAITING_ORIENTATION";
       break;
+
+    case BACKWARDS:
+      return "BACKWARDS";
+      break;
+    case FORWARD:
+      return "FORWARDS";
+      break;
+    case TURN_LEFT:
+      return "TURN_LEFT";
+      break;
+    case TURN_RIGHT:
+      return "TURN_RIGHT";
+      break;
     
     default:
-      return "DATA";
+      return "DATA or UNKNOWN";
   }
 }
