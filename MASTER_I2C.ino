@@ -1,7 +1,7 @@
 #include <Wire.h>
 // #include "EasyTransferI2C.h"
 
-uint16_t randomNumber;
+int randomNumber;
 enum I2C_COMMAND : int // Used for static conversions
 {
   MASTER_IDLE = 0, 
@@ -14,23 +14,23 @@ enum I2C_COMMAND : int // Used for static conversions
   SLAVE_BUSY = 6,
   SLAVE_DOCKED = 7,
   
-  NORTH = 8,
-  EAST = 9,
-  SOUTH = 10,
-  WEST = 11,
+  I2C_NORTH = 8,
+  I2C_EAST = 9,
+  I2C_SOUTH = 10,
+  I2C_WEST = 11,
   
-  NA = 12,
+  DEFAULT_SLAVE_STATE = 12,
   AWAITING_X = 13,
   AWAITING_Y = 14,
   AWAITING_ORIENTATION = 15,
   
-  FORWARD = 16,
-  BACKWARDS = 17,
-  TURN_LEFT = 18,
-  TURN_RIGHT = 19,
+  I2C_FORWARD = 16,
+  I2C_BACKWARDS = 17,
+  I2C_TURN_LEFT = 18,
+  I2C_TURN_RIGHT = 19,
 
-  MIN = 0,
-  MAX = 19
+  I2C_MIN = 0,
+  I2C_MAX = 19
 
   /*
    * Anything higher is interpreted as a data value
@@ -39,12 +39,12 @@ enum I2C_COMMAND : int // Used for static conversions
 
 #define SLAVE_ID 44
 
-uint16_t dataToCommand(uint16_t d){ 
-  return  d + (MAX+1);
+int dataToCommand(int d){ 
+  return  d + (I2C_MAX+1);
 }
 
-uint16_t commandToData(I2C_COMMAND cmd){
-  return cmd  - (MAX+1);
+int commandToData(I2C_COMMAND cmd){
+  return cmd  - (I2C_MAX+1);
 }
 
 int val = 0;
