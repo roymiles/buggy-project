@@ -6,14 +6,14 @@
 #include "esp8266.h"
 #include "SoftwareSerial.h"
 
-#define ssid		"test"		// you need to change it 
-#define password	"12345678"
+#define ssid		"maze_beacon_1"		// you need to change it 
+#define password	""
 
 #define serverIP	"192.168.1.1"
-#define	serverPort	"8081"
+#define	serverPort	"80"
 
 Esp8266 wifi;
-SoftwareSerial mySerial(10, 11); // RX, TX	
+SoftwareSerial mySerial(0, 1); // RX, TX	
 
 void setup() {
 	

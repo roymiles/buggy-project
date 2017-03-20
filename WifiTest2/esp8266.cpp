@@ -3,7 +3,7 @@
 Esp8266::Esp8266() {
 	this->workingState = WIFI_IDLE;
 	this->wifiMode = WIFI_MODE_STATION;
-	this->isDebug = false;
+	this->isDebug = true;
 }
 
 void Esp8266::begin(Stream *serial){

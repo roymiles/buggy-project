@@ -41,8 +41,6 @@ public:
 	bool enableAP(String ssid, String password);
 	String getIP();
 	bool setPureDataMode();
-	int available(); // Moved
-	int read(); // Moved
 
 private:
 	void write(String str);
@@ -52,6 +50,9 @@ private:
 	bool setMode(char mode);
 	char checkMode();	
 	bool setMux(int flag);
+
+  int available();
+  int read();  
 
 
 private:

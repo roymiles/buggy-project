@@ -106,10 +106,15 @@ Movement::~Movement()
  */
 void Movement::moveForward(){
   //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
+//  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+//  digitalWrite(M1, HIGH);    
+//  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+//  digitalWrite(M2, LOW);
+
   analogWrite (RIGHT_MTR, defaultMovementSpeed);
   digitalWrite(M1, HIGH);    
   analogWrite (LEFT_MTR, defaultMovementSpeed);    
-  digitalWrite(M2, LOW);
+  digitalWrite(M2, HIGH);
 
   leftMotorSpeed  = defaultMovementSpeed;
   rightMotorSpeed = defaultMovementSpeed;
@@ -125,10 +130,15 @@ void Movement::moveForward(){
  */
 void Movement::moveBackwards(){
   //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
+//  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+//  digitalWrite(M1, LOW);    
+//  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+//  digitalWrite(M2, HIGH);
+
   analogWrite (RIGHT_MTR, defaultMovementSpeed);
   digitalWrite(M1, LOW);    
   analogWrite (LEFT_MTR, defaultMovementSpeed);    
-  digitalWrite(M2, HIGH);
+  digitalWrite(M2, LOW);
 
   leftMotorSpeed  = defaultMovementSpeed;
   rightMotorSpeed = defaultMovementSpeed;
@@ -144,10 +154,15 @@ void Movement::moveBackwards(){
  */
 void Movement::turnLeft() {
   //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
-  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
-  digitalWrite(M1, LOW);   
-  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
-  digitalWrite(M2, LOW);
+//  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
+//  digitalWrite(M1, LOW);   
+//  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
+//  digitalWrite(M2, LOW);
+
+  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+  digitalWrite(M1, LOW);    
+  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+  digitalWrite(M2, HIGH);
 
   leftMotorSpeed  = defaultRotationalSpeed;
   rightMotorSpeed = defaultRotationalSpeed;
@@ -171,11 +186,16 @@ void Movement::turnRight() {
     leftMotorCompensation = defaultRotationalSpeed;
   }
   
-  analogWrite (RIGHT_MTR, leftMotorCompensation);
-  digitalWrite(M1, HIGH);    
-  analogWrite (LEFT_MTR, leftMotorCompensation);    
-  digitalWrite(M2, HIGH);
+//  analogWrite (RIGHT_MTR, leftMotorCompensation);
+//  digitalWrite(M1, HIGH);    
+//  analogWrite (LEFT_MTR, leftMotorCompensation);    
+//  digitalWrite(M2, HIGH);
 
+  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+  digitalWrite(M1, HIGH);    
+  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+  digitalWrite(M2, LOW);
+  
   leftMotorSpeed  = defaultRotationalSpeed;
   rightMotorSpeed = defaultRotationalSpeed;  
 
@@ -286,7 +306,7 @@ void Movement::timerIsr()
     }*/
 
     // If the buggy is moving keep stopping and starting the motors
-    if(currentMovement != IDLE  && isWiggling == false /*(currentMovement == FORWARD || currentMovement == BACKWARDS)*/ && timerCount > movementToggleCount){
+    if(currentMovement != IDLE  /*&& isWiggling == false /*(currentMovement == FORWARD || currentMovement == BACKWARDS)*/ && timerCount > movementToggleCount){
       timerCount = 0;
       if(motorToggle){
         motorToggle = false;

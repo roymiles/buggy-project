@@ -184,7 +184,7 @@ void SensorControl::movementInit(movements pm, movements cm){
  * Wiggle the buggy left and right (for an incrementing amount of time) until the front sensors have different values
  */
 unsigned int wiggleDelay = 200; // 100ms = 0.1s
-const unsigned int postWiggleDelay = 500; // 1s
+const unsigned int postWiggleDelay = 800; // 1s
 bool SensorControl::wiggleBuggy(movements pm, bool isDocking = false){
   Movement::isWiggling = true;
   Serial.println(F("Wiggling buggy"));
@@ -230,6 +230,48 @@ bool SensorControl::wiggleBuggy(movements pm, bool isDocking = false){
     wiggleDelay = 100; // Reset wiggle delay and finish
     return true;
   }
+}
+
+bool leftReedSwitch, middleReedSwitch;
+const unsigned int dockAdjustmentTime = 500; // 500ms = 0.5s
+bool SensorControl::adjustDockingPosition(){
+  leftReedSwitch = 1;
+  middleReedSwitch = 1;
+
+  if(leftReedSwitch==0 && middleReedSwitch==0){
+    // Undocked
+
+    // The buggy will probably need to rotate in the same direction it was just rotating
+
+    // At the moment, choose right
+    m->turnRight();
+    delay(dockAdjustmentTime);
+    Movement::stopMovement();
+    delay(dockAdjustmentTime);
+    
+  }else if(leftReedSwitch==0 && middleReedSwitch==1){
+    // Too far left
+    m->turnRight();
+    delay(dockAdjustmentTime);
+    Movement::stopMovement();
+    delay(dockAdjustmentTime);
+
+    return this->adjustDockingPosition();
+    
+  }else if(leftReedSwitch==1 && middleReedSwitch==0){
+    // Too far right
+    m->turnLeft();
+    delay(dockAdjustmentTime);
+    Movement::stopMovement();
+    delay(dockAdjustmentTime);
+
+    return this->adjustDockingPosition();
+    
+  }else if(leftReedSwitch==1 && middleReedSwitch==1){
+    // Docked
+    return true;
+  }
+  
 }
 
 /**
@@ -620,7 +662,7 @@ void SensorControl::motorCorrection(){
       if(positionState == 6 || positionState == 9){
         // Ideal CROSS. Only the front RIGHT and back RIGHT sensors needs to change
         //finishCondition = (sideLeft_changed && sideLeft_changed);
-        finishCondition = (sideLeftCount > 0 && sideRightCount > 0);
+        finishCondition = ((sideLeftCount > 0 && sideRightCount > 0) || sideRightCount == 2);
         
       }      
 
@@ -672,7 +714,7 @@ void SensorControl::motorCorrection(){
       if(positionState == 6 || positionState == 9){
         // Ideal CROSS. Only the front RIGHT and back RIGHT sensors needs to change
         //finishCondition = (sideLeft_changed && sideRight_changed);
-        finishCondition = (sideLeftCount > 0 && sideRightCount > 0);
+        finishCondition = ((sideLeftCount > 0 && sideRightCount > 0) || sideLeftCount == 2); //|| (initialSensorReading_left == initialSensorReading_right;
       }
 
       if(positionState == 4 || positionState == 11){

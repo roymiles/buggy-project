@@ -10,7 +10,6 @@
 #ifndef BASESTATION_H
 #define BASESTATION_H
 
-#include "Communication.h"
 #include "ESP8266/esp8266.h"
 #include <SPI.h>
 #include <WiFi.h>

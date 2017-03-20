@@ -20,7 +20,7 @@
 
 enum colour {UNKNOWN_COLOUR, WHITE, BLACK};
 // enum sensorPosition {UNKNOWN_POSITION, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
-enum colourState {NA, WHITE_BLACK, BLACK_WHITE};
+enum colourState {UNKNOWN_COLOUR_STATE, WHITE_BLACK, BLACK_WHITE};
 enum crossOrLine {CROSS, LINE};
 
 class SensorControl
@@ -77,6 +77,11 @@ public:
    * Wiggle the buggy left and right until the front sensors have opposite polarity
    */
   bool wiggleBuggy(movements pm, bool isDocking);
+
+  /**
+   * Adjust the buggys orientation until the two reed switches return 1 (docked)
+   */
+  bool adjustDockingPosition();
 
   /**
    * Check if the read switch is triggered

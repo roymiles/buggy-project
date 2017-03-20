@@ -16,7 +16,7 @@ int ledPin = 13;
 String incomingData = "";
 
 Esp8266 wifi;
-SoftwareSerial mySerial(10, 11); // RX, TX
+SoftwareSerial mySerial(0, 1); // RX, TX
 
 void setup() {
  pinMode(ledPin, OUTPUT);

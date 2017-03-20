@@ -4,8 +4,8 @@
 */
 
 void setup() {
-  Serial.begin(115200); //initialize Serial(i.e. USB port)
-  Serial1.begin(115200); //initialize Serial1
+  Serial.begin(9600); //initialize Serial(i.e. USB port)
+  Serial1.begin(9600); //initialize Serial1
 }
 
 void loop() {
