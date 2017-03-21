@@ -17,7 +17,7 @@
  * LEFT sensor PIN 3
  * RIGHT sensor PIN 4
  */
-QTRSensorsRC qtrrc_sideSensors((unsigned char[]) {8,9}, SIDE_NUM_SENSORS, SIDE_TIMEOUT, SIDE_EMITTER_PIN); 
+QTRSensorsRC qtrrc_sideSensors((unsigned char[]) {9, 8}, SIDE_NUM_SENSORS, SIDE_TIMEOUT, SIDE_EMITTER_PIN); 
 
 SideGridSensor::SideGridSensor(){
   Serial.println("Side grid sensor instance");

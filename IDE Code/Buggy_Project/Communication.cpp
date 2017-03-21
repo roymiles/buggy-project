@@ -51,7 +51,7 @@ int Communication::commandToData(I2C_COMMAND cmd){
 // Master is requesting data from slave (buggy)
 void Communication::requestEvent() {
   // Send the x, y, orientation and current state (in that index order)
-  Wire.write(Communication::dataBuffer,4);
+  Wire.write(Communication::dataBuffer, 4);
 }
 
 // Master has sent data to the slave (buggy)

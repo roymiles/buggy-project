@@ -12,15 +12,6 @@ int RIGHT_MTR = 6;
 int M1 = 4;     // M1 Direction Control
 int M2 = 7;     // M1 Direction Control
 
-/*
- * The encoder pins are 2,3
- */
-//const byte LRE    = 1;      // Left rotary encoder pin holder value
-//const byte RRE    = 0;      // Right rotary encoder pin holder value
-//
-//volatile uint8_t LRC = 0;      // Left rotary encoder count
-//volatile uint8_t RRC = 0;      // Right rotary encoder count
-
 // Max of 255
 unsigned int defaultRotationalSpeed = 120;
 unsigned int defaultMovementSpeed   = 120;
@@ -34,11 +25,6 @@ static unsigned int timerCount = 0;
 #define MAX_OUT_CHARS 16  // max nbr of characters to be sent on any one serial command
 char buffer[MAX_OUT_CHARS + 1];  // buffer used to format a line (+1 is for trailing 0)
 
-//int upperLimit = 150;
-//int lowerLimit = 60;
-//int motorSensitivity = 20; // By how much do the motor values incremenent or decrement to compensate
-
-// TODO: These variables will be functions of the motor speeds
 // The time (in tenths of ms) corresponding to a movement of 1 square
 const unsigned int movementTimerCount = 150;
 const unsigned int movementToggleCount = 10; // Every 0.01 seconds
@@ -58,9 +44,6 @@ Movement::Movement()
   pinMode(5, OUTPUT); 
   pinMode(6, OUTPUT); 
   pinMode(7, OUTPUT); 
-  
-  //attachInterrupt(digitalPinToInterrupt(LRE), Movement::ISRLeftEncoder, RISING);
-  //attachInterrupt(digitalPinToInterrupt(RRE), Movement::ISRRightEncoder, RISING);
 
   currentMovement = IDLE;
   isWiggling      = false;  
@@ -73,33 +56,6 @@ Movement::Movement()
   // Make sure buggy isnt moving when we start the program
   stopMovement(); 
 }
-
-Movement::~Movement()
-{
-}
-
-//void Movement::ISRLeftEncoder(){
-//    LRC++;
-//    Serial.println("Left encoder interrupt triggered");
-//    
-//    // If the buggy is moving/turning and has exceeded its target distance
-//    /*if(LRC >= targetDistance && currentMovement != IDLE){
-//      currentMovement = IDLE;
-//      Movement::stopMovement();
-//    }*/
-//}
-//
-//void Movement::ISRRightEncoder(){
-//    RRC++;
-//    Serial.println("Right encoder interrupt triggered");
-//    
-//    // If the buggy is moving/turning and has exceeded its target distance
-//    /*if(RRC >= targetDistance && currentMovement != IDLE){
-//      currentMovement = IDLE;
-//      Movement::stopMovement();
-//    }*/
-//}
-
 
 /**
  * Turn on the motors to go forward and reset the timer count
@@ -153,15 +109,14 @@ void Movement::moveBackwards(){
  * Turn on the motors to turn left and reset the timer count
  */
 void Movement::turnLeft() {
-  //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
 //  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
 //  digitalWrite(M1, LOW);   
 //  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
 //  digitalWrite(M2, LOW);
 
-  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
   digitalWrite(M1, LOW);    
-  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
   digitalWrite(M2, HIGH);
 
   leftMotorSpeed  = defaultRotationalSpeed;
@@ -177,8 +132,6 @@ void Movement::turnLeft() {
  */
 unsigned int leftMotorCompensation; 
 void Movement::turnRight() {
-  //targetDistance = normalisedRotationalDistance; // Equivelant to a rotation of 90 degrees
-
   // The left wiggling is not as strong as the right wiggle. So can compensate by adjusting the values
   if(isWiggling == true){
     leftMotorCompensation = defaultRotationalSpeed;
@@ -191,9 +144,9 @@ void Movement::turnRight() {
 //  analogWrite (LEFT_MTR, leftMotorCompensation);    
 //  digitalWrite(M2, HIGH);
 
-  analogWrite (RIGHT_MTR, defaultMovementSpeed);
+  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
   digitalWrite(M1, HIGH);    
-  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
   digitalWrite(M2, LOW);
   
   leftMotorSpeed  = defaultRotationalSpeed;
@@ -222,48 +175,6 @@ void Movement::stopMovement(){
   delay(100); // Allow things to settle
 }
 
-
-/**
- * The following compensation functions are no longer used
- */
-//void Movement::increaseLeftMotor(){
-//  if(leftMotorSpeed <= upperLimit){
-//    leftMotorSpeed += motorSensitivity;
-//    analogWrite (LEFT_MTR, leftMotorSpeed);
-//  }
-//}
-//
-//void Movement::decreaseLeftMotor(){
-//  analogWrite (LEFT_MTR, defaultSkidSpeed);
-//  /*sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
-//  Serial.println(buffer);
-//  sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
-//  Serial.println(buffer);
-//  if(leftMotorSpeed >= lowerLimit){
-//    leftMotorSpeed -= motorSensitivity;
-//    analogWrite (LEFT_MTR, leftMotorSpeed);
-//  }*/
-//}
-//
-//void Movement::increaseRightMotor(){
-//  if(rightMotorSpeed <= upperLimit){
-//    rightMotorSpeed += motorSensitivity;
-//    analogWrite (RIGHT_MTR, rightMotorSpeed);
-//  }
-//}
-//
-//void Movement::decreaseRightMotor(){
-//  analogWrite (RIGHT_MTR, defaultSkidSpeed);
-//  /*sprintf(buffer,"Left speed: %d", leftMotorSpeed);  
-//  Serial.println(buffer);
-//  sprintf(buffer,"Right speed: %d", rightMotorSpeed);  
-//  Serial.println(buffer);
-//  if(rightMotorSpeed >= lowerLimit){
-//    rightMotorSpeed -= motorSensitivity;
-//    analogWrite (RIGHT_MTR, rightMotorSpeed);
-//  }*/
-//}
-
 /**
  * Functions to enable and disable the motors
  */
@@ -291,20 +202,6 @@ void Movement::disableRightMotor(){
 bool motorToggle = false; // Toggle the motors on and off to reduce overshoot due to high speed
 void Movement::timerIsr()
 {
-    // If the buggy is *moving* and the timer count has exceeded
-   /*if( (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementTimerCount){
-      timerCount = 0;
-      Serial.println("Finished moving - timer interrupt");
-      stopMovement();
-    }*/
-
-    // If the buggy is *turning* and the timer count has exceeded
-    /*if( (currentMovement == TURNING_LEFT || currentMovement == TURNING_RIGHT || currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > turningTimerCount){
-      timerCount = 0;
-      Serial.println("Finished turning - timer interrupt");
-      stopMovement();
-    }*/
-
     // If the buggy is moving keep stopping and starting the motors
     if(currentMovement != IDLE  /*&& isWiggling == false /*(currentMovement == FORWARD || currentMovement == BACKWARDS)*/ && timerCount > movementToggleCount){
       timerCount = 0;

@@ -11,6 +11,10 @@
 
 const byte SENSOR_MUX = 9;     // Output pin to control the MUX
 
+// Input pins to the reed switches
+const int REED_SWITCH1 = 2; 
+const int REED_SWITCH2 = 3; 
+
 colourState SensorControl::currentColourState = BLACK_WHITE; // Will alternate at start of movement init
 crossOrLine SensorControl::currentPositionState = LINE;
 
@@ -28,7 +32,9 @@ SensorControl::SensorControl(Movement *m)
 
   // These sensors are used as alternatives to the RGB sensors (less complex)
   fgs = new FrontGridSensor();
- 
+
+  //pinMode(REED_SWITCH1, INPUT);  
+  //pinMode(REED_SWITCH2, INPUT);  
 }
 
 SensorControl::~SensorControl()
@@ -213,12 +219,18 @@ bool SensorControl::wiggleBuggy(movements pm, bool isDocking = false){
 bool leftReedSwitch, middleReedSwitch;
 const unsigned int dockAdjustmentTime = 500; // 500ms = 0.5s
 bool SensorControl::adjustDockingPosition(){
-  leftReedSwitch = 1;
-  middleReedSwitch = 1;
+  int reedSwitch1 = digitalRead(REED_SWITCH1);
+  int reedSwitch2 = digitalRead(REED_SWITCH2);
 
-  if(leftReedSwitch==0 && middleReedSwitch==0){
+  Serial.print("Reed switch values: ");
+  Serial.print(reedSwitch1);
+  Serial.print(", ");
+  Serial.print(reedSwitch2);
+  Serial.println();
+
+  if(reedSwitch1==LOW && reedSwitch2==LOW){
     // Undocked
-
+    Serial.println("Undocked!");
     // The buggy will probably need to rotate in the same direction it was just rotating
 
     // At the moment, choose right
@@ -229,8 +241,9 @@ bool SensorControl::adjustDockingPosition(){
 
     return false;
     
-  }else if(leftReedSwitch==0 && middleReedSwitch==1){
+  }else if(reedSwitch1==LOW && reedSwitch2==HIGH){
     // Too far left
+    Serial.println("Too far LEFT of target");
     m->turnRight();
     delay(dockAdjustmentTime);
     Movement::stopMovement();
@@ -238,8 +251,9 @@ bool SensorControl::adjustDockingPosition(){
 
     return false;
     
-  }else if(leftReedSwitch==1 && middleReedSwitch==0){
+  }else if(reedSwitch1==HIGH && reedSwitch2==LOW){
     // Too far right
+    Serial.println("Too far RIGHT of target");
     m->turnLeft();
     delay(dockAdjustmentTime);
     Movement::stopMovement();
@@ -247,8 +261,9 @@ bool SensorControl::adjustDockingPosition(){
 
     return false;
     
-  }else if(leftReedSwitch==1 && middleReedSwitch==1){
+  }else if(reedSwitch1==HIGH && reedSwitch2==HIGH){
     // Docked
+    Serial.println("Docked!");
     return true;
   }
   
@@ -286,16 +301,6 @@ void SensorControl::getStartPosition(){
   initialSensorReading_left           = frontSensorColours[0];
   initialSensorReading_right          = frontSensorColours[1]; 
   initialSensorReading_rightBackup    = frontSensorColours[2];
-
-  /*Serial.print(F("---- Left front sensor: "));
-  Serial.println(colourToString(initialSensorReading_left));
-  Serial.print(F("---- Right front sensor: "));
-  Serial.println(colourToString(initialSensorReading_right));   
-  Serial.print(F("---- Left side sensor: "));
-  Serial.println(colourToString(initialSideSensorReading_left));
-  Serial.print(F("---- Right side sensor: "));
-  Serial.println(colourToString(initialSideSensorReading_right));*/
-  
 
   /*
    * Get the colour state

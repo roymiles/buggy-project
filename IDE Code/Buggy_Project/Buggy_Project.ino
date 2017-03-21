@@ -92,7 +92,7 @@ void setup() {
  */
 void printBits(byte myByte){
  for(byte mask = 0x80; mask; mask >>= 1){
-   if(mask  & myByte){
+   if(mask & myByte){
        Serial.print('1');
    }else{
        Serial.print('0');
@@ -109,6 +109,10 @@ bool isVictoryRoll          = false;
 bool isAdjusting            = false; // If the buggy is moving backwards to ensure on a CROSS before a turn
 
 void loop() {
+//  while(sc->adjustDockingPosition() == false){
+//    delay(500);
+//  }
+
   if(buttonPressed == false){
     buttons.update();
     readButtons();
@@ -124,8 +128,15 @@ void loop() {
   
   /* 
    * Only process a command if the buggy is in the STOPPED state (finished a movement) or in the DOCKED state (interrogation is finished)
-   */   
-  if(Communication::recievedCommand != I2C_DO_NOTHING && (Communication::curState == SLAVE_STOPPED || Communication::curState == SLAVE_DOCKED)){
+   */ 
+  bool isMovementCommand = (
+      Communication::recievedCommand == I2C_FORWARD   ||
+      Communication::recievedCommand == I2C_BACKWARDS ||
+      Communication::recievedCommand == I2C_TURN_LEFT ||
+      Communication::recievedCommand == I2C_TURN_RIGHT
+  );
+  
+  if(isMovementCommand && (Communication::curState == SLAVE_STOPPED || Communication::curState == SLAVE_DOCKED)){
     // Recieved a new command
     Serial.print(F("Recieved: "));
     Serial.println(coms->commandToString(Communication::recievedVal));
@@ -145,20 +156,20 @@ void loop() {
       isAdjusting = false;
     }
 
-    Serial.println(F("BEFORE MOVEMENT"));
-    Serial.print(F("Current orientation: "));
-    Serial.println(orientationToString(Communication::currentOrientation));
-
-    Serial.print(F("Current position: ("));
-    Serial.print(Communication::currentCoordinates->x);
-    Serial.print(F(" , "));
-    Serial.print(Communication::currentCoordinates->y);
-    Serial.println(F(" )"));    
-   
-    Serial.print(F("Current command: "));
-    Serial.print(coms->commandToString(Communication::recievedCommand));
-    Serial.print(F(" | Previous movement: "));
-    Serial.println(m->getMovement(previousMovement));
+//    Serial.println(F("BEFORE MOVEMENT"));
+//    Serial.print(F("Current orientation: "));
+//    Serial.println(orientationToString(Communication::currentOrientation));
+//
+//    Serial.print(F("Current position: ("));
+//    Serial.print(Communication::currentCoordinates->x);
+//    Serial.print(F(" , "));
+//    Serial.print(Communication::currentCoordinates->y);
+//    Serial.println(F(" )"));    
+//   
+//    Serial.print(F("Current command: "));
+//    Serial.print(coms->commandToString(Communication::recievedCommand));
+//    Serial.print(F(" | Previous movement: "));
+//    Serial.println(m->getMovement(previousMovement));
     
     switch(Communication::recievedCommand){
       case I2C_FORWARD:
@@ -223,10 +234,8 @@ void loop() {
         
         break;
 
-      case I2C_DO_NOTHING:
-          // Do nothing
-          previousMovement = IDLE;
-          break;
+      default:
+        Communication::setCurState(SLAVE_MOVING);
         
     } // end switch
     
