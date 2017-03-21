@@ -23,13 +23,6 @@ SensorControl::SensorControl(Movement *m)
   Serial.println("Sensor control instance");
   this->m = m;
 
-  // Initial values
-  // currentColourState   = BLACK_WHITE; // Will alternate at start of movement init
-  // currentPositionState = LINE;  
-  
-  // Create instances of the grid sensor
-  // gs = new GridSensor();
-
   // These sensors are alligned with the wheels of the buggy
   sgs = new SideGridSensor();
 
@@ -84,15 +77,6 @@ colour SensorControl::convertFrontSensorValueToColour(unsigned int value){
  * This function just reads in the IR sensors and prints relevant debug information
  */
 void SensorControl::debug(){
-  /*
-   * Debugging the front RGB sensors
-   */
-  /*enableLeftSensor();
-  gs->debug();
-
-  enableRightSensor();
-  gs->debug();*/
-
   Serial.println(F("DEBUG >>>"));
   Serial.println(F(">>> Front Sensors"));
   Serial.print(F("Front threshold: "));
@@ -186,6 +170,8 @@ void SensorControl::movementInit(movements pm, movements cm){
 unsigned int wiggleDelay = 200; // 100ms = 0.1s
 const unsigned int postWiggleDelay = 800; // 1s
 bool SensorControl::wiggleBuggy(movements pm, bool isDocking = false){
+  Communication::setCurState(SLAVE_WIGGLING);
+  
   Movement::isWiggling = true;
   Serial.println(F("Wiggling buggy"));
   if(wiggleLeft == 1){
@@ -228,6 +214,8 @@ bool SensorControl::wiggleBuggy(movements pm, bool isDocking = false){
     Serial.println(F("Finished wiggling"));
     Movement::isWiggling = false;
     wiggleDelay = 100; // Reset wiggle delay and finish
+
+    //curState = SLAVE_STOPPED_WIGGLING;
     return true;
   }
 }
@@ -731,6 +719,7 @@ void SensorControl::motorCorrection(){
       
       
       if(finishCondition){
+          Communication::setCurState(SLAVE_STOPPED);
           consecutiveCollisions = 0; // Movement did not end in a collision
           toggleColourState();
           Movement::stopMovement();

@@ -15,6 +15,7 @@
 #include "Movement.h"
 #include "SideGridSensor.h"
 #include "FrontGridSensor.h"
+#include "Communication.h" // So the module can reset/change the current slave state
 
 #pragma once
 

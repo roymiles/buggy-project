@@ -7,18 +7,31 @@
     @version 1.0 11/12/2016
 */
 
-#include "Arduino.h"
 #include "Communication.h"
 
 Communication::Communication()
 {
-  // Start the I2C Bus as Master
-  Wire.begin();
+  // Start the I2C Bus as Slave on address 44
+  Wire.begin(SLAVE_ID); 
+  // Attach a function to trigger when something is received.
+  Wire.onReceive(Communication::receiveEvent);
+  // When the master requests data from the slave
+  Wire.onRequest(Communication::requestEvent); // register event
 }
 
 
 Communication::~Communication()
 {
+}
+
+static void Communication::setCurrentOrientation(orientation ornt){
+  currentOrientation = ornt;
+  dataBuffer[2] = (char)(ornt & 0xFF); 
+}
+
+static void Communication::setCurState(I2C_COMMAND state){
+  curState = state;
+  dataBuffer[3] = (char)(state & 0xFF);
 }
 
 int Communication::dataToCommand(int d){
@@ -29,102 +42,91 @@ int Communication::commandToData(I2C_COMMAND cmd){
   return cmd  - (I2C_MAX+1);
 } 
 
-
-void Communication::sendPosition(int x, int y, I2C_COMMAND orientation){
+// Master is requesting data from slave (buggy)
+void Communication::requestEvent() {
+  
+  Wire.write(dataBuffer,4);
   /*
-   * Master wants to transmit current buggy position
+   * Send the x, y, orientation and current state of the buggy
    */
-  Wire.beginTransmission(SLAVE_ID); // transmit to device #44 (0x2c)
-                              // device address is specified in datasheet
-  Serial.print("Transmitting: ");
-  Serial.println(commandToString(I2C_COMMAND::MASTER_SEND_POSITION));                            
-  Wire.write(I2C_COMMAND::MASTER_SEND_POSITION);  // sends value byte  
-  Wire.endTransmission();                         // stop transmitting
-  delay(500);
-
-  /*
-   * Send current x-coordinate
-   */
-  Wire.beginTransmission(SLAVE_ID);
-  Serial.print("Transmitting: ");
-  Serial.println(x);                            
-  Wire.write(dataToCommand(x)); 
-  Wire.endTransmission();
-  delay(1000);
   
   /*
-   * Send current y-coordinate
+   * The 4x 16bit integers will need to be concatinated and sent
    */
-  Wire.beginTransmission(SLAVE_ID);
-  Serial.print("Transmitting: ");
-  Serial.println(y);                            
-  Wire.write(dataToCommand(y)); 
-  Wire.endTransmission();
-  delay(1000);
+//   char arr[4];
+//   char x = 1;
+//   char y = 2;
+//   char ornt = 3;
+//   char cs = 4;
+//
+//   arr[0] = x;
+//   arr[1] = y;
+//   arr[2] = ornt;
+//   arr[3] = cs;
+   //uint32_t toSend = Communication::convertDataToI2C(currentCoordinates->x, currentCoordinates->y, static_cast<I2C_COMMAND>(currentOrientation), curState);
+//  toSend =  x;
+//  toSend += (1000 * y);
+//  toSend += (1000000 * (int)ornt);
+//  toSend += (1000000000 * (int)curState);
   
-  /*
-   * Send current orientation
-   */
-  Wire.beginTransmission(SLAVE_ID);
-  Serial.print("Transmitting: ");
-  Serial.println(commandToString(orientation));                            
-  Wire.write(orientation); 
-  Wire.endTransmission();
-  delay(1000);
+//  Serial.print("Transmitting: ");
+//  Serial.println(toSend);
+    //Wire.write(arr, 4); // respond with message
+    //Wire.endTransmission();
+//  Wire.write(x);
+//  Wire.write(y);
+//  Wire.write(ornt);
+//  Wire.write(cs);
+
+    //Wire.write(static_cast<I2C_COMMAND>(currentOrientation));
+  
+
 }
 
-I2C_COMMAND Communication::getNextMovement(){
-  /*
-   * Request new movement from slave
-   * FORWARD, BACKWARDS, LEFT or RIGHT
-   */
-  Serial.println("Requesting 2 bytes from slave");
-  Wire.requestFrom(SLAVE_ID, 2);    // request 2 bytes from slave device #44
-  
-  char recievedVal[2];
-  uint8_t i = 0;
-  Serial.print("Raw: ");
-  while (Wire.available()) {          // slave may send less than requested
-    char c = Wire.read();             // receive a byte as character
-    recievedVal[i] = c;
-    Serial.print(c);
-    i++;
-  }
-  Serial.println();
+// Master has sent data to the slave (buggy)
+void Communication::receiveEvent(int bytes) {
+  recievedVal = Wire.read();    // read one character from the I2C
+  recievedCommand = static_cast<I2C_COMMAND>(recievedVal);
+}
 
-  /*
-   * Note to self: double check how this works!
-   */
-  I2C_COMMAND cmd = static_cast<I2C_COMMAND>(recievedVal[0]); //(recievedVal[1] << 8) | recievedVal[0];
-  Serial.print("Recieved: ");
-  Serial.println(commandToString(cmd));
-  delay(500);
+uint32_t Communication::convertDataToI2C(int x, int y, int orientation, I2C_COMMAND state) {
+
+  uint32_t temp = 0;
+  temp |= (x & 0xFF) << 24;
+  temp |= (y & 0xFF) << 16;
+  temp |= (orientation & 0xFF) << 8;
+  temp |= (state & 0xFF);
+
+  return temp;
+
+}
+
+void Communication::convertI2CToData(int data, int *x, int *y, int *orientation, I2C_COMMAND *state) {
+
+  *x = (int)((data >> 24) & 0xFF);
+  *y = (int)((data >> 16) & 0xFF);
+  *orientation = (int)((data >> 8) & 0xFF);
+  *state = (I2C_COMMAND)(data & 0xFF);
+
 }
 
 String Communication::commandToString(I2C_COMMAND cmd){
   switch(cmd){
-    case MASTER_IDLE:
-      return "MASTER_IDLE";
-      break;
-     case MASTER_MOVING:
-      return "MASTER_MOVING";
-      break;
-     case MASTER_DOCKED:
-      return "MASTER_DOCKED";
-      break;
-     case MASTER_ADJUSTING:
-      return "MASTER_ADJUSTING";
-      break;
-     case MASTER_SEND_POSITION:
-      return "MASTER_SEND_POSITION";
-      break;
-  
      case SLAVE_IDLE:
       return "SLAVE_IDLE";
       break;
-     case SLAVE_BUSY:
-      return "SLAVE_BUST";
+     case SLAVE_MOVING:
+      return "SLAVE_MOVING";
       break;
+     case SLAVE_WIGGLING:
+      return "SLAVE_WIGGLING";
+      break;
+     case SLAVE_FINISHED:
+      return "SLAVE_FINISHED";
+      break;   
+     case SLAVE_STOPPED:
+      return "SLAVE_STOPPED";
+      break;  
      case SLAVE_DOCKED:
       return "SLAVE_DOCKED";
       break;
@@ -141,20 +143,7 @@ String Communication::commandToString(I2C_COMMAND cmd){
     case I2C_WEST:
       return "WEST";
       break;      
-  
-    case DEFAULT_SLAVE_STATE:
-      return "DEFAULT_SLAVE_STATE";
-      break;
-    case AWAITING_X:
-      return "AWAITING_X";
-      break;
-    case AWAITING_Y:
-      return "AWAITING_Y";
-      break;
-    case AWAITING_ORIENTATION:
-      return "AWAITING_ORIENTATION";
-      break;
-  
+ 
     case I2C_BACKWARDS:
       return "BACKWARDS";
       break;
@@ -166,6 +155,15 @@ String Communication::commandToString(I2C_COMMAND cmd){
       break;
     case I2C_TURN_RIGHT:
       return "TURN_RIGHT";
+      break;
+    case I2C_VICTORY:
+      return "I2C_VICTORY";
+      break;
+    case I2C_DO_NOTHING:
+      return "I2C_DO_NOTHING";
+      break;
+    case I2C_AT_TARGET:
+      return "I2C_AT_TARGET";
       break;
     
     default:

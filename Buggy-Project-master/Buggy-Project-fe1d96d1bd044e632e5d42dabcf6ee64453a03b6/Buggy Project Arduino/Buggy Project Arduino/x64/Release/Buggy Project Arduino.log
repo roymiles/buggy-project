@@ -1,0 +1,1165 @@
+﻿  Communications.cpp
+  Debug.cpp
+  dType.cpp
+  Entry.cpp
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(464): warning C4251: 'Magick::DrawableBezier::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableBezier'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(573): warning C4251: 'Magick::DrawablePushClipPath::_id': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePushClipPath'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(601): warning C4251: 'Magick::DrawableClipPath::_id': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableClipPath'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(845): warning C4251: 'Magick::DrawableDensity::_density': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableDensity'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(987): warning C4251: 'Magick::DrawableFillPatternUrl::_url': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableFillPatternUrl'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1082): warning C4251: 'Magick::DrawableFont::_font': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableFont'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1083): warning C4251: 'Magick::DrawableFont::_family': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableFont'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1199): warning C4251: 'Magick::DrawablePath::_path': class 'std::vector<Magick::VPath,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePath'
+          with
+          [
+              _Ty=Magick::VPath
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(208): note: see declaration of 'std::vector<Magick::VPath,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::VPath
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1288): warning C4251: 'Magick::DrawablePolygon::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePolygon'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1308): warning C4251: 'Magick::DrawablePolyline::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePolyline'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1392): warning C4251: 'Magick::DrawablePushPattern::_id': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePushPattern'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1838): warning C4251: 'Magick::DrawableStrokePatternUrl::_url': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableStrokePatternUrl'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2014): warning C4251: 'Magick::DrawableText::_text': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableText'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2015): warning C4251: 'Magick::DrawableText::_encoding': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableText'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2450): warning C4251: 'Magick::PathArcAbs::_coordinates': class 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathArcAbs'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2415): note: see declaration of 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2472): warning C4251: 'Magick::PathArcRel::_coordinates': class 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathArcRel'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2415): note: see declaration of 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2623): warning C4251: 'Magick::PathCurvetoAbs::_args': class 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathCurvetoAbs'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2589): note: see declaration of 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2646): warning C4251: 'Magick::PathCurvetoRel::_args': class 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathCurvetoRel'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2589): note: see declaration of 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2670): warning C4251: 'Magick::PathSmoothCurvetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothCurvetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2695): warning C4251: 'Magick::PathSmoothCurvetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothCurvetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2804): warning C4251: 'Magick::PathQuadraticCurvetoAbs::_args': class 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathQuadraticCurvetoAbs'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2770): note: see declaration of 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2828): warning C4251: 'Magick::PathQuadraticCurvetoRel::_args': class 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathQuadraticCurvetoRel'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2770): note: see declaration of 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2852): warning C4251: 'Magick::PathSmoothQuadraticCurvetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothQuadraticCurvetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2876): warning C4251: 'Magick::PathSmoothQuadraticCurvetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothQuadraticCurvetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2904): warning C4251: 'Magick::PathLinetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathLinetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2928): warning C4251: 'Magick::PathLinetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathLinetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(3070): warning C4251: 'Magick::PathMovetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathMovetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(3094): warning C4251: 'Magick::PathMovetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathMovetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Exception.h(23): warning C4275: non dll-interface class 'std::exception' used as base for dll-interface class 'Magick::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_exception.h(43): note: see declaration of 'std::exception'
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Exception.h(22): note: see declaration of 'Magick::Exception'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Exception.h(56): warning C4251: 'Magick::Exception::_what': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): warning C4251: 'Magick::ChannelMoments::_huInvariants': class 'std::vector<double,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ChannelMoments'
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): note: see declaration of 'std::vector<double,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=double
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(125): warning C4251: 'Magick::ChannelPerceptualHash::_srgbHuPhash': class 'std::vector<double,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ChannelPerceptualHash'
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): note: see declaration of 'std::vector<double,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=double
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(126): warning C4251: 'Magick::ChannelPerceptualHash::_hclpHuPhash': class 'std::vector<double,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ChannelPerceptualHash'
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): note: see declaration of 'std::vector<double,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=double
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(240): warning C4251: 'Magick::ImageMoments::_channels': class 'std::vector<Magick::ChannelMoments,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ImageMoments'
+          with
+          [
+              _Ty=Magick::ChannelMoments
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(240): note: see declaration of 'std::vector<Magick::ChannelMoments,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::ChannelMoments
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(278): warning C4251: 'Magick::ImagePerceptualHash::_channels': class 'std::vector<Magick::ChannelPerceptualHash,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ImagePerceptualHash'
+          with
+          [
+              _Ty=Magick::ChannelPerceptualHash
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(278): note: see declaration of 'std::vector<Magick::ChannelPerceptualHash,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::ChannelPerceptualHash
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(303): warning C4251: 'Magick::ImageStatistics::_channels': class 'std::vector<Magick::ChannelStatistics,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ImageStatistics'
+          with
+          [
+              _Ty=Magick::ChannelStatistics
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(303): note: see declaration of 'std::vector<Magick::ChannelStatistics,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::ChannelStatistics
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(76): warning C4251: 'Magick::CoderInfo::_description': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(81): warning C4251: 'Magick::CoderInfo::_mimeType': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(82): warning C4251: 'Magick::CoderInfo::_module': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(83): warning C4251: 'Magick::CoderInfo::_name': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(98): warning C4251: 'Magick::Montage::_fileName': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(100): warning C4251: 'Magick::Montage::_font': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(103): warning C4251: 'Magick::Montage::_label': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(107): warning C4251: 'Magick::Montage::_texture': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(109): warning C4251: 'Magick::Montage::_title': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(131): warning C4251: 'Magick::annotateImage::_text': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::annotateImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(210): warning C4251: 'Magick::cdlImage::_cdl': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::cdlImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(270): warning C4251: 'Magick::commentImage::_comment': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::commentImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(382): warning C4251: 'Magick::drawImage::_drawableList': class 'std::vector<Magick::Drawable,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::drawImage'
+          with
+          [
+              _Ty=Magick::Drawable
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(145): note: see declaration of 'std::vector<Magick::Drawable,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Drawable
+          ]
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(661): warning C4251: 'Magick::labelImage::_label': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::labelImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1288): warning C4251: 'Magick::backgroundTextureImage::_backgroundTexture': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::backgroundTextureImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1467): warning C4251: 'Magick::fileNameImage::_fileName': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::fileNameImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1491): warning C4251: 'Magick::fontImage::_font': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::fontImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1539): warning C4251: 'Magick::magickImage::_magick': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::magickImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1836): warning C4251: 'Magick::x11DisplayImage::_display': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::x11DisplayImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(16181): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(14697): note: while compiling class template member function 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(14578): note: see reference to function template instantiation 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(22993): note: see reference to class template instantiation 'cimg_library::CImg<float>::_cimg_math_parser' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(22982): note: while compiling class template member function 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const'
+          with
+          [
+              T=float
+          ]
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(22977): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const' being compiled
+          with
+          [
+              T=float
+          ]
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(34835): note: see reference to class template instantiation 'cimg_library::CImg<float>' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(57857): note: see reference to class template instantiation 'cimg_library::CImg<wchar_t>' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(19153): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(19151): note: while compiling class template member function 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(16180): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): warning C4477: 'fprintf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 14 has type 'unsigned __int64'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): note: consider using '%llu' in the format string
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): note: consider using '%Iu' in the format string
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): note: consider using '%I64u' in the format string
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49393): note: while compiling class template member function 'const cimg_library::CImg<double> &cimg_library::CImg<double>::print(const char *const ,const bool) const'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49484): note: see reference to function template instantiation 'const cimg_library::CImg<double> &cimg_library::CImg<double>::print(const char *const ,const bool) const' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(14445): note: see reference to class template instantiation 'cimg_library::CImg<double>' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50966): error C2039: 'PixelPacket': is not a member of 'Magick'
+  C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(25): note: see declaration of 'Magick'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50931): note: while compiling class template member function 'const cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::save_magick(const char *const ,const unsigned int) const'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(52758): note: see reference to function template instantiation 'const cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::save_magick(const char *const ,const unsigned int) const' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(59025): note: see reference to class template instantiation 'cimg_library::CImg<unsigned char>' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50966): error C2065: 'PixelPacket': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50966): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): error C2227: left of '->green' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): error C2227: left of '->blue' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50971): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50976): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50976): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50976): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50977): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50977): error C2227: left of '->green' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50977): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50978): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50978): error C2227: left of '->blue' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50978): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50978): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50983): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50983): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50983): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50984): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50984): error C2227: left of '->green' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50984): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50985): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50985): error C2227: left of '->blue' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50985): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50986): error C2065: 'pixels': undeclared identifier
+  ImageProcessing.cpp
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(464): warning C4251: 'Magick::DrawableBezier::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableBezier'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(573): warning C4251: 'Magick::DrawablePushClipPath::_id': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePushClipPath'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(601): warning C4251: 'Magick::DrawableClipPath::_id': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableClipPath'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(845): warning C4251: 'Magick::DrawableDensity::_density': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableDensity'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(987): warning C4251: 'Magick::DrawableFillPatternUrl::_url': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableFillPatternUrl'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1082): warning C4251: 'Magick::DrawableFont::_font': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableFont'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1083): warning C4251: 'Magick::DrawableFont::_family': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableFont'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1199): warning C4251: 'Magick::DrawablePath::_path': class 'std::vector<Magick::VPath,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePath'
+          with
+          [
+              _Ty=Magick::VPath
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(208): note: see declaration of 'std::vector<Magick::VPath,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::VPath
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1288): warning C4251: 'Magick::DrawablePolygon::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePolygon'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1308): warning C4251: 'Magick::DrawablePolyline::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePolyline'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1392): warning C4251: 'Magick::DrawablePushPattern::_id': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePushPattern'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1838): warning C4251: 'Magick::DrawableStrokePatternUrl::_url': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableStrokePatternUrl'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2014): warning C4251: 'Magick::DrawableText::_text': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableText'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2015): warning C4251: 'Magick::DrawableText::_encoding': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableText'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2450): warning C4251: 'Magick::PathArcAbs::_coordinates': class 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathArcAbs'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2415): note: see declaration of 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2472): warning C4251: 'Magick::PathArcRel::_coordinates': class 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathArcRel'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2415): note: see declaration of 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2623): warning C4251: 'Magick::PathCurvetoAbs::_args': class 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathCurvetoAbs'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2589): note: see declaration of 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2646): warning C4251: 'Magick::PathCurvetoRel::_args': class 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathCurvetoRel'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2589): note: see declaration of 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2670): warning C4251: 'Magick::PathSmoothCurvetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothCurvetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2695): warning C4251: 'Magick::PathSmoothCurvetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothCurvetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2804): warning C4251: 'Magick::PathQuadraticCurvetoAbs::_args': class 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathQuadraticCurvetoAbs'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2770): note: see declaration of 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2828): warning C4251: 'Magick::PathQuadraticCurvetoRel::_args': class 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathQuadraticCurvetoRel'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2770): note: see declaration of 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2852): warning C4251: 'Magick::PathSmoothQuadraticCurvetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothQuadraticCurvetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2876): warning C4251: 'Magick::PathSmoothQuadraticCurvetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothQuadraticCurvetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2904): warning C4251: 'Magick::PathLinetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathLinetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2928): warning C4251: 'Magick::PathLinetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathLinetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(3070): warning C4251: 'Magick::PathMovetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathMovetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(3094): warning C4251: 'Magick::PathMovetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathMovetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Exception.h(23): warning C4275: non dll-interface class 'std::exception' used as base for dll-interface class 'Magick::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_exception.h(43): note: see declaration of 'std::exception'
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Exception.h(22): note: see declaration of 'Magick::Exception'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Exception.h(56): warning C4251: 'Magick::Exception::_what': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): warning C4251: 'Magick::ChannelMoments::_huInvariants': class 'std::vector<double,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ChannelMoments'
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): note: see declaration of 'std::vector<double,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=double
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(125): warning C4251: 'Magick::ChannelPerceptualHash::_srgbHuPhash': class 'std::vector<double,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ChannelPerceptualHash'
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): note: see declaration of 'std::vector<double,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=double
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(126): warning C4251: 'Magick::ChannelPerceptualHash::_hclpHuPhash': class 'std::vector<double,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ChannelPerceptualHash'
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): note: see declaration of 'std::vector<double,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=double
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(240): warning C4251: 'Magick::ImageMoments::_channels': class 'std::vector<Magick::ChannelMoments,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ImageMoments'
+          with
+          [
+              _Ty=Magick::ChannelMoments
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(240): note: see declaration of 'std::vector<Magick::ChannelMoments,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::ChannelMoments
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(278): warning C4251: 'Magick::ImagePerceptualHash::_channels': class 'std::vector<Magick::ChannelPerceptualHash,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ImagePerceptualHash'
+          with
+          [
+              _Ty=Magick::ChannelPerceptualHash
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(278): note: see declaration of 'std::vector<Magick::ChannelPerceptualHash,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::ChannelPerceptualHash
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(303): warning C4251: 'Magick::ImageStatistics::_channels': class 'std::vector<Magick::ChannelStatistics,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ImageStatistics'
+          with
+          [
+              _Ty=Magick::ChannelStatistics
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(303): note: see declaration of 'std::vector<Magick::ChannelStatistics,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::ChannelStatistics
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(76): warning C4251: 'Magick::CoderInfo::_description': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(81): warning C4251: 'Magick::CoderInfo::_mimeType': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(82): warning C4251: 'Magick::CoderInfo::_module': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(83): warning C4251: 'Magick::CoderInfo::_name': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(98): warning C4251: 'Magick::Montage::_fileName': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(100): warning C4251: 'Magick::Montage::_font': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(103): warning C4251: 'Magick::Montage::_label': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(107): warning C4251: 'Magick::Montage::_texture': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(109): warning C4251: 'Magick::Montage::_title': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(131): warning C4251: 'Magick::annotateImage::_text': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::annotateImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(210): warning C4251: 'Magick::cdlImage::_cdl': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::cdlImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(270): warning C4251: 'Magick::commentImage::_comment': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::commentImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(382): warning C4251: 'Magick::drawImage::_drawableList': class 'std::vector<Magick::Drawable,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::drawImage'
+          with
+          [
+              _Ty=Magick::Drawable
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(145): note: see declaration of 'std::vector<Magick::Drawable,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Drawable
+          ]
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(661): warning C4251: 'Magick::labelImage::_label': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::labelImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1288): warning C4251: 'Magick::backgroundTextureImage::_backgroundTexture': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::backgroundTextureImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1467): warning C4251: 'Magick::fileNameImage::_fileName': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::fileNameImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1491): warning C4251: 'Magick::fontImage::_font': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::fontImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1539): warning C4251: 'Magick::magickImage::_magick': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::magickImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1836): warning C4251: 'Magick::x11DisplayImage::_display': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::x11DisplayImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): warning C4477: 'fprintf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 14 has type 'unsigned __int64'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): note: consider using '%llu' in the format string
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): note: consider using '%Iu' in the format string
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): note: consider using '%I64u' in the format string
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49393): note: while compiling class template member function 'const cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::print(const char *const ,const bool) const'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49484): note: see reference to function template instantiation 'const cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::print(const char *const ,const bool) const' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(59025): note: see reference to class template instantiation 'cimg_library::CImg<unsigned char>' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(16181): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(14697): note: while compiling class template member function 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(14578): note: see reference to function template instantiation 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(22993): note: see reference to class template instantiation 'cimg_library::CImg<float>::_cimg_math_parser' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(22982): note: while compiling class template member function 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const'
+          with
+          [
+              T=float
+          ]
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(22977): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const' being compiled
+          with
+          [
+              T=float
+          ]
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(34835): note: see reference to class template instantiation 'cimg_library::CImg<float>' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(57857): note: see reference to class template instantiation 'cimg_library::CImg<wchar_t>' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46819): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46812): note: while compiling class template member function 'cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::load_magick(const char *const )'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49345): note: see reference to function template instantiation 'cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::load_magick(const char *const )' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46819): warning C4267: 'initializing': conversion from 'size_t' to 'const unsigned int', possible loss of data
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46819): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46819): warning C4267: 'initializing': conversion from 'size_t' to 'const unsigned int', possible loss of data
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46821): error C2039: 'PaletteMatteType': is not a member of 'Magick'
+  C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(25): note: see declaration of 'Magick'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46821): error C2065: 'PaletteMatteType': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46821): error C2131: expression did not evaluate to a constant
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46821): note: failure was caused by non-constant arguments or reference to a non-constant symbol
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46821): note: see usage of 'PaletteMatteType'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46822): error C2039: 'TrueColorMatteType': is not a member of 'Magick'
+  C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(25): note: see declaration of 'Magick'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46822): error C2065: 'TrueColorMatteType': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46822): error C2131: expression did not evaluate to a constant
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46822): note: failure was caused by non-constant arguments or reference to a non-constant symbol
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46822): note: see usage of 'TrueColorMatteType'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46826): error C2039: 'PixelPacket': is not a member of 'Magick'
+  C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(25): note: see declaration of 'Magick'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46826): error C2065: 'PixelPacket': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46826): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46828): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46828): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46828): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46829): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46829): error C2227: left of '->green' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46829): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46830): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46830): error C2227: left of '->blue' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46830): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46831): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46831): error C2227: left of '->opacity' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46831): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46832): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46839): error C2039: 'PixelPacket': is not a member of 'Magick'
+  C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(25): note: see declaration of 'Magick'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46839): error C2065: 'PixelPacket': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46839): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46841): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46841): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46841): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46842): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46842): error C2227: left of '->green' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46842): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46843): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46843): error C2227: left of '->blue' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46843): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46844): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46847): error C2039: 'GrayscaleMatteType': is not a member of 'Magick'
+  C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(25): note: see declaration of 'Magick'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46847): error C2065: 'GrayscaleMatteType': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46847): error C2131: expression did not evaluate to a constant
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46847): note: failure was caused by non-constant arguments or reference to a non-constant symbol
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46847): note: see usage of 'GrayscaleMatteType'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46850): error C2039: 'PixelPacket': is not a member of 'Magick'
+  C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(25): note: see declaration of 'Magick'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46850): error C2065: 'PixelPacket': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46850): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46852): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46852): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46852): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46853): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46853): error C2227: left of '->opacity' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46853): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46854): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46860): error C2039: 'PixelPacket': is not a member of 'Magick'
+  C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(25): note: see declaration of 'Magick'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46860): error C2065: 'PixelPacket': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46860): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46862): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46862): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46862): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46863): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46821): error C2051: case expression not constant
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46822): error C2051: case expression not constant
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(46847): error C2051: case expression not constant
+  Interrogation.cpp
+  Movement.cpp
+  PathFinding.cpp
+  Sensors.cpp
+  Testing.cpp
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(464): warning C4251: 'Magick::DrawableBezier::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableBezier'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(573): warning C4251: 'Magick::DrawablePushClipPath::_id': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePushClipPath'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(601): warning C4251: 'Magick::DrawableClipPath::_id': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableClipPath'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(845): warning C4251: 'Magick::DrawableDensity::_density': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableDensity'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(987): warning C4251: 'Magick::DrawableFillPatternUrl::_url': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableFillPatternUrl'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1082): warning C4251: 'Magick::DrawableFont::_font': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableFont'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1083): warning C4251: 'Magick::DrawableFont::_family': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableFont'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1199): warning C4251: 'Magick::DrawablePath::_path': class 'std::vector<Magick::VPath,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePath'
+          with
+          [
+              _Ty=Magick::VPath
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(208): note: see declaration of 'std::vector<Magick::VPath,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::VPath
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1288): warning C4251: 'Magick::DrawablePolygon::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePolygon'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1308): warning C4251: 'Magick::DrawablePolyline::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePolyline'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1392): warning C4251: 'Magick::DrawablePushPattern::_id': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawablePushPattern'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(1838): warning C4251: 'Magick::DrawableStrokePatternUrl::_url': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableStrokePatternUrl'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2014): warning C4251: 'Magick::DrawableText::_text': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableText'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2015): warning C4251: 'Magick::DrawableText::_encoding': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::DrawableText'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2450): warning C4251: 'Magick::PathArcAbs::_coordinates': class 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathArcAbs'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2415): note: see declaration of 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2472): warning C4251: 'Magick::PathArcRel::_coordinates': class 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathArcRel'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2415): note: see declaration of 'std::vector<Magick::PathArcArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathArcArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2623): warning C4251: 'Magick::PathCurvetoAbs::_args': class 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathCurvetoAbs'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2589): note: see declaration of 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2646): warning C4251: 'Magick::PathCurvetoRel::_args': class 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathCurvetoRel'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2589): note: see declaration of 'std::vector<Magick::PathCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2670): warning C4251: 'Magick::PathSmoothCurvetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothCurvetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2695): warning C4251: 'Magick::PathSmoothCurvetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothCurvetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2804): warning C4251: 'Magick::PathQuadraticCurvetoAbs::_args': class 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathQuadraticCurvetoAbs'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2770): note: see declaration of 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2828): warning C4251: 'Magick::PathQuadraticCurvetoRel::_args': class 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathQuadraticCurvetoRel'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2770): note: see declaration of 'std::vector<Magick::PathQuadraticCurvetoArgs,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::PathQuadraticCurvetoArgs
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2852): warning C4251: 'Magick::PathSmoothQuadraticCurvetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothQuadraticCurvetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2876): warning C4251: 'Magick::PathSmoothQuadraticCurvetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathSmoothQuadraticCurvetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2904): warning C4251: 'Magick::PathLinetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathLinetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(2928): warning C4251: 'Magick::PathLinetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathLinetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(3070): warning C4251: 'Magick::PathMovetoAbs::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathMovetoAbs'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(3094): warning C4251: 'Magick::PathMovetoRel::_coordinates': class 'std::vector<Magick::Coordinate,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::PathMovetoRel'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(71): note: see declaration of 'std::vector<Magick::Coordinate,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Coordinate
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Exception.h(23): warning C4275: non dll-interface class 'std::exception' used as base for dll-interface class 'Magick::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\vcruntime_exception.h(43): note: see declaration of 'std::exception'
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Exception.h(22): note: see declaration of 'Magick::Exception'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Exception.h(56): warning C4251: 'Magick::Exception::_what': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Exception'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): warning C4251: 'Magick::ChannelMoments::_huInvariants': class 'std::vector<double,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ChannelMoments'
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): note: see declaration of 'std::vector<double,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=double
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(125): warning C4251: 'Magick::ChannelPerceptualHash::_srgbHuPhash': class 'std::vector<double,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ChannelPerceptualHash'
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): note: see declaration of 'std::vector<double,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=double
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(126): warning C4251: 'Magick::ChannelPerceptualHash::_hclpHuPhash': class 'std::vector<double,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ChannelPerceptualHash'
+          with
+          [
+              _Ty=double
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(70): note: see declaration of 'std::vector<double,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=double
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(240): warning C4251: 'Magick::ImageMoments::_channels': class 'std::vector<Magick::ChannelMoments,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ImageMoments'
+          with
+          [
+              _Ty=Magick::ChannelMoments
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(240): note: see declaration of 'std::vector<Magick::ChannelMoments,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::ChannelMoments
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(278): warning C4251: 'Magick::ImagePerceptualHash::_channels': class 'std::vector<Magick::ChannelPerceptualHash,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ImagePerceptualHash'
+          with
+          [
+              _Ty=Magick::ChannelPerceptualHash
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(278): note: see declaration of 'std::vector<Magick::ChannelPerceptualHash,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::ChannelPerceptualHash
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(303): warning C4251: 'Magick::ImageStatistics::_channels': class 'std::vector<Magick::ChannelStatistics,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::ImageStatistics'
+          with
+          [
+              _Ty=Magick::ChannelStatistics
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Statistic.h(303): note: see declaration of 'std::vector<Magick::ChannelStatistics,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::ChannelStatistics
+          ]
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(76): warning C4251: 'Magick::CoderInfo::_description': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(81): warning C4251: 'Magick::CoderInfo::_mimeType': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(82): warning C4251: 'Magick::CoderInfo::_module': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/CoderInfo.h(83): warning C4251: 'Magick::CoderInfo::_name': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::CoderInfo'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(98): warning C4251: 'Magick::Montage::_fileName': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(100): warning C4251: 'Magick::Montage::_font': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(103): warning C4251: 'Magick::Montage::_label': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(107): warning C4251: 'Magick::Montage::_texture': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+c:\program files\imagemagick-7.0.3-q8\include\Magick++/Montage.h(109): warning C4251: 'Magick::Montage::_title': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::Montage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(131): warning C4251: 'Magick::annotateImage::_text': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::annotateImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(210): warning C4251: 'Magick::cdlImage::_cdl': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::cdlImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(270): warning C4251: 'Magick::commentImage::_comment': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::commentImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(382): warning C4251: 'Magick::drawImage::_drawableList': class 'std::vector<Magick::Drawable,std::allocator<_Ty>>' needs to have dll-interface to be used by clients of class 'Magick::drawImage'
+          with
+          [
+              _Ty=Magick::Drawable
+          ]
+  c:\program files\imagemagick-7.0.3-q8\include\Magick++/Drawable.h(145): note: see declaration of 'std::vector<Magick::Drawable,std::allocator<_Ty>>'
+          with
+          [
+              _Ty=Magick::Drawable
+          ]
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(661): warning C4251: 'Magick::labelImage::_label': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::labelImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1288): warning C4251: 'Magick::backgroundTextureImage::_backgroundTexture': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::backgroundTextureImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1467): warning C4251: 'Magick::fileNameImage::_fileName': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::fileNameImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1491): warning C4251: 'Magick::fontImage::_font': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::fontImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1539): warning C4251: 'Magick::magickImage::_magick': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::magickImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(1836): warning C4251: 'Magick::x11DisplayImage::_display': class 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' needs to have dll-interface to be used by clients of class 'Magick::x11DisplayImage'
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\xstring(2633): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(16181): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(14697): note: while compiling class template member function 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(14578): note: see reference to function template instantiation 'unsigned int cimg_library::CImg<float>::_cimg_math_parser::compile(char *,char *,const unsigned int,unsigned int *const )' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(22993): note: see reference to class template instantiation 'cimg_library::CImg<float>::_cimg_math_parser' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(22982): note: while compiling class template member function 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const'
+          with
+          [
+              T=float
+          ]
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(22977): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_eval(cimg_library::CImg<float> *const ,const char *const ,const double,const double,const double,const double,const cimg_library::CImgList<T> *const ,cimg_library::CImgList<T> *const ) const' being compiled
+          with
+          [
+              T=float
+          ]
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(34835): note: see reference to class template instantiation 'cimg_library::CImg<float>' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(57857): note: see reference to class template instantiation 'cimg_library::CImg<wchar_t>' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(19153): warning C4319: '~': zero extending 'unsigned int' to 'double' of greater size
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(19151): note: while compiling class template member function 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(16180): note: see reference to function template instantiation 'double cimg_library::CImg<float>::_cimg_math_parser::mp_bitwise_not(cimg_library::CImg<float>::_cimg_math_parser &)' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): warning C4477: 'fprintf' : format string '%lu' requires an argument of type 'unsigned long', but variadic argument 14 has type 'unsigned __int64'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): note: consider using '%llu' in the format string
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): note: consider using '%Iu' in the format string
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49407): note: consider using '%I64u' in the format string
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49393): note: while compiling class template member function 'const cimg_library::CImg<double> &cimg_library::CImg<double>::print(const char *const ,const bool) const'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(49484): note: see reference to function template instantiation 'const cimg_library::CImg<double> &cimg_library::CImg<double>::print(const char *const ,const bool) const' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(14445): note: see reference to class template instantiation 'cimg_library::CImg<double>' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50966): error C2039: 'PixelPacket': is not a member of 'Magick'
+  C:\Program Files\ImageMagick-7.0.3-Q8\include\Magick++/STL.h(25): note: see declaration of 'Magick'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50931): note: while compiling class template member function 'const cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::save_magick(const char *const ,const unsigned int) const'
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(52758): note: see reference to function template instantiation 'const cimg_library::CImg<unsigned char> &cimg_library::CImg<unsigned char>::save_magick(const char *const ,const unsigned int) const' being compiled
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(59025): note: see reference to class template instantiation 'cimg_library::CImg<unsigned char>' being compiled
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50966): error C2065: 'PixelPacket': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50966): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): error C2227: left of '->green' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): error C2227: left of '->blue' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50970): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50971): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50976): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50976): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50976): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50977): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50977): error C2227: left of '->green' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50977): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50978): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50978): error C2227: left of '->blue' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50978): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50978): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50983): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50983): error C2227: left of '->red' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50983): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50984): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50984): error C2227: left of '->green' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50984): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50985): error C2065: 'pixels': undeclared identifier
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50985): error C2227: left of '->blue' must point to class/struct/union/generic type
+  C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50985): note: type is 'unknown-type'
+C:\Users\Roy\Desktop\Uni 3rd Year\Buggy Project\Arduino\Buggy Project Arduino\Buggy Project Arduino\Clmg.h(50986): error C2065: 'pixels': undeclared identifier

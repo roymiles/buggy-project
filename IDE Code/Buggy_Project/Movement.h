@@ -11,7 +11,8 @@
 #define Movement_h
 
 #include "Arduino.h"
-#include "TimerOne.h"
+#include "TimerOne.h" // Used for timer interrupts
+#include "Communication.h" // So the module can reset/change the current slave state
 
 #pragma once
 
@@ -29,7 +30,6 @@ public:
   Movement();
   ~Movement();
   
-  //void Test();
   // Turn the buggy 90 degrees anti-clockwise
   void turnLeft();
 
