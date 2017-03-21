@@ -46,9 +46,6 @@ unsigned int mvCount = 0; //22;
 const int VICTORY_ROLL_COUNT = 1;
 movements victoryRoll[VICTORY_ROLL_COUNT] = {IDLE};
 
-const int MAX_QUEUE_COUNT = 1; // 37
-movements movementQueue[MAX_QUEUE_COUNT] = {FORWARD};
-
 void setup() {
 
   Serial.begin(9600);      // open the serial port at 9600 bps:
@@ -62,40 +59,45 @@ void setup() {
   us   = new Ultrasonic(ULTRA_SONIC_PIN);
   coms = new Communication();
 
-  currentOrientation = NORTH;
-  currentCoordinates = new Point(3, 5); // Starting position
-  Communication::setCurState(SLAVE_IDLE);
-  recievedCommand = I2C_DO_NOTHING; // Don't do anything at the start
+  Communication::setCurrentOrientation(NORTH);
+  Communication::dataBuffer[0] = (char)(Communication::currentCoordinates->x & 0xFF); 
+  Communication::dataBuffer[1] = (char)(Communication::currentCoordinates->y & 0xFF); 
+  
+  Communication::setCurState(SLAVE_STOPPED);
+  Communication::recievedCommand = I2C_DO_NOTHING; // Don't do anything at the start
 
   Serial.print(F("Current orientation: "));
-  Serial.println(orientationToString(currentOrientation));
+  Serial.println(orientationToString(Communication::currentOrientation));
 
   Serial.print(F("Current position: ("));
-  Serial.print(currentCoordinates->x);
+  Serial.print(Communication::currentCoordinates->x);
   Serial.print(F(" , "));
-  Serial.print(currentCoordinates->y);
+  Serial.print(Communication::currentCoordinates->y);
   Serial.println(F(" )"));
-  
-//  /**
-//   * Print movementQueue array
-//   */
-//  Serial.print(F("movementQueue = { "));
-//  for (int i = 0; i < MAX_QUEUE_COUNT; i++) {
-//      Serial.print(m->getMovement(movementQueue[i]));
-//      Serial.print(F(" "));
-//  }
-//  Serial.println(F("}"));
-//
-//  /**
-//   * Print victory roll array
-//   */
-//  Serial.print(F("victoryRoll = { "));
-//  for (int i = 0; i < VICTORY_ROLL_COUNT; i++) {
-//      Serial.print(m->getMovement(victoryRoll[i]));
-//      Serial.print(F(" "));
-//  }
-//  Serial.println(F("}"));
 
+  Serial.print("DataBuffer: ");
+  printBits(Communication::dataBuffer[0]);
+  printBits(Communication::dataBuffer[1]);
+  printBits(Communication::dataBuffer[2]);
+  printBits(Communication::dataBuffer[3]);
+  Serial.println();
+
+  Serial.println(F("-------------------------"));
+  Serial.println(F("------- END SETUP -------"));
+  Serial.println(F("-------------------------"));
+}
+
+/**
+ * Print the binary representation of a byte, char, uint8_t etc
+ */
+void printBits(byte myByte){
+ for(byte mask = 0x80; mask; mask >>= 1){
+   if(mask  & myByte){
+       Serial.print('1');
+   }else{
+       Serial.print('0');
+   }
+ }
 }
 
 float distance              = 20.0f;
@@ -121,16 +123,12 @@ void loop() {
   }
   
   /* 
-   * If a command has been recieved process it
+   * Only process a command if the buggy is in the STOPPED state (finished a movement) or in the DOCKED state (interrogation is finished)
    */   
-  if(recievedCommand != I2C_DO_NOTHING){
+  if(Communication::recievedCommand != I2C_DO_NOTHING && (Communication::curState == SLAVE_STOPPED || Communication::curState == SLAVE_DOCKED)){
     // Recieved a new command
-    Serial.print("Recieved: ");
-    Serial.println(coms->commandToString(recievedVal));
-    
-    // Load the command and then clear it
-    I2C_COMMAND cmd = recievedCommand;
-    recievedCommand = I2C_DO_NOTHING;
+    Serial.print(F("Recieved: "));
+    Serial.println(coms->commandToString(Communication::recievedVal));
     
     // Buggy is not doing anything, so move onto the next movement
 
@@ -149,20 +147,20 @@ void loop() {
 
     Serial.println(F("BEFORE MOVEMENT"));
     Serial.print(F("Current orientation: "));
-    Serial.println(orientationToString(currentOrientation));
+    Serial.println(orientationToString(Communication::currentOrientation));
 
     Serial.print(F("Current position: ("));
-    Serial.print(currentCoordinates->x);
+    Serial.print(Communication::currentCoordinates->x);
     Serial.print(F(" , "));
-    Serial.print(currentCoordinates->y);
+    Serial.print(Communication::currentCoordinates->y);
     Serial.println(F(" )"));    
    
     Serial.print(F("Current command: "));
-    Serial.print(coms->commandToString(cmd));
+    Serial.print(coms->commandToString(Communication::recievedCommand));
     Serial.print(F(" | Previous movement: "));
     Serial.println(m->getMovement(previousMovement));
     
-    switch(cmd){
+    switch(Communication::recievedCommand){
       case I2C_FORWARD:
         Communication::setCurState(SLAVE_MOVING);
         sc->movementInit(previousMovement, FORWARD);
@@ -184,7 +182,7 @@ void loop() {
         Communication::setCurState(SLAVE_MOVING);
         sc->movementInit(previousMovement, TURNING_LEFT);
         if(sc->currentPositionState == LINE && isAdjusting == false){
-          Serial.println("Adjusting prior to turn");
+          Serial.println(F("Adjusting prior to turn"));
           m->moveBackwards();
           previousMovement = BACKWARDS;
           isAdjusting = true;
@@ -202,7 +200,7 @@ void loop() {
         Communication::setCurState(SLAVE_MOVING);
         sc->movementInit(previousMovement, TURNING_RIGHT);
         if(sc->currentPositionState == LINE && isAdjusting == false){
-          Serial.println("Adjusting prior to turn");
+          Serial.println(F("Adjusting prior to turn"));
           m->moveBackwards();
           previousMovement = BACKWARDS;
           isAdjusting = true;
@@ -213,10 +211,16 @@ void loop() {
         break;
 
       case I2C_AT_TARGET:
+        Communication::setCurState(SLAVE_DOCKING);
+        
         // Start docking
-        break;
+        while(sc->adjustDockingPosition() == false){
+          delay(100);
+        }
 
-      case I2C_VICTORY:
+        // Successfully docked
+        Communication::setCurState(SLAVE_DOCKED);
+        
         break;
 
       case I2C_DO_NOTHING:
@@ -241,7 +245,7 @@ void loop() {
 void checkCollision(){
   us->MeasureInCentimeters();
   if(us->RangeInCentimeters <= collisionDistance && us->RangeInCentimeters != 0){
-    Serial.println("Stopping, object in path");
+    Serial.println(F("Stopping, object in path"));
     sc->consecutiveCollisions++; // Movement ended because of a collision
     previousMovement = BACKWARDS; // Because the front and back sensors will be on opposite grid colours
     Movement::stopMovement();
@@ -305,33 +309,33 @@ void readButtons(){
  */
 void adjustPosition(movements m){
   if(m == FORWARD){
-    switch(currentOrientation){
+    switch(Communication::currentOrientation){
       case NORTH:
-        currentCoordinates->incrementY();
+        Communication::currentCoordinates->incrementY();
         break;
       case EAST:
-        currentCoordinates->incrementX();
+        Communication::currentCoordinates->incrementX();
         break;
       case SOUTH:
-        currentCoordinates->decrementY();
+        Communication::currentCoordinates->decrementY();
         break;
       case WEST:
-        currentCoordinates->decrementX();
+        Communication::currentCoordinates->decrementX();
         break;
     }
   }else if(m == BACKWARDS){
-    switch(currentOrientation){
+    switch(Communication::currentOrientation){
       case NORTH:
-        currentCoordinates->decrementY();
+        Communication::currentCoordinates->decrementY();
         break;
       case EAST:
-        currentCoordinates->decrementX();
+        Communication::currentCoordinates->decrementX();
         break;
       case SOUTH:
-        currentCoordinates->incrementY();
+        Communication::currentCoordinates->incrementY();
         break;
       case WEST:
-        currentCoordinates->incrementX();
+        Communication::currentCoordinates->incrementX();
         break;
     }
   }
@@ -339,8 +343,8 @@ void adjustPosition(movements m){
   /*
    * Update the dataBuffer
    */
-   dataBuffer[0] = (char)(currentCoordinates->x & 0xFF); 
-   dataBuffer[1] = (char)(currentCoordinates->y & 0xFF); 
+   Communication::dataBuffer[0] = (char)(Communication::currentCoordinates->x & 0xFF); 
+   Communication::dataBuffer[1] = (char)(Communication::currentCoordinates->y & 0xFF); 
 }
 
 /**
@@ -349,7 +353,7 @@ void adjustPosition(movements m){
 void adjustOrientation(movements m){
   if(m == TURNING_RIGHT){
     // Rotate 90 degrees RIGHT
-    switch(currentOrientation){
+    switch(Communication::currentOrientation){
       case NORTH:
         Communication::setCurrentOrientation(EAST);
         break;
@@ -365,7 +369,7 @@ void adjustOrientation(movements m){
     }
   }else if(m == TURNING_LEFT){
     // Rotate 90 degrees LEFT
-    switch(currentOrientation){
+    switch(Communication::currentOrientation){
       case NORTH:
         Communication::setCurrentOrientation(WEST);
         break;
@@ -396,6 +400,8 @@ String orientationToString(orientation o){
     case WEST:
       return "WEST";
       break;
+    default:
+      return "UNKNOWN ORIENTATION";
   }
 }
 
@@ -432,12 +438,3 @@ I2C_COMMAND orientationToI2C(orientation o){
       break;
   }
 }
-
-movements getNextMovement(){
-  /*
-   * Request the next movement from the basestation
-   * bs->getNextMovement(currentCoordinates.x, currentCoordinates.y);
-   */
-   return ((isVictoryRoll==true) ? victoryRoll[mvCount] : movementQueue[mvCount]); // Read the appropriate array
-}
-

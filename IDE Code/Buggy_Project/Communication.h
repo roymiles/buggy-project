@@ -17,6 +17,7 @@
 #pragma once
 
 #define SLAVE_ID 44
+
 // Outside class scope so the type is easily accessible
 enum I2C_COMMAND : int // Used for static conversions
 {
@@ -29,22 +30,23 @@ enum I2C_COMMAND : int // Used for static conversions
   SLAVE_FINISHED = 3,
   SLAVE_STOPPED = 4,
   SLAVE_DOCKED = 5,
+  SLAVE_DOCKING = 6,
   
-  I2C_NORTH = 6,
-  I2C_EAST = 7,
-  I2C_SOUTH = 8,
-  I2C_WEST = 9,
+  I2C_NORTH = 7,
+  I2C_EAST = 8,
+  I2C_SOUTH = 9,
+  I2C_WEST = 10,
   
-  I2C_FORWARD = 10,
-  I2C_BACKWARDS = 11,
-  I2C_TURN_LEFT = 12,
-  I2C_TURN_RIGHT = 13,
-  I2C_VICTORY = 14,
-  I2C_DO_NOTHING = 15,
-  I2C_AT_TARGET = 16,
+  I2C_FORWARD = 11,
+  I2C_BACKWARDS = 12,
+  I2C_TURN_LEFT = 13,
+  I2C_TURN_RIGHT = 14,
+  I2C_VICTORY = 15, // Removed
+  I2C_DO_NOTHING = 16,
+  I2C_AT_TARGET = 17,
 
   I2C_MIN = 0,
-  I2C_MAX = 16
+  I2C_MAX = 17
 
   /*
    * Anything higher is interpreted as a data value
@@ -59,17 +61,6 @@ enum orientation : int
   WEST = I2C_WEST
 };
 
-/*
- * The following variables are manipulated by static (interrupt) functions
- * and so need to be static too
- */
-static Point *currentCoordinates;
-static orientation currentOrientation;
-static I2C_COMMAND curState;
-static int recievedVal;
-static I2C_COMMAND recievedCommand; // Recieved from the basestation
-static char dataBuffer[4] = {1,2,3,4};
-
 class Communication
 {
 
@@ -77,6 +68,17 @@ public:
   Communication();
   ~Communication();
 
+  /*
+   * The following variables are manipulated by static (interrupt) functions
+   * and so need to be static too
+   */
+  static Point *currentCoordinates;
+  static int recievedVal;
+  static I2C_COMMAND recievedCommand; // Recieved from the basestation
+  static char dataBuffer[4];
+  static orientation currentOrientation;
+  static I2C_COMMAND curState;
+  
   static void setCurrentOrientation(orientation ornt);
   static void setCurState(I2C_COMMAND state);  
   

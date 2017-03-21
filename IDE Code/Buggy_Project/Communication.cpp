@@ -9,6 +9,14 @@
 
 #include "Communication.h"
 
+Point *Communication::currentCoordinates = new Point(3, 5); // Starting position
+int Communication::recievedVal = -1;
+I2C_COMMAND Communication::recievedCommand = I2C_DO_NOTHING; // Recieved from the basestation
+  
+char Communication::dataBuffer[4] = {1, 3, 3, 7};
+orientation Communication::currentOrientation = NORTH;
+I2C_COMMAND Communication::curState = SLAVE_IDLE;
+
 Communication::Communication()
 {
   // Start the I2C Bus as Slave on address 44
@@ -19,19 +27,17 @@ Communication::Communication()
   Wire.onRequest(Communication::requestEvent); // register event
 }
 
-
-Communication::~Communication()
-{
-}
-
 static void Communication::setCurrentOrientation(orientation ornt){
-  currentOrientation = ornt;
-  dataBuffer[2] = (char)(ornt & 0xFF); 
+  //Serial.println("1");
+  Communication::currentOrientation = ornt;
+  //Serial.println("2");
+  Communication::dataBuffer[2] = (char)(ornt & 0xFF); 
+  //Serial.println("3");
 }
 
 static void Communication::setCurState(I2C_COMMAND state){
-  curState = state;
-  dataBuffer[3] = (char)(state & 0xFF);
+  Communication::curState = state;
+  Communication::dataBuffer[3] = (char)(state & 0xFF);
 }
 
 int Communication::dataToCommand(int d){
@@ -44,48 +50,13 @@ int Communication::commandToData(I2C_COMMAND cmd){
 
 // Master is requesting data from slave (buggy)
 void Communication::requestEvent() {
-  
-  Wire.write(dataBuffer,4);
-  /*
-   * Send the x, y, orientation and current state of the buggy
-   */
-  
-  /*
-   * The 4x 16bit integers will need to be concatinated and sent
-   */
-//   char arr[4];
-//   char x = 1;
-//   char y = 2;
-//   char ornt = 3;
-//   char cs = 4;
-//
-//   arr[0] = x;
-//   arr[1] = y;
-//   arr[2] = ornt;
-//   arr[3] = cs;
-   //uint32_t toSend = Communication::convertDataToI2C(currentCoordinates->x, currentCoordinates->y, static_cast<I2C_COMMAND>(currentOrientation), curState);
-//  toSend =  x;
-//  toSend += (1000 * y);
-//  toSend += (1000000 * (int)ornt);
-//  toSend += (1000000000 * (int)curState);
-  
-//  Serial.print("Transmitting: ");
-//  Serial.println(toSend);
-    //Wire.write(arr, 4); // respond with message
-    //Wire.endTransmission();
-//  Wire.write(x);
-//  Wire.write(y);
-//  Wire.write(ornt);
-//  Wire.write(cs);
-
-    //Wire.write(static_cast<I2C_COMMAND>(currentOrientation));
-  
-
+  // Send the x, y, orientation and current state (in that index order)
+  Wire.write(Communication::dataBuffer,4);
 }
 
 // Master has sent data to the slave (buggy)
 void Communication::receiveEvent(int bytes) {
-  recievedVal = Wire.read();    // read one character from the I2C
+  recievedVal = Wire.read(); // read one character from the I2C
   recievedCommand = static_cast<I2C_COMMAND>(recievedVal);
 }
 
@@ -130,6 +101,8 @@ String Communication::commandToString(I2C_COMMAND cmd){
      case SLAVE_DOCKED:
       return "SLAVE_DOCKED";
       break;
+     case SLAVE_DOCKING:
+      return "SLAVE_DOCKING";
   
     case I2C_NORTH:
       return "NORTH";

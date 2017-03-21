@@ -362,4 +362,20 @@ String Movement::getMovement(movements cm){
   }
 }
 
+static String Movement::movementStateToString(movementCompensation ms){
+  switch(ms){
+    case ON_TRACK:
+      return "ON_TRACK";
+      break;
+    case COMPENSATING_LEFT:
+      return "COMPENSATING_LEFT";
+      break;
+    case COMPENSATING_RIGHT:
+      return "COMPENSATING_RIGHT";
+      break;
+    default:
+      return "UNKNOWN MOVEMENT STATE";
+  }
+}
+
 

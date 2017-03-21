@@ -45,19 +45,6 @@ public:
   // Cease all movement
   static void stopMovement();
 
-  // Perform the victory roll
-  // void victoryRoll() { }
-  
-  // ISR handlers for Rotary Encoders
-  // static void ISRRightEncoder();
-  // static void ISRLeftEncoder();
-
-  // Used by sensor control the compensate for motor inaccuracies 
-//  void increaseLeftMotor();
-//  void decreaseLeftMotor();
-//  void increaseRightMotor();
-//  void decreaseRightMotor();
-
   void enableLeftMotor();
   void disableLeftMotor();
   void enableRightMotor();
@@ -68,11 +55,8 @@ public:
 
   // Convert enums to strings (typically for debugging at serial output)
   String getMovement(movements cm);
-  
-private:
 
-  // Turn the buggy x degrees clockwise
-  void turn(double degrees);
+  static String movementStateToString(movementCompensation ms);
  
 };
 

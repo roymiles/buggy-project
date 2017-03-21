@@ -133,12 +133,6 @@ void SensorControl::movementInit(movements pm, movements cm){
   initialSensorReading_left         = frontSensorColours[0];
   initialSensorReading_right        = frontSensorColours[1];
   initialSensorReading_rightBackup  = frontSensorColours[2];
-//  Serial.print(F("---- Left front sensor: "));
-//  Serial.println(colourToString(initialSensorReading_left));
-//  Serial.print(F("---- Right front sensor: "));
-//  Serial.println(colourToString(initialSensorReading_right)); 
-//  Serial.print("---- Right backup front sensor: ");
-//  Serial.println(colourToString(initialSensorReading_rightBackup));   
 
   /*
    * Side Sensors
@@ -146,10 +140,6 @@ void SensorControl::movementInit(movements pm, movements cm){
   getSideSensorColours();
   initialSideSensorReading_left  = sideSensorColours[0];
   initialSideSensorReading_right = sideSensorColours[1];
-//  Serial.print(F("---- Left side sensor: "));
-//  Serial.println(colourToString(initialSideSensorReading_left));
-//  Serial.print(F("---- Right side sensor: "));
-//  Serial.println(colourToString(initialSideSensorReading_right));  
 
   // If the front sensors are initially different, wiggle the buggy
   if(initialSensorReading_left == initialSensorReading_right /*&& (cm != TURNING_RIGHT || cm != TURNING_LEFT)*/ ){
@@ -236,6 +226,8 @@ bool SensorControl::adjustDockingPosition(){
     delay(dockAdjustmentTime);
     Movement::stopMovement();
     delay(dockAdjustmentTime);
+
+    return false;
     
   }else if(leftReedSwitch==0 && middleReedSwitch==1){
     // Too far left
@@ -244,7 +236,7 @@ bool SensorControl::adjustDockingPosition(){
     Movement::stopMovement();
     delay(dockAdjustmentTime);
 
-    return this->adjustDockingPosition();
+    return false;
     
   }else if(leftReedSwitch==1 && middleReedSwitch==0){
     // Too far right
@@ -253,7 +245,7 @@ bool SensorControl::adjustDockingPosition(){
     Movement::stopMovement();
     delay(dockAdjustmentTime);
 
-    return this->adjustDockingPosition();
+    return false;
     
   }else if(leftReedSwitch==1 && middleReedSwitch==1){
     // Docked
@@ -522,7 +514,6 @@ void SensorControl::motorCorrection(){
     // Forward and backwards use the same logic
     case FORWARD:
     case BACKWARDS:
-
     
       // Front sensors moved onto next square, so flip the polarity
       if(frontSensorsFlipped == false && left_changed && right_changed && right_backup_changed){
@@ -609,11 +600,15 @@ void SensorControl::motorCorrection(){
         currentDeviatingState = NONE;
       }
 
+      Serial.print("Movement state: ");
+      Serial.println(Movement::movementStateToString(Movement::currentMovementCompensation));
+
       /*
        * If both the wheel sensors have changed
        * Finished movement!
        */
       if(sideLeft_changed && sideRight_changed){
+        Communication::setCurState(SLAVE_STOPPED);
         consecutiveCollisions = 0; // Movement did not end in a collision
         toggleColourState();
         frontSensorsFlipped = false; // Reset
@@ -667,6 +662,7 @@ void SensorControl::motorCorrection(){
       }       
        
       if(finishCondition){
+          Communication::setCurState(SLAVE_STOPPED);
           consecutiveCollisions = 0; // Movement did not end in a collision
           toggleColourState();
           Movement::stopMovement();
