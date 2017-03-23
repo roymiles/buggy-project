@@ -87,6 +87,15 @@ void Communication::receiveEvent(int bytes) {
   Serial.println(Communication::curState);
 }
 
+/**
+ * Converts 4 data types into a single uint32_t for transmission
+ * @param int x, the x-coordinate of the buggy
+ * @param int y, the y-coordinate of the buggy
+ * @param int orientation, the orientation of the buggy - enum type
+ * @param I2C_COMMAND, the current state of the buggy
+ * @return uint32_t an integer corresponding to the shifted and concatinated bytes of the 
+ * parameters
+ */
 uint32_t Communication::convertDataToI2C(int x, int y, int orientation, I2C_COMMAND state) {
 
   uint32_t temp = 0;
@@ -108,6 +117,13 @@ void Communication::convertI2CToData(int data, int *x, int *y, int *orientation,
 
 }
 
+/**
+ * Converts an I2C_COMMAND to a string. This function acts as
+ * a one-to-one mapping as during compile time, the enum names 
+ * are lost
+ * @param I2C_COMMAND cmd, the command that needs to be converted to a string
+ * @return String, the name of the command
+ */
 String Communication::commandToString(I2C_COMMAND cmd){
   switch(cmd){
      case SLAVE_IDLE:

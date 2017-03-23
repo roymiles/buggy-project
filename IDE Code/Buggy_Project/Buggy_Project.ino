@@ -70,7 +70,7 @@ void setup() {
    */
   Communication::setCurrentOrientation(NORTH);
   Communication::dataBuffer[0] = (char)(Communication::currentCoordinates->x & 0xFF); 
-  Communication::dataBuffer[1] = (char)(Communication::currentCoordinates->y & 0xFF); 
+  Communication::dataBuffer[1] = (char)(Communication::currentCoordinates->y & 0xFF);
   
   Communication::setCurState(SLAVE_STOPPED);
   Communication::recievedCommand = I2C_DO_NOTHING; // Don't do anything at the start
@@ -298,8 +298,13 @@ void readButtons(){
   if(buttons.onRelease(UP_BUTTON))
   {
     //Communication::recievedCommand = I2C_FORWARD;
+    //m->moveForward();
     Movement::defaultMovementSpeed += 5;
+    Serial.print(F("New movement speed: "));
+    Serial.println(Movement::defaultMovementSpeed);
     digitalWrite(A3, HIGH);
+    digitalWrite(A4, LOW);
+    digitalWrite(A5, LOW); 
     
 //    Serial.println(F("Pressed button.. Will begin in 2 seconds"));
 //    isFinished = false; // Start of attempt
@@ -315,8 +320,13 @@ void readButtons(){
     /*
      * Test whether the WIGGLE is working
      */
-     Movement::defaultRotationalSpeed -= 5;
-     digitalWrite(A5, LOW);
+    Movement::defaultRotationalSpeed -= 5;
+    Serial.print(F("New rotation speed: "));
+    Serial.println(Movement::defaultRotationalSpeed);
+     //m->turnLeft();
+    digitalWrite(A3, LOW);
+    digitalWrite(A4, LOW);
+    digitalWrite(A5, LOW); 
      //Communication::recievedCommand = I2C_TURN_LEFT;
      //sc->movementInit(FORWARD, FORWARD);
   }
@@ -327,12 +337,14 @@ void readButtons(){
     /*
      * Test whether the SENSORS are working
      */
+    //m->moveBackwards();
     Movement::defaultMovementSpeed -= 5;
-    digitalWrite(A3, LOW);
+    Serial.print(F("New movement speed: "));
+    Serial.println(Movement::defaultMovementSpeed);
     //Communication::recievedCommand = I2C_BACKWARDS;
-//    digitalWrite(A3, LOW);
-//    digitalWrite(A4, LOW);
-//    digitalWrite(A5, LOW);     
+    digitalWrite(A3, LOW);
+    digitalWrite(A4, LOW);
+    digitalWrite(A5, LOW); 
     sc->debug();
   }
 
@@ -342,8 +354,15 @@ void readButtons(){
     /*
      * Test whether the ULTRASONIC SENSOR is working
      */
-     Movement::defaultRotationalSpeed += 5;  
-     digitalWrite(A5, HIGH);    
+     //m->turnRight();
+    Movement::defaultRotationalSpeed += 5;
+    Serial.print(F("New rotation speed: "));
+    Serial.println(Movement::defaultRotationalSpeed);
+    
+    //Movement::defaultRotationalSpeed += 5;  
+    digitalWrite(A3, LOW);
+    digitalWrite(A4, LOW);
+    digitalWrite(A5, HIGH);    
      //Communication::recievedCommand = I2C_TURN_RIGHT;
 //    us->MeasureInCentimeters();
 //    Serial.print(F("Object distance: "));
@@ -367,6 +386,9 @@ void readButtons(){
 
       // Print the maximum and minimum values of the sensors
       sc->postCalibration();
+    }else{
+      randomNumber = random(11, 14); // Generate a random movement
+      Communication::recievedCommand = static_cast<I2C_COMMAND>(randomNumber);   
     }
      
      //randomNumber = random(11, 14); // Generate a random movement

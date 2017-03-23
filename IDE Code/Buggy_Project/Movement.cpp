@@ -35,10 +35,15 @@ bool Movement::isCalibrating = true;
 
 
 // Max of 255
-unsigned int Movement::defaultRotationalSpeed = 90;
-unsigned int Movement::defaultMovementSpeed   = 90;
+unsigned int Movement::defaultRotationalSpeed = 130;//90;
+unsigned int Movement::defaultMovementSpeed   = 130;//90;
 unsigned int Movement::defaultSkidSpeed       = 120;
 
+/**
+ * This is the constructor of the Movement object.
+ * It is responsible for initialising the timer interrupts and
+ * the output pins for the motors
+ */
 Movement::Movement()
 {
   // Enable all the pins for the motors (reduce local variable usage by not using a for loop)
@@ -48,7 +53,7 @@ Movement::Movement()
   pinMode(7, OUTPUT); 
 
   currentMovement = IDLE;
-  isWiggling      = false;  
+  Movement::isWiggling = false;  
   
   Timer1.initialize(10000); // set a timer of length 10000 microseconds (0.01 seconds)
   Timer1.attachInterrupt(Movement::timerIsr); // attach the service routine here  
@@ -119,7 +124,7 @@ void Movement::turnLeft() {
 unsigned int leftMotorCompensation; 
 void Movement::turnRight() {
   // The left wiggling is not as strong as the right wiggle. So can compensate by adjusting the values
-  if(isWiggling == true){
+  if(Movement::isWiggling == true){
     leftMotorCompensation = Movement::defaultRotationalSpeed;
   }else{
     leftMotorCompensation = Movement::defaultRotationalSpeed;
@@ -166,7 +171,7 @@ void Movement::stopMovement(){
 }
 
 /**
- * Functions to enable and disable the motors
+ * The following functions enable and disable the motors
  */
 void Movement::enableLeftMotor(){
   analogWrite (LEFT_MTR, Movement::defaultSkidSpeed);
@@ -185,17 +190,21 @@ void Movement::disableRightMotor(){
 }
 
 
-/// --------------------------
-/// Custom ISR Timer Routine
-/// If the buggy is moving (not wiggling) turn the motors on and off (to compensate for low torque)
-/// --------------------------
+/**
+ *  Custom ISR Timer Routine (static function)
+ *  The buggy can overshoot due to high speeds but using a low speed
+ *  does not generate enough torque to move the buggy
+ *  
+ *  The solution is to use a high speed but to toggle them on and off periodically
+ *  The toggling is only carried out for forward and backward movements
+ */
 bool motorToggle = false; // Toggle the motors on and off to reduce overshoot due to high speed
 int lightToggle = HIGH;
 
 void Movement::timerIsr()
 {
     // If the buggy is moving keep stopping and starting the motors
-    if(currentMovement != IDLE  && isWiggling == false && (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementToggleCount){
+    if(currentMovement != IDLE  && Movement::isWiggling == false && (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementToggleCount){
       timerCount = 0;
       if(motorToggle){
         motorToggle = false;
@@ -206,12 +215,12 @@ void Movement::timerIsr()
             analogWrite (LEFT_MTR, Movement::defaultMovementSpeed);
             break;
           case COMPENSATING_LEFT:
-            analogWrite (RIGHT_MTR, Movement::defaultSkidSpeed);
+            analogWrite (RIGHT_MTR, Movement::defaultMovementSpeed);
             analogWrite (LEFT_MTR, 0);
             break;
           case COMPENSATING_RIGHT:
             analogWrite (RIGHT_MTR, 0);
-            analogWrite (LEFT_MTR, Movement::defaultSkidSpeed);
+            analogWrite (LEFT_MTR, Movement::defaultMovementSpeed);
             break;
         }
       }else{
@@ -221,9 +230,11 @@ void Movement::timerIsr()
         analogWrite (LEFT_MTR, 0);
       }
       
-    }
-
-    if((timerCount % 100) == 0 && Movement::isCalibrating == true){
+//    }else if(Movement::isWiggling == true && timerCount > wiggleDelay){
+//      timerCount = 0; // Reset timer
+//      wiggleToggle = 1;
+      
+    }else if((timerCount % 100) == 0 && Movement::isCalibrating == true){
       Serial.println(F("Calibrating..."));
       digitalWrite(A3, lightToggle);
       digitalWrite(A4, lightToggle);
