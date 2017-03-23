@@ -23,10 +23,26 @@ static unsigned int timerCounter = 0;
 class Movement
 {
 public:
+  /*
+   * Public variables
+   */
+
+  static bool isCalibrating; // Gets set to false when a button is pressed
+
+  // Max of 255
+  static unsigned int defaultRotationalSpeed;
+  static unsigned int defaultMovementSpeed;
+  static unsigned int defaultSkidSpeed;   
+   
   static bool isWiggling;
   static movements currentMovement;
   static movementCompensation currentMovementCompensation;
 
+public:
+  /*
+   * Public functions
+   */
+   
   Movement();
   ~Movement();
   

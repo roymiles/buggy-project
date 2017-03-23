@@ -19,6 +19,9 @@
 
 #pragma once
 
+#define THRESHOLD_MAX 1800
+#define THRESHOLD_MIN 1000
+
 enum colour {UNKNOWN_COLOUR, WHITE, BLACK};
 // enum sensorPosition {UNKNOWN_POSITION, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
 enum colourState {UNKNOWN_COLOUR_STATE, WHITE_BLACK, BLACK_WHITE};
@@ -27,12 +30,15 @@ enum crossOrLine {CROSS, LINE};
 class SensorControl
 {
 public:
+  /*
+   * Public variables
+   */
   unsigned int positionState; // See Notes
 
-  const unsigned int sideSensorThreshold = 1000;
+  unsigned int sideSensorThreshold[SIDE_NUM_SENSORS] = {1000, 1000};
   colour sideSensorColours[SIDE_NUM_SENSORS];
 
-  const unsigned int frontSensorThreshold = 1800;
+  unsigned int frontSensorThreshold[FRONT_NUM_SENSORS] = {1800, 1800, 1800};
   colour frontSensorColours[FRONT_NUM_SENSORS];  
   
   static colourState currentColourState; // Will alternate at start of movement init
@@ -59,6 +65,11 @@ public:
   /*colour initialFrontSensorReading_left;
   colour initialFrontSensorReading_right;*/
 
+
+public:
+  /*
+   * Public functions
+   */
   SensorControl(Movement *m);
   ~SensorControl();
 
@@ -75,19 +86,29 @@ public:
   void debug();
 
   /**
+   * Calibrate the QTR sensors
+   */
+  void calibrate();
+
+  /**
+   * Limit the threshold value between THRESHOLD_MIN and THRESHOLD_MAX
+   */
+  unsigned int limitThreshold(unsigned int threshold);
+
+  /**
+   * Print the maximum and minimum values of the QTR sensors
+   */
+   void postCalibration();
+
+  /**
    * Wiggle the buggy left and right until the front sensors have opposite polarity
    */
-  bool wiggleBuggy(movements pm, bool isDocking);
+  bool wiggleBuggy(movements pm);
 
   /**
    * Adjust the buggys orientation until the two reed switches return 1 (docked)
    */
   bool adjustDockingPosition();
-
-  /**
-   * Check if the read switch is triggered
-   */
-  bool isDocked();
 
   /**
    * Control the MUX to enable/disable communication with appropriate IR Grid sensor
@@ -108,8 +129,8 @@ public:
    */
   void getSideSensorColours();
   void getFrontSensorColours();
-  colour convertSideSensorValueToColour(unsigned int value);
-  colour convertFrontSensorValueToColour(unsigned int value);
+  colour convertSideSensorValueToColour(unsigned int value, unsigned int index);
+  colour convertFrontSensorValueToColour(unsigned int value, unsigned int index);
 
   /**
    * Convert enums to strings (typically for debugging at serial output)

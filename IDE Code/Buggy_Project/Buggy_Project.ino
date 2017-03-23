@@ -16,7 +16,7 @@
 #include "Communication.h"
 
 /*
- * Instances of classes
+ * Instances of classes / submodules
  */
 Ultrasonic *us;
 Movement *m;
@@ -46,12 +46,18 @@ unsigned int mvCount = 0; //22;
 const int VICTORY_ROLL_COUNT = 1;
 movements victoryRoll[VICTORY_ROLL_COUNT] = {IDLE};
 
+/**
+ * This function gets run once at the beginning. 
+ * It will need to create instances of all the relevant
+ * modules and initialise the buggy state
+ */
 void setup() {
 
   Serial.begin(9600);      // open the serial port at 9600 bps:
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
+  delay(2000); // Before using serial
+//  while (!Serial) {INFINITE LOOP IF USB IS NOT CONNECTED
+//    ; // wait for serial port to connect. Needed for native USB port only
+//  }
   
   // Create the objects we need, DONT create more than one copy.
   m    = new Movement();
@@ -59,6 +65,9 @@ void setup() {
   us   = new Ultrasonic(ULTRA_SONIC_PIN);
   coms = new Communication();
 
+  /*
+   * Initialise the databuffer to the starting state of the buggy
+   */
   Communication::setCurrentOrientation(NORTH);
   Communication::dataBuffer[0] = (char)(Communication::currentCoordinates->x & 0xFF); 
   Communication::dataBuffer[1] = (char)(Communication::currentCoordinates->y & 0xFF); 
@@ -81,6 +90,10 @@ void setup() {
   printBits(Communication::dataBuffer[2]);
   printBits(Communication::dataBuffer[3]);
   Serial.println();
+
+  pinMode(A3, OUTPUT);
+  pinMode(A4, OUTPUT);
+  pinMode(A5, OUTPUT);
 
   Serial.println(F("-------------------------"));
   Serial.println(F("------- END SETUP -------"));
@@ -108,10 +121,20 @@ bool buttonPressed          = false;
 bool isVictoryRoll          = false;
 bool isAdjusting            = false; // If the buggy is moving backwards to ensure on a CROSS before a turn
 
+/**
+ * This is the main loop of the program. It is responsible
+ * for polling the commands recieved by the interrogator 
+ * arduino and acting appropriately. 
+ */
 void loop() {
 //  while(sc->adjustDockingPosition() == false){
 //    delay(500);
 //  }
+
+  if(Movement::isCalibrating == true){
+    
+    sc->calibrate();
+  }
 
   if(buttonPressed == false){
     buttons.update();
@@ -122,26 +145,30 @@ void loop() {
    * Check for a collision
    * Only do collision detection for forward movement
    */
-  if(Movement::currentMovement == FORWARD){
-    checkCollision();
-  }
+//  if(Movement::currentMovement == FORWARD){
+//    checkCollision();
+//  }
   
   /* 
    * Only process a command if the buggy is in the STOPPED state (finished a movement) or in the DOCKED state (interrogation is finished)
    */ 
   bool isMovementCommand = (
-      Communication::recievedCommand == I2C_FORWARD   ||
-      Communication::recievedCommand == I2C_BACKWARDS ||
-      Communication::recievedCommand == I2C_TURN_LEFT ||
-      Communication::recievedCommand == I2C_TURN_RIGHT
+      Communication::recievedCommand == I2C_FORWARD    ||
+      Communication::recievedCommand == I2C_BACKWARDS  ||
+      Communication::recievedCommand == I2C_TURN_LEFT  ||
+      Communication::recievedCommand == I2C_TURN_RIGHT ||
+      Communication::recievedCommand == I2C_AT_TARGET
   );
   
   if(isMovementCommand && (Communication::curState == SLAVE_STOPPED || Communication::curState == SLAVE_DOCKED)){
+
+    // Reset the recieved command
+    I2C_COMMAND cmd = Communication::recievedCommand;
+    Communication::recievedCommand = I2C_DO_NOTHING;
+    
     // Recieved a new command
     Serial.print(F("Recieved: "));
-    Serial.println(coms->commandToString(Communication::recievedVal));
-    
-    // Buggy is not doing anything, so move onto the next movement
+    Serial.println(coms->commandToString(cmd));
 
     if(sc->consecutiveCollisions < 2 && isAdjusting != true){ // Buggy has tried to move forward into a box, don't update the coordinates
       /*
@@ -171,7 +198,7 @@ void loop() {
 //    Serial.print(F(" | Previous movement: "));
 //    Serial.println(m->getMovement(previousMovement));
     
-    switch(Communication::recievedCommand){
+    switch(cmd){
       case I2C_FORWARD:
         Communication::setCurState(SLAVE_MOVING);
         sc->movementInit(previousMovement, FORWARD);
@@ -196,6 +223,7 @@ void loop() {
           Serial.println(F("Adjusting prior to turn"));
           m->moveBackwards();
           previousMovement = BACKWARDS;
+          Communication::recievedCommand = I2C_TURN_LEFT; // Make next movement turn left
           isAdjusting = true;
         }else{
           m->turnLeft();
@@ -214,6 +242,7 @@ void loop() {
           Serial.println(F("Adjusting prior to turn"));
           m->moveBackwards();
           previousMovement = BACKWARDS;
+          Communication::recievedCommand = I2C_TURN_RIGHT; // Make next movement turn right
           isAdjusting = true;
         }else{
           m->turnRight();
@@ -233,13 +262,10 @@ void loop() {
         Communication::setCurState(SLAVE_DOCKED);
         
         break;
-
-      default:
-        Communication::setCurState(SLAVE_MOVING);
         
     } // end switch
     
-  } // end command proccess
+  } // end if
 
   /*
    * Only perform motor correction if the buggy is moving
@@ -249,7 +275,7 @@ void loop() {
     delay(100); // Twice the timer interrupt duration
   } 
 
-} // end loop
+} // end func
 
 void checkCollision(){
   us->MeasureInCentimeters();
@@ -261,15 +287,26 @@ void checkCollision(){
   }
 }
 
+/**
+ * Read the buttons on the arduino and perform
+ * different actions depending on which button has
+ * been pressed. These can be changed to help with
+ * debugging.
+ */
+long randomNumber;
 void readButtons(){
   if(buttons.onRelease(UP_BUTTON))
   {
-    Serial.println(F("Pressed button.. Will begin in 2 seconds"));
-    isFinished = false; // Start of attempt
-    sc->getStartPosition();
+    //Communication::recievedCommand = I2C_FORWARD;
+    Movement::defaultMovementSpeed += 5;
+    digitalWrite(A3, HIGH);
     
-    delay(2000);
-    buttonPressed = true;
+//    Serial.println(F("Pressed button.. Will begin in 2 seconds"));
+//    isFinished = false; // Start of attempt
+//    sc->getStartPosition();
+//    
+//    delay(2000);
+//    buttonPressed = true;
   }
 
   
@@ -278,7 +315,10 @@ void readButtons(){
     /*
      * Test whether the WIGGLE is working
      */
-     sc->movementInit(FORWARD, FORWARD);
+     Movement::defaultRotationalSpeed -= 5;
+     digitalWrite(A5, LOW);
+     //Communication::recievedCommand = I2C_TURN_LEFT;
+     //sc->movementInit(FORWARD, FORWARD);
   }
 
   
@@ -287,6 +327,12 @@ void readButtons(){
     /*
      * Test whether the SENSORS are working
      */
+    Movement::defaultMovementSpeed -= 5;
+    digitalWrite(A3, LOW);
+    //Communication::recievedCommand = I2C_BACKWARDS;
+//    digitalWrite(A3, LOW);
+//    digitalWrite(A4, LOW);
+//    digitalWrite(A5, LOW);     
     sc->debug();
   }
 
@@ -295,10 +341,13 @@ void readButtons(){
   {
     /*
      * Test whether the ULTRASONIC SENSOR is working
-     */      
-    us->MeasureInCentimeters();
-    Serial.print(F("Object distance: "));
-    Serial.println(us->RangeInCentimeters);
+     */
+     Movement::defaultRotationalSpeed += 5;  
+     digitalWrite(A5, HIGH);    
+     //Communication::recievedCommand = I2C_TURN_RIGHT;
+//    us->MeasureInCentimeters();
+//    Serial.print(F("Object distance: "));
+//    Serial.println(us->RangeInCentimeters);
   }
 
   if(buttons.onRelease(STOP_BUTTON))
@@ -306,15 +355,32 @@ void readButtons(){
     /*
      * Use this button to debug whatever else
      */
-    Serial.println(F("Moving forward button"));
-    sc->movementInit(previousMovement, FORWARD);
-    m->moveForward();
-    previousMovement = FORWARD;
+
+    if(Movement::isCalibrating == true){
+      Movement::isCalibrating = false;
+      Serial.println(F("Stopped calibrating"));
+
+      // Only the red LED is on when the calibration is done
+      digitalWrite(A3, LOW);
+      digitalWrite(A4, HIGH);
+      digitalWrite(A5, LOW);
+
+      // Print the maximum and minimum values of the sensors
+      sc->postCalibration();
+    }
+     
+     //randomNumber = random(11, 14); // Generate a random movement
+     //Communication::recievedCommand = static_cast<I2C_COMMAND>(randomNumber);
+//    Serial.println(F("Moving forward button"));
+//    sc->movementInit(previousMovement, FORWARD);
+//    m->moveForward();
+//    previousMovement = FORWARD;
   } 
 }
 
 /**
  * Change the current position based on the previous movement
+ * @param m, the previous movement performed by the buggy
  */
 void adjustPosition(movements m){
   if(m == FORWARD){
@@ -358,6 +424,7 @@ void adjustPosition(movements m){
 
 /**
  * Change the current orientation based on the previous movement
+ * @param m, the previous movement performed by the buggy
  */
 void adjustOrientation(movements m){
   if(m == TURNING_RIGHT){
@@ -395,6 +462,11 @@ void adjustOrientation(movements m){
   }
 }
 
+/*
+ * Convert orientation enum to string
+ * @param o, the orientation enum (NORTH, EAST, SOUTH, WEST)
+ * @return the string representation of the enum
+ */
 String orientationToString(orientation o){
   switch(o){
     case NORTH:
@@ -414,6 +486,12 @@ String orientationToString(orientation o){
   }
 }
 
+/*
+ * Convert I2C_COMMAND enum to movements enum. Only a small subset
+ * of the I2C_COMMAND list can be converted to of type movement
+ * @param ic, the orientation enum (NORTH, EAST, SOUTH, WEST)
+ * @return the movement representation of the enum
+ */
 movements I2CToMovement(I2C_COMMAND ic){
   switch(ic){
     case I2C_FORWARD:
@@ -431,6 +509,13 @@ movements I2CToMovement(I2C_COMMAND ic){
   }
 }
 
+/*
+ * Convert orientation enum to I2C_COMMAND enum. 
+ * These will have the same integer values and so a cast could
+ * do this job too. See decleration of orientation in communication.h
+ * @param o, the orientation enum (NORTH, EAST, SOUTH, WEST)
+ * @return the I2C_COMMAND representation
+ */
 I2C_COMMAND orientationToI2C(orientation o){
   switch(o){
     case EAST:

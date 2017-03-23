@@ -14,10 +14,15 @@ class SideGridSensor
 public:
   SideGridSensor();
   ~SideGridSensor();
+  
+  unsigned int getMinimum(unsigned int index);
+  unsigned int getMaximum(unsigned int index);  
 
   unsigned int sideSensorValues[SIDE_NUM_SENSORS];
 
-  readSideSensors();
+  void readSideSensors();
+  void calibrate();
+  void postCalibration();
 
 };
 

@@ -12,11 +12,6 @@ int RIGHT_MTR = 6;
 int M1 = 4;     // M1 Direction Control
 int M2 = 7;     // M1 Direction Control
 
-// Max of 255
-unsigned int defaultRotationalSpeed = 120;
-unsigned int defaultMovementSpeed   = 120;
-unsigned int defaultSkidSpeed       = 120;
-
 unsigned int leftMotorSpeed;
 unsigned int rightMotorSpeed;
 
@@ -27,7 +22,7 @@ char buffer[MAX_OUT_CHARS + 1];  // buffer used to format a line (+1 is for trai
 
 // The time (in tenths of ms) corresponding to a movement of 1 square
 const unsigned int movementTimerCount = 150;
-const unsigned int movementToggleCount = 10; // Every 0.01 seconds
+const unsigned int movementToggleCount = 20; // Every 0.01 seconds
 
 // The time (in ms) corresponding to a rotation of 90 degrees
 const unsigned int turningTimerCount = 12;
@@ -36,6 +31,13 @@ movements Movement::currentMovement = IDLE;
 movementCompensation Movement::currentMovementCompensation = ON_TRACK;
 
 bool Movement::isWiggling = false;
+bool Movement::isCalibrating = true;
+
+
+// Max of 255
+unsigned int Movement::defaultRotationalSpeed = 90;
+unsigned int Movement::defaultMovementSpeed   = 90;
+unsigned int Movement::defaultSkidSpeed       = 120;
 
 Movement::Movement()
 {
@@ -62,20 +64,15 @@ Movement::Movement()
  */
 void Movement::moveForward(){
   //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
-//  analogWrite (RIGHT_MTR, defaultMovementSpeed);
-//  digitalWrite(M1, HIGH);    
-//  analogWrite (LEFT_MTR, defaultMovementSpeed);    
-//  digitalWrite(M2, LOW);
-
-  analogWrite (RIGHT_MTR, defaultMovementSpeed);
-  digitalWrite(M1, HIGH);    
-  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+  analogWrite (RIGHT_MTR, Movement::defaultMovementSpeed);
+  digitalWrite(M1, LOW);    
+  analogWrite (LEFT_MTR, Movement::defaultMovementSpeed);    
   digitalWrite(M2, HIGH);
 
-  leftMotorSpeed  = defaultMovementSpeed;
-  rightMotorSpeed = defaultMovementSpeed;
+  leftMotorSpeed  = Movement::defaultMovementSpeed;
+  rightMotorSpeed = Movement::defaultMovementSpeed;
 
-  Serial.println("Moving forward");
+//  Serial.println("Moving forward");
   // Reset the ISR timer
   timerCount = 0;
   currentMovement = FORWARD;  
@@ -85,21 +82,15 @@ void Movement::moveForward(){
  * Turn on the motors to go backwards and reset the timer count
  */
 void Movement::moveBackwards(){
-  //targetDistance = normalisedMovementDistance; // Equivelant to a movement of 1 cell
-//  analogWrite (RIGHT_MTR, defaultMovementSpeed);
-//  digitalWrite(M1, LOW);    
-//  analogWrite (LEFT_MTR, defaultMovementSpeed);    
-//  digitalWrite(M2, HIGH);
-
-  analogWrite (RIGHT_MTR, defaultMovementSpeed);
-  digitalWrite(M1, LOW);    
-  analogWrite (LEFT_MTR, defaultMovementSpeed);    
+  analogWrite (RIGHT_MTR, Movement::defaultMovementSpeed);
+  digitalWrite(M1, HIGH);    
+  analogWrite (LEFT_MTR, Movement::defaultMovementSpeed);    
   digitalWrite(M2, LOW);
 
-  leftMotorSpeed  = defaultMovementSpeed;
-  rightMotorSpeed = defaultMovementSpeed;
+  leftMotorSpeed  = Movement::defaultMovementSpeed;
+  rightMotorSpeed = Movement::defaultMovementSpeed;
 
-  Serial.println("Moving backwards");
+//  Serial.println("Moving backwards");
   timerCount = 0;
   currentMovement = BACKWARDS;
 }
@@ -109,20 +100,15 @@ void Movement::moveBackwards(){
  * Turn on the motors to turn left and reset the timer count
  */
 void Movement::turnLeft() {
-//  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
-//  digitalWrite(M1, LOW);   
-//  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
-//  digitalWrite(M2, LOW);
-
-  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
-  digitalWrite(M1, LOW);    
-  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
+  analogWrite (RIGHT_MTR, Movement::defaultRotationalSpeed);
+  digitalWrite(M1, HIGH);   
+  analogWrite (LEFT_MTR, Movement::defaultRotationalSpeed);    
   digitalWrite(M2, HIGH);
 
-  leftMotorSpeed  = defaultRotationalSpeed;
-  rightMotorSpeed = defaultRotationalSpeed;
+  leftMotorSpeed  = Movement::defaultRotationalSpeed;
+  rightMotorSpeed = Movement::defaultRotationalSpeed;
 
-  Serial.println("Turning left");
+//  Serial.println("Turning left");
   timerCount = 0;
   currentMovement = TURNING_LEFT;
 }
@@ -134,25 +120,25 @@ unsigned int leftMotorCompensation;
 void Movement::turnRight() {
   // The left wiggling is not as strong as the right wiggle. So can compensate by adjusting the values
   if(isWiggling == true){
-    leftMotorCompensation = defaultRotationalSpeed;
+    leftMotorCompensation = Movement::defaultRotationalSpeed;
   }else{
-    leftMotorCompensation = defaultRotationalSpeed;
+    leftMotorCompensation = Movement::defaultRotationalSpeed;
   }
   
-//  analogWrite (RIGHT_MTR, leftMotorCompensation);
-//  digitalWrite(M1, HIGH);    
-//  analogWrite (LEFT_MTR, leftMotorCompensation);    
-//  digitalWrite(M2, HIGH);
-
-  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
-  digitalWrite(M1, HIGH);    
-  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
+  analogWrite (RIGHT_MTR, leftMotorCompensation);
+  digitalWrite(M1, LOW);    
+  analogWrite (LEFT_MTR, leftMotorCompensation);    
   digitalWrite(M2, LOW);
-  
-  leftMotorSpeed  = defaultRotationalSpeed;
-  rightMotorSpeed = defaultRotationalSpeed;  
 
-  Serial.println("Turning right");
+//  analogWrite (RIGHT_MTR, defaultRotationalSpeed);
+//  digitalWrite(M1, HIGH);    
+//  analogWrite (LEFT_MTR, defaultRotationalSpeed);    
+//  digitalWrite(M2, LOW);
+  
+  leftMotorSpeed  = Movement::defaultRotationalSpeed;
+  rightMotorSpeed = Movement::defaultRotationalSpeed;  
+
+//  Serial.println("Turning right");
   timerCount = 0;
   currentMovement = TURNING_RIGHT;
 }
@@ -170,7 +156,11 @@ void Movement::stopMovement(){
 
   // Reset the encoder counters
   // LRC = 0;
-  // RRC = 0;  
+  // RRC = 0; 
+
+  Serial.println(F("-------------------------"));
+  Serial.println(F("-------- STOPPED --------"));
+  Serial.println(F("-------------------------"));
 
   delay(100); // Allow things to settle
 }
@@ -179,7 +169,7 @@ void Movement::stopMovement(){
  * Functions to enable and disable the motors
  */
 void Movement::enableLeftMotor(){
-  analogWrite (LEFT_MTR, defaultSkidSpeed);
+  analogWrite (LEFT_MTR, Movement::defaultSkidSpeed);
 }
 
 void Movement::disableLeftMotor(){
@@ -187,7 +177,7 @@ void Movement::disableLeftMotor(){
 }
 
 void Movement::enableRightMotor(){
-  analogWrite (RIGHT_MTR, defaultSkidSpeed);
+  analogWrite (RIGHT_MTR, Movement::defaultSkidSpeed);
 }
 
 void Movement::disableRightMotor(){
@@ -200,26 +190,28 @@ void Movement::disableRightMotor(){
 /// If the buggy is moving (not wiggling) turn the motors on and off (to compensate for low torque)
 /// --------------------------
 bool motorToggle = false; // Toggle the motors on and off to reduce overshoot due to high speed
+int lightToggle = HIGH;
+
 void Movement::timerIsr()
 {
     // If the buggy is moving keep stopping and starting the motors
-    if(currentMovement != IDLE  /*&& isWiggling == false /*(currentMovement == FORWARD || currentMovement == BACKWARDS)*/ && timerCount > movementToggleCount){
+    if(currentMovement != IDLE  && isWiggling == false && (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementToggleCount){
       timerCount = 0;
       if(motorToggle){
         motorToggle = false;
 
         switch(currentMovementCompensation){
           case ON_TRACK:
-            analogWrite (RIGHT_MTR, defaultMovementSpeed);
-            analogWrite (LEFT_MTR, defaultMovementSpeed);
+            analogWrite (RIGHT_MTR, Movement::defaultMovementSpeed);
+            analogWrite (LEFT_MTR, Movement::defaultMovementSpeed);
             break;
           case COMPENSATING_LEFT:
-            analogWrite (RIGHT_MTR, defaultSkidSpeed);
+            analogWrite (RIGHT_MTR, Movement::defaultSkidSpeed);
             analogWrite (LEFT_MTR, 0);
             break;
           case COMPENSATING_RIGHT:
             analogWrite (RIGHT_MTR, 0);
-            analogWrite (LEFT_MTR, defaultSkidSpeed);
+            analogWrite (LEFT_MTR, Movement::defaultSkidSpeed);
             break;
         }
       }else{
@@ -230,12 +222,24 @@ void Movement::timerIsr()
       }
       
     }
+
+    if((timerCount % 100) == 0 && Movement::isCalibrating == true){
+      Serial.println(F("Calibrating..."));
+      digitalWrite(A3, lightToggle);
+      digitalWrite(A4, lightToggle);
+      digitalWrite(A5, lightToggle);
+
+      lightToggle = ((lightToggle == HIGH) ? LOW : HIGH);
+    }
     
     timerCount++;
+    
 }
 
 /*
- * Convert the movement enum to a string (for debugging)
+ * Convert the movement enum to a string
+ * @param cm, movements enum
+ * @return the string representation of the movement
  */
 String Movement::getMovement(movements cm){
   switch(cm){

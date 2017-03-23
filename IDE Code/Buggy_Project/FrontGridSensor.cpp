@@ -20,19 +20,91 @@
  */
 QTRSensorsRC qtrrc_frontSensors((unsigned char[]) {12, 10, 13}, FRONT_NUM_SENSORS, FRONT_TIMEOUT, FRONT_EMITTER_PIN); 
 
+unsigned int FrontGridSensor::getMinimum(unsigned int index){
+  return qtrrc_frontSensors.calibratedMinimumOn[index];
+}
+
+unsigned int FrontGridSensor::getMaximum(unsigned int index){
+  return qtrrc_frontSensors.calibratedMaximumOn[index];
+}
+
 FrontGridSensor::FrontGridSensor(){
   Serial.println("Front grid sensor instance");
+
+//  int i;
+//  for (i = 0; i < FRONT_NUM_SENSORS; i++)
+//  {
+//    qtrrc_frontSensors.calibrate();
+//    delay(20);
+//  }
+//  
+//  for (i = 0; i < FRONT_NUM_SENSORS; i++)
+//  {
+//    Serial.print(qtrrc_frontSensors.calibratedMinimumOn[i]);
+//    Serial.print(' ');
+//  }
+//  Serial.println();
+//  // print the calibration maximum values measured when emitters were on
+//  for (i = 0; i < FRONT_NUM_SENSORS; i++)
+//  {
+//    Serial.print(qtrrc_frontSensors.calibratedMaximumOn[i]);
+//    Serial.print(' ');
+//  }
+//  Serial.println();
+//  Serial.println();
+//  delay(1000);  
+//
+//  // Line detection
+//  unsigned int position = qtrrc_frontSensors.readLine(frontSensorValues);
+//  //qtrrc.read(sensorValues);
+//  // print the sensor values as numbers from 0 to 9, where 0 means maximum reflectance and
+//  // 9 means minimum reflectance, followed by the line position
+//  unsigned char j;
+//  for (j = 0; j < FRONT_NUM_SENSORS; j++)
+//  {
+//    Serial.print(frontSensorValues[j] * 10 / 1001);
+//    Serial.print(' ');
+//  }
+//  Serial.print("    ");
+//  Serial.println(position);
+//  delay(250);  
+//  // End line detection
+//
+//  Serial.println(F("--------------------------"));
+//  Serial.println(F("END Front grid sensor setup"));
+//  Serial.println(F("--------------------------"));    
 }
 
 FrontGridSensor::~FrontGridSensor(){
   
 }
 
+void FrontGridSensor::calibrate(){
+  qtrrc_frontSensors.calibrate();  
+  delay(20);
+}
+
+void FrontGridSensor::postCalibration(){
+  Serial.print("Front Left minimum: ");
+  Serial.println(qtrrc_frontSensors.calibratedMinimumOn[0]);
+  Serial.print("Front Right minimum: ");
+  Serial.println(qtrrc_frontSensors.calibratedMinimumOn[1]);
+  Serial.print("Front Right Backup minimum: ");
+  Serial.println(qtrrc_frontSensors.calibratedMinimumOn[2]);
+
+  Serial.print("Front Left maximum: ");
+  Serial.println(qtrrc_frontSensors.calibratedMaximumOn[0]);
+  Serial.print("Front Right maximum: ");
+  Serial.println(qtrrc_frontSensors.calibratedMaximumOn[1]);  
+  Serial.print("Front Right Backup maximum: ");
+  Serial.println(qtrrc_frontSensors.calibratedMaximumOn[2]);  
+}
+
 /**
  * Values = 2500 are BLACK low values are WHITE
  * Generally, large values are BLACK and lower values are WHITE (this is contrary to the RGB sensors)
  */
-FrontGridSensor::readFrontSensors(){
+void FrontGridSensor::readFrontSensors(){
   // read raw sensor values
   qtrrc_frontSensors.read(frontSensorValues);
 

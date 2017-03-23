@@ -12,8 +12,8 @@
 const byte SENSOR_MUX = 9;     // Output pin to control the MUX
 
 // Input pins to the reed switches
-const int REED_SWITCH1 = 2; 
-const int REED_SWITCH2 = 3; 
+const int REED_SWITCH1 = A2; 
+const int REED_SWITCH2 = A1; 
 
 colourState SensorControl::currentColourState = BLACK_WHITE; // Will alternate at start of movement init
 crossOrLine SensorControl::currentPositionState = LINE;
@@ -35,10 +35,64 @@ SensorControl::SensorControl(Movement *m)
 
   //pinMode(REED_SWITCH1, INPUT);  
   //pinMode(REED_SWITCH2, INPUT);  
+  
 }
 
 SensorControl::~SensorControl()
 {
+}
+
+void SensorControl::calibrate(){
+  fgs->calibrate();
+  sgs->calibrate();
+}
+
+void SensorControl::postCalibration(){
+  fgs->postCalibration();
+  sgs->postCalibration();
+
+  unsigned int threshold;
+
+  /*
+   * Calculate the thresholds using the calibration data
+   */
+  threshold = limitThreshold((sgs->getMinimum(0) + sgs->getMaximum(0)) / 2);
+  sideSensorThreshold[0] = threshold; // Maximum value of 1800 
+  Serial.print(F("Side left threshold: "));
+  Serial.println(sideSensorThreshold[0]);
+  
+  threshold = limitThreshold((sgs->getMinimum(1) + sgs->getMaximum(1)) / 2);
+  sideSensorThreshold[1] = threshold; // Maximum value of 1800 
+  Serial.print(F("Side right threshold: "));
+  Serial.println(sideSensorThreshold[1]);
+
+  threshold = limitThreshold((fgs->getMinimum(0) + sgs->getMaximum(0)) / 2);
+  frontSensorThreshold[0] = threshold; // Maximum value of 1800 
+  Serial.print(F("Front left threshold: "));
+  Serial.println(frontSensorThreshold[0]);
+  
+  threshold = limitThreshold((fgs->getMinimum(1) + sgs->getMaximum(1)) / 2);
+  frontSensorThreshold[1] = threshold; // Maximum value of 1800 
+  Serial.print(F("Front right threshold: "));
+  Serial.println(frontSensorThreshold[1]);
+  
+  threshold = limitThreshold((fgs->getMinimum(2) + sgs->getMaximum(2)) / 2);
+  frontSensorThreshold[2] = threshold; // Maximum value of 1800 
+  Serial.print(F("Front right backup threshold: "));
+  Serial.println(frontSensorThreshold[2]);
+}
+
+/**
+ * Limit the threshold value between 1000-1800
+ */
+unsigned int SensorControl::limitThreshold(unsigned int threshold){
+  if(threshold < THRESHOLD_MIN){ 
+    return THRESHOLD_MIN; 
+  }else if(threshold > THRESHOLD_MAX){ 
+    return THRESHOLD_MAX; 
+  }else{
+    return threshold;
+  }
 }
 
 /**
@@ -47,32 +101,32 @@ SensorControl::~SensorControl()
 void SensorControl::getSideSensorColours(){
   sgs->readSideSensors(); // Make sure the latest values are measured
 
-  sideSensorColours[0] = convertSideSensorValueToColour(sgs->sideSensorValues[0]);
-  sideSensorColours[1] = convertSideSensorValueToColour(sgs->sideSensorValues[1]);
+  sideSensorColours[0] = convertSideSensorValueToColour(sgs->sideSensorValues[0], 0);
+  sideSensorColours[1] = convertSideSensorValueToColour(sgs->sideSensorValues[1], 1);
 }
 
 void SensorControl::getFrontSensorColours(){
   fgs->readFrontSensors(); // Make sure the latest values are measured
 
-  frontSensorColours[0] = convertFrontSensorValueToColour(fgs->frontSensorValues[0]);
-  frontSensorColours[1] = convertFrontSensorValueToColour(fgs->frontSensorValues[1]);
-  frontSensorColours[2] = convertFrontSensorValueToColour(fgs->frontSensorValues[2]);
+  frontSensorColours[0] = convertFrontSensorValueToColour(fgs->frontSensorValues[0], 0);
+  frontSensorColours[1] = convertFrontSensorValueToColour(fgs->frontSensorValues[1], 1);
+  frontSensorColours[2] = convertFrontSensorValueToColour(fgs->frontSensorValues[2], 2);
 }
 
 /*
  * Used to convert the simple sensor values to a WHITE/BLACK colour
  * - The thresholds are dependant on the distance of the IR sensors to the ground
  */
-colour SensorControl::convertSideSensorValueToColour(unsigned int value){
-  if(value < sideSensorThreshold){
+colour SensorControl::convertSideSensorValueToColour(unsigned int value, unsigned int index){
+  if(value < sideSensorThreshold[index]){
     return WHITE;
   }else{
     return BLACK;
   }
 }
 
-colour SensorControl::convertFrontSensorValueToColour(unsigned int value){
-  if(value < frontSensorThreshold){
+colour SensorControl::convertFrontSensorValueToColour(unsigned int value, unsigned int index){
+  if(value < frontSensorThreshold[index]){
     return WHITE;
   }else{
     return BLACK;
@@ -86,7 +140,9 @@ void SensorControl::debug(){
   Serial.println(F("DEBUG >>>"));
   Serial.println(F(">>> Front Sensors"));
   Serial.print(F("Front threshold: "));
-  Serial.println(frontSensorThreshold);
+  Serial.print(frontSensorThreshold[0]);
+  Serial.print(F(", "));
+  Serial.println(frontSensorThreshold[1]);
   
   getFrontSensorColours();
   Serial.print(F("FRONT LEFT: "));
@@ -106,7 +162,11 @@ void SensorControl::debug(){
   
   Serial.println(F(">>> Side Sensors"));
   Serial.print(F("Side threshold: "));
-  Serial.println(sideSensorThreshold);
+  Serial.print(sideSensorThreshold[0]);
+  Serial.print(F(", "));
+  Serial.print(sideSensorThreshold[1]);
+  Serial.print(F(", "));
+  Serial.println(sideSensorThreshold[2]);
   
   getSideSensorColours();
   Serial.print(F("SIDE LEFT: "));
@@ -152,7 +212,7 @@ void SensorControl::movementInit(movements pm, movements cm){
     if(pm == TURNING_RIGHT){
       wiggleLeft = 1;
     }
-    wiggleBuggy(pm, false); // Wiggle the buggy until the front sensors are different
+    wiggleBuggy(pm); // Wiggle the buggy until the front sensors are different
   }
 
   // Get the buggy position state CROSS or LINE and the start grid colours
@@ -163,9 +223,12 @@ void SensorControl::movementInit(movements pm, movements cm){
 /**
  * Wiggle the buggy left and right (for an incrementing amount of time) until the front sensors have different values
  */
-unsigned int wiggleDelay = 200; // 100ms = 0.1s
+unsigned int wiggleDelay = 100; // 100ms = 0.1s
 const unsigned int postWiggleDelay = 800; // 1s
-bool SensorControl::wiggleBuggy(movements pm, bool isDocking = false){
+bool SensorControl::wiggleBuggy(movements pm){
+  // REMOVE!!
+  // return true;
+  
   Communication::setCurState(SLAVE_WIGGLING);
   
   Movement::isWiggling = true;
@@ -173,7 +236,7 @@ bool SensorControl::wiggleBuggy(movements pm, bool isDocking = false){
   if(wiggleLeft == 1){
     // Turn Left
     m->turnLeft();
-    delay(wiggleDelay);
+    delay(1.05 * wiggleDelay);
     Movement::stopMovement();
     delay(postWiggleDelay); // Allow things to settle
     wiggleLeft = 0; // Toggle
@@ -194,18 +257,13 @@ bool SensorControl::wiggleBuggy(movements pm, bool isDocking = false){
   initialSensorReading_right          = frontSensorColours[1];
   initialSensorReading_rightBackup    = frontSensorColours[2];
 
-  bool finishCondition;
-  if(isDocking){
-    finishCondition = isDocked();
-  }else{
-    finishCondition = (initialSensorReading_left == initialSensorReading_right);
-  }
+  bool finishCondition = (initialSensorReading_left != initialSensorReading_right);
 
-  if(finishCondition){
+  if(!finishCondition){
     if(wiggleLeft == 0){
       wiggleDelay += 50; // Increase the wiggle duration by 0.05s
     }
-    return wiggleBuggy(pm, isDocking); // Wiggle buggy in opposite direction
+    return wiggleBuggy(pm); // Wiggle buggy in opposite direction
   }else{
     Serial.println(F("Finished wiggling"));
     Movement::isWiggling = false;
@@ -267,14 +325,6 @@ bool SensorControl::adjustDockingPosition(){
     return true;
   }
   
-}
-
-/**
- * This function reads in from the read switch
- */
-bool SensorControl::isDocked(){
-  // TODO: implement this
-  return true;
 }
 
 /**
@@ -452,9 +502,9 @@ void SensorControl::getPositionState(){
       Serial.println(F("STATE 0-3 or 12-15"));
       //--Serial.println(F("Front sensors have the same value"));
       Serial.println(F("Unknown position state. Halting..."));
-      while(true){
-        ; // Halt
-      }
+//      while(true){
+//        ; // Halt
+//      }
   }
 
 }
@@ -521,7 +571,7 @@ void SensorControl::motorCorrection(){
     case BACKWARDS:
     
       // Front sensors moved onto next square, so flip the polarity
-      if(frontSensorsFlipped == false && left_changed && right_changed && right_backup_changed){
+      if(frontSensorsFlipped == false && left_changed && right_changed /*&& right_backup_changed*/){
         Serial.println("Front sensors flipped");
         frontSensorsFlipped = true;
         if(initialSensorReading_left == WHITE){
@@ -544,19 +594,19 @@ void SensorControl::motorCorrection(){
   
       // Left sensor has changed but right sensor has not
       //if(right_changed && !left_changed && currentDeviatingState != RIGHT_NOT_CHANGED){
-      if((frontSensorColours[0] == frontSensorColours[1] && frontSensorColours[0] != frontSensorColours[2])  // Side right sensor is different to the other two sensors
-          && currentDeviatingState != RIGHT_NOT_CHANGED){
+      if((frontSensorColours[0] == frontSensorColours[1] && frontSensorColours[0] != frontSensorColours[2])  // front right BACKUP sensor is different to the other two sensors
+          /*&& currentDeviatingState != RIGHT_NOT_CHANGED */){
         // Need to turn slightly to the RIGHT to compensate
-        // delay(50); // To allow for misalignment of front sensors eg one sensor sees next grid first
+        delay(50); // To allow for misalignment of front sensors eg one sensor sees next grid first
 
-        if(currentDeviatingState = NONE){
-          currentDeviatingState = LEFT_NOT_CHANGED;
-        }
-        
-        // As soon as the front sensors are different
-        if(frontSensorColours[0] != frontSensorColours[1]){
-          currentDeviatingState = CHANGED;
-        }
+//        if(currentDeviatingState = NONE){
+//          currentDeviatingState = LEFT_NOT_CHANGED;
+//        }
+//        
+//        // As soon as the front sensors are different
+//        if(frontSensorColours[0] != frontSensorColours[1]){
+//          currentDeviatingState = CHANGED;
+//        }
   
         //Serial.println("Deviating to the LEFT. Attempting to compensate... Right changed and left has not");
         if(Movement::currentMovement == FORWARD){
@@ -573,19 +623,20 @@ void SensorControl::motorCorrection(){
         
       // Right sensor has changed but left sensor has not      
       //}else if(left_changed && !right_changed && currentDeviatingState != LEFT_NOT_CHANGED){
-      }else if(frontSensorColours[0] ==  frontSensorColours[1] && frontSensorColours[0] == frontSensorColours[2] && currentDeviatingState != LEFT_NOT_CHANGED){
+      }else if(frontSensorColours[0] ==  frontSensorColours[1] && frontSensorColours[0] == frontSensorColours[2] 
+         /* && currentDeviatingState != LEFT_NOT_CHANGED */){
         // Need to turn slightly to the LEFT to compensate
-        // delay(100); // To allow for misalignment of front sensors eg one sensor sees next grid first
+        delay(50); // To allow for misalignment of front sensors eg one sensor sees next grid first
 
-        if(currentDeviatingState = NONE){
-          currentDeviatingState = RIGHT_NOT_CHANGED;
-        }
-
-        // As soon as the front sensors are different
-        if(frontSensorColours[0] != frontSensorColours[1]){
-          currentDeviatingState = CHANGED;
-        }
-  
+//        if(currentDeviatingState = NONE){
+//          currentDeviatingState = RIGHT_NOT_CHANGED;
+//        }
+//
+//        // As soon as the front sensors are different
+//        if(frontSensorColours[0] != frontSensorColours[1]){
+//          currentDeviatingState = CHANGED;
+//        }
+//  
         //Serial.println("Deviating to the RIGHT. Attempting to compensate... Left changed and right has not");
         if(Movement::currentMovement == FORWARD){
           
@@ -602,7 +653,7 @@ void SensorControl::motorCorrection(){
       }else{
         // On track, so keep both motors enabled
         Movement::currentMovementCompensation = ON_TRACK;
-        currentDeviatingState = NONE;
+        // currentDeviatingState = NONE;
       }
 
       Serial.print("Movement state: ");
@@ -613,12 +664,12 @@ void SensorControl::motorCorrection(){
        * Finished movement!
        */
       if(sideLeft_changed && sideRight_changed){
-        Communication::setCurState(SLAVE_STOPPED);
         consecutiveCollisions = 0; // Movement did not end in a collision
         toggleColourState();
         frontSensorsFlipped = false; // Reset
         Movement::stopMovement();
         resetFlagsAndCounts();     
+        Communication::setCurState(SLAVE_STOPPED);
       }
       
       break;
@@ -664,14 +715,17 @@ void SensorControl::motorCorrection(){
         // CROSS deviating right
         //finishCondition = left_changed;
         finishCondition = (frontLeftCount > 0);
-      }       
+      }      
+
+      // Trying new tings
+      // finishCondition = (frontLeftCount > 0);
        
       if(finishCondition){
-          Communication::setCurState(SLAVE_STOPPED);
           consecutiveCollisions = 0; // Movement did not end in a collision
           toggleColourState();
           Movement::stopMovement();
           resetFlagsAndCounts();       
+          Communication::setCurState(SLAVE_STOPPED);
       }      
       
       break;
@@ -718,13 +772,16 @@ void SensorControl::motorCorrection(){
         finishCondition = (frontRightCount > 0);
       }   
       
+
+      // Trying new tings
+      // finishCondition = (frontRightCount > 0);
       
       if(finishCondition){
-          Communication::setCurState(SLAVE_STOPPED);
           consecutiveCollisions = 0; // Movement did not end in a collision
           toggleColourState();
           Movement::stopMovement();
           resetFlagsAndCounts();
+          Communication::setCurState(SLAVE_STOPPED);
       }
       
       break;
@@ -734,6 +791,13 @@ void SensorControl::motorCorrection(){
       Serial.println("motorCorrection: interrupt triggered");
       
   } // end switch 
+
+  // FOR TESTING ONLY REMOVE
+//  consecutiveCollisions = 0; // Movement did not end in a collision
+//  toggleColourState();
+//  Movement::stopMovement();
+//  resetFlagsAndCounts();    
+//  Communication::setCurState(SLAVE_STOPPED);
   
 } // end func
 

@@ -9,7 +9,7 @@
 
 #include "Communication.h"
 
-Point *Communication::currentCoordinates = new Point(3, 5); // Starting position
+Point *Communication::currentCoordinates = new Point(0, 0); // Starting position
 int Communication::recievedVal = -1;
 I2C_COMMAND Communication::recievedCommand = I2C_DO_NOTHING; // Recieved from the basestation
   
@@ -27,6 +27,12 @@ Communication::Communication()
   Wire.onRequest(Communication::requestEvent); // register event
 }
 
+/**
+ * Change the current orientation of the buggy. This
+ * function needs to be static because it is called
+ * by the static interrupt routines
+ * @param ornt, the new orientation of the buggy
+ */
 static void Communication::setCurrentOrientation(orientation ornt){
   //Serial.println("1");
   Communication::currentOrientation = ornt;
@@ -35,6 +41,12 @@ static void Communication::setCurrentOrientation(orientation ornt){
   //Serial.println("3");
 }
 
+/**
+ * Change the current state of the buggy. This
+ * function needs to be static because it is called
+ * by the static interrupt routines
+ * @param state, the new state of the buggy
+ */
 static void Communication::setCurState(I2C_COMMAND state){
   Communication::curState = state;
   Communication::dataBuffer[3] = (char)(state & 0xFF);
@@ -48,16 +60,31 @@ int Communication::commandToData(I2C_COMMAND cmd){
   return cmd  - (I2C_MAX+1);
 } 
 
-// Master is requesting data from slave (buggy)
+/** 
+ * Master is requesting data from slave (buggy) 
+ * The data is constantly updated in a buffer so to reduce the size
+ * of this interrupt routine. The data buffer encapsulates 4 pieces
+ * of information: the x, y, orientation and state of the buggy
+ */
 void Communication::requestEvent() {
   // Send the x, y, orientation and current state (in that index order)
   Wire.write(Communication::dataBuffer, 4);
 }
 
-// Master has sent data to the slave (buggy)
+/** 
+ * Master has sent data to the slave (buggy) 
+ * This data will be encoded as I2C_COMMANDs 
+ * See Communication.h for the decleration of
+ * this type
+ */
 void Communication::receiveEvent(int bytes) {
-  recievedVal = Wire.read(); // read one character from the I2C
-  recievedCommand = static_cast<I2C_COMMAND>(recievedVal);
+  Communication::recievedVal = Wire.read(); // read one character from the I2C
+  Communication::recievedCommand = static_cast<I2C_COMMAND>(Communication::recievedVal);
+  Serial.print(F("R: "));
+  Serial.print(Communication::recievedCommand);
+  Serial.print(F(", "));
+  Serial.print(F("S: "));
+  Serial.println(Communication::curState);
 }
 
 uint32_t Communication::convertDataToI2C(int x, int y, int orientation, I2C_COMMAND state) {

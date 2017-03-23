@@ -21,17 +21,86 @@ QTRSensorsRC qtrrc_sideSensors((unsigned char[]) {9, 8}, SIDE_NUM_SENSORS, SIDE_
 
 SideGridSensor::SideGridSensor(){
   Serial.println("Side grid sensor instance");
+
+//  int i;
+//  for (i = 0; i < SIDE_NUM_SENSORS; i++)
+//  {
+//    qtrrc_sideSensors.calibrate();
+//    delay(20);
+//  }
+//
+//  for (i = 0; i < SIDE_NUM_SENSORS; i++)
+//  {
+//    Serial.print(qtrrc_sideSensors.calibratedMinimumOn[i]);
+//    Serial.print(' ');
+//  }
+//  Serial.println();
+//  // print the calibration maximum values measured when emitters were on
+//  for (i = 0; i < SIDE_NUM_SENSORS; i++)
+//  {
+//    Serial.print(qtrrc_sideSensors.calibratedMaximumOn[i]);
+//    Serial.print(' ');
+//  }
+//  
+//  Serial.println();
+//  Serial.println();
+//  delay(1000);  
+//
+//  // Line detection
+//  unsigned int position = qtrrc_sideSensors.readLine(sideSensorValues);
+//  //qtrrc.read(sensorValues);
+//  // print the sensor values as numbers from 0 to 9, where 0 means maximum reflectance and
+//  // 9 means minimum reflectance, followed by the line position
+//  unsigned char j;
+//  for (j = 0; j < SIDE_NUM_SENSORS; j++)
+//  {
+//    Serial.print(sideSensorValues[j] * 10 / 1001);
+//    Serial.print(' ');
+//  }
+//  Serial.print("    ");
+//  Serial.println(position);
+//  delay(250);  
+//  // End line detection  
+//
+//  Serial.println(F("--------------------------"));
+//  Serial.println(F("END Side grid sensor setup"));
+//  Serial.println(F("--------------------------"));  
+}
+
+unsigned int SideGridSensor::getMinimum(unsigned int index){
+  return qtrrc_sideSensors.calibratedMinimumOn[index];
+}
+
+unsigned int SideGridSensor::getMaximum(unsigned int index){
+  return qtrrc_sideSensors.calibratedMaximumOn[index];
 }
 
 SideGridSensor::~SideGridSensor(){
   
 }
 
+void SideGridSensor::calibrate(){
+  qtrrc_sideSensors.calibrate();  
+  delay(20);
+}
+
+void SideGridSensor::postCalibration(){
+  Serial.print("Side Left minimum: ");
+  Serial.println(qtrrc_sideSensors.calibratedMinimumOn[0]);
+  Serial.print("Side Right minimum: ");
+  Serial.println(qtrrc_sideSensors.calibratedMinimumOn[1]);
+
+  Serial.print("Side Left maximum: ");
+  Serial.println(qtrrc_sideSensors.calibratedMaximumOn[0]);
+  Serial.print("Side Right maximum: ");
+  Serial.println(qtrrc_sideSensors.calibratedMaximumOn[1]);  
+}
+
 /**
  * Values = 2500 are BLACK low values are WHITE
  * Generally, large values are BLACK and lower values are WHITE (this is contrary to the RGB sensors)
  */
-SideGridSensor::readSideSensors(){
+void SideGridSensor::readSideSensors(){
   // read raw sensor values
   qtrrc_sideSensors.read(sideSensorValues);
 

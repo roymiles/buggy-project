@@ -18,7 +18,12 @@ public:
 
   unsigned int frontSensorValues[FRONT_NUM_SENSORS];
 
-  readFrontSensors();
+  void readFrontSensors();
+  void calibrate();
+  void postCalibration();
+
+  unsigned int getMinimum(unsigned int index);
+  unsigned int getMaximum(unsigned int index);
 
 };
 

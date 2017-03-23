@@ -1,7 +1,7 @@
 /**
     Communication.h
-    Purpose: This is a generic interface used by all submodules
-			 that will be communicating with other components
+    Purpose: This class is used to communicate to the SLAVE device in
+    order to transmit and recieve data from the basestation
 
     @author Roy Miles
     @version 1.0 11/12/2016
@@ -65,8 +65,9 @@ class Communication
 {
 
 public:
-  Communication();
-  ~Communication();
+  /*
+   * Public variables
+   */
 
   /*
    * The following variables are manipulated by static (interrupt) functions
@@ -78,6 +79,13 @@ public:
   static char dataBuffer[4];
   static orientation currentOrientation;
   static I2C_COMMAND curState;
+
+public:
+  /*
+   * Public functions
+   */
+  Communication();
+  ~Communication();
   
   static void setCurrentOrientation(orientation ornt);
   static void setCurState(I2C_COMMAND state);  
