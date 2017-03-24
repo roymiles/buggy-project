@@ -11,10 +11,6 @@
 
 const byte SENSOR_MUX = 9;     // Output pin to control the MUX
 
-// Input pins to the reed switches
-const int REED_SWITCH1 = A2; 
-const int REED_SWITCH2 = A1; 
-
 colourState SensorControl::currentColourState = BLACK_WHITE; // Will alternate at start of movement init
 crossOrLine SensorControl::currentPositionState = LINE;
 
@@ -33,8 +29,8 @@ SensorControl::SensorControl(Movement *m)
   // These sensors are used as alternatives to the RGB sensors (less complex)
   fgs = new FrontGridSensor();
 
-  //pinMode(REED_SWITCH1, INPUT);  
-  //pinMode(REED_SWITCH2, INPUT);  
+  pinMode(REED_SWITCH1, INPUT);  
+  pinMode(REED_SWITCH2, INPUT);  
   
 }
 
@@ -250,11 +246,11 @@ void SensorControl::movementInit(movements pm, movements cm){
  * Wiggle the buggy left and right (for an incrementing amount of time) until the front sensors have different values
  * This function will keep calling itself untill the buggy is alligned with the grid line
  */
-const unsigned int initialWiggleDuration = 100;
-const unsigned int wiggleDurationIncrement = 50;
+const unsigned int initialWiggleDuration = 20;
+const unsigned int wiggleDurationIncrement = 20;
 
 unsigned int wiggleDelay = initialWiggleDuration; // 100ms = 0.1s
-const unsigned int postWiggleDelay = 800; // 1s
+const unsigned int postWiggleDelay = 100; // 1s
 bool SensorControl::wiggleBuggy(movements pm){
   Communication::setCurState(SLAVE_WIGGLING);
 
@@ -290,7 +286,7 @@ bool SensorControl::wiggleBuggy(movements pm){
   if(wiggleLeft == 1){
     // Turn Left
     m->turnLeft();
-    delay(1.05 * wiggleDelay);
+    delay(wiggleDelay);
     Movement::stopMovement();
     delay(postWiggleDelay); // Allow things to settle
     wiggleLeft = 0; // Toggle
@@ -323,13 +319,14 @@ bool SensorControl::wiggleBuggy(movements pm){
     Movement::isWiggling = false;
     wiggleDelay = initialWiggleDuration; // Reset wiggle delay and finish
 
-    //curState = SLAVE_STOPPED_WIGGLING;
+    Communication::setCurState(SLAVE_FINISHED_WIGGLING);
     return true;
   }
 }
 
 bool leftReedSwitch, middleReedSwitch;
-const unsigned int dockAdjustmentTime = 500; // 500ms = 0.5s
+const unsigned int dockAdjustmentTime = 100; // 500ms = 0.5s
+bool isLastAdjustingDockingLeft = true;
 bool SensorControl::adjustDockingPosition(){
   int reedSwitch1 = digitalRead(REED_SWITCH1);
   int reedSwitch2 = digitalRead(REED_SWITCH2);
@@ -346,10 +343,16 @@ bool SensorControl::adjustDockingPosition(){
     // The buggy will probably need to rotate in the same direction it was just rotating
 
     // At the moment, choose right
-    m->turnRight();
+    if(isLastAdjustingDockingLeft == true){
+      m->turnLeft();
+    }else{
+      m->turnRight();
+    }
     delay(dockAdjustmentTime);
     Movement::stopMovement();
     delay(dockAdjustmentTime);
+
+    isLastAdjustingDockingLeft = true;
 
     return false;
     
@@ -361,6 +364,8 @@ bool SensorControl::adjustDockingPosition(){
     Movement::stopMovement();
     delay(dockAdjustmentTime);
 
+    isLastAdjustingDockingLeft = false;
+
     return false;
     
   }else if(reedSwitch1==HIGH && reedSwitch2==LOW){
@@ -371,11 +376,23 @@ bool SensorControl::adjustDockingPosition(){
     Movement::stopMovement();
     delay(dockAdjustmentTime);
 
+    isLastAdjustingDockingLeft = true;
+
     return false;
     
   }else if(reedSwitch1==HIGH && reedSwitch2==HIGH){
     // Docked
     Serial.println("Docked!");
+
+//    if(isLastAdjustingDockingLeft == true){
+//      m->turnLeft();
+//    }else{
+//      m->turnRight();
+//    }
+
+    //delay(500);
+    //Movement::stopMovement();    
+    
     return true;
   }
   
@@ -657,19 +674,27 @@ void SensorControl::motorCorrection(){
   
       // Left sensor has changed but right sensor has not
       //if(right_changed && !left_changed && currentDeviatingState != RIGHT_NOT_CHANGED){
-      if((frontSensorColours[0] == frontSensorColours[1] && frontSensorColours[0] != frontSensorColours[2])  // front right BACKUP sensor is different to the other two sensors
-          && currentDeviatingState != RIGHT_NOT_CHANGED ){
+      bool compensateCondition;
+      if(Movement::currentMovement == FORWARD){
+        compensateCondition = (frontSensorColours[0] == frontSensorColours[1] && frontSensorColours[0] != frontSensorColours[2])
+                                && !(frontSensorColours[0]==initialSensorReading_left /*&& frontSensorsFlipped==false*/);
+      }else{
+        // Backwards
+        compensateCondition = (frontSensorColours[0] == frontSensorColours[1] && frontSensorColours[0] != frontSensorColours[2]);
+      }
+      if(compensateCondition // front right BACKUP sensor is different to the other two sensors
+          /*&& currentDeviatingState != RIGHT_NOT_CHANGED*/ ){
         // Need to turn slightly to the RIGHT to compensate
         delay(50); // To allow for misalignment of front sensors eg one sensor sees next grid first
 
-        if(currentDeviatingState = NONE){
-          currentDeviatingState = LEFT_NOT_CHANGED;
-        }
-        
-        // As soon as the front sensors are different
-        if(frontSensorColours[0] != frontSensorColours[1]){
-          currentDeviatingState = CHANGED;
-        }
+//        if(currentDeviatingState = NONE){
+//          currentDeviatingState = LEFT_NOT_CHANGED;
+//        }
+//        
+//        // As soon as the front sensors are different
+//        if(frontSensorColours[0] != frontSensorColours[1]){
+//          currentDeviatingState = CHANGED;
+//        }
   
         //Serial.println("Deviating to the LEFT. Attempting to compensate... Right changed and left has not");
         if(Movement::currentMovement == FORWARD){
@@ -687,18 +712,18 @@ void SensorControl::motorCorrection(){
       // Right sensor has changed but left sensor has not      
       //}else if(left_changed && !right_changed && currentDeviatingState != LEFT_NOT_CHANGED){
       }else if(frontSensorColours[0] ==  frontSensorColours[1] && frontSensorColours[0] == frontSensorColours[2] 
-         && currentDeviatingState != LEFT_NOT_CHANGED){
+         /*&& currentDeviatingState != LEFT_NOT_CHANGED*/){
         // Need to turn slightly to the LEFT to compensate
         delay(50); // To allow for misalignment of front sensors eg one sensor sees next grid first
 
-        if(currentDeviatingState = NONE){
-          currentDeviatingState = RIGHT_NOT_CHANGED;
-        }
-
-        // As soon as the front sensors are different
-        if(frontSensorColours[0] != frontSensorColours[1]){
-          currentDeviatingState = CHANGED;
-        }
+//        if(currentDeviatingState = NONE){
+//          currentDeviatingState = RIGHT_NOT_CHANGED;
+//        }
+//
+//        // As soon as the front sensors are different
+//        if(frontSensorColours[0] != frontSensorColours[1]){
+//          currentDeviatingState = CHANGED;
+//        }
   
         //Serial.println("Deviating to the RIGHT. Attempting to compensate... Left changed and right has not");
         if(Movement::currentMovement == FORWARD){
@@ -716,7 +741,7 @@ void SensorControl::motorCorrection(){
       }else{
         // On track, so keep both motors enabled
         Movement::currentMovementCompensation = ON_TRACK;
-        currentDeviatingState = NONE;
+        //currentDeviatingState = NONE;
       }
 
       Serial.print("Movement state: ");

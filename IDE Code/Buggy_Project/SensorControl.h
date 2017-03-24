@@ -22,6 +22,10 @@
 #define THRESHOLD_MAX 1800
 #define THRESHOLD_MIN 1000
 
+// Input pins to the reed switches
+const int REED_SWITCH1 = A2; 
+const int REED_SWITCH2 = A1; 
+
 enum colour {UNKNOWN_COLOUR, WHITE, BLACK};
 // enum sensorPosition {UNKNOWN_POSITION, TOP_RIGHT, TOP_LEFT, BOTTOM_RIGHT, BOTTOM_LEFT};
 enum colourState {UNKNOWN_COLOUR_STATE, WHITE_BLACK, BLACK_WHITE};

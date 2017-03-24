@@ -11,15 +11,17 @@
 #ifndef Point_h
 #define Point_h
 
+#include "Arduino.h"
+
 #pragma once
 
 class Point
 {
 public:
-  int x;
-  int y;
+  int8_t x;
+  int8_t y;
 
-  Point(int x, int y);
+  Point(int8_t x, int8_t y);
   ~Point();
 
   void incrementX();

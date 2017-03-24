@@ -45,8 +45,13 @@ enum I2C_COMMAND : int // Used for static conversions
   I2C_DO_NOTHING = 16,
   I2C_AT_TARGET = 17,
 
+  SLAVE_FINISHED_WIGGLING = 18,
+  SLAVE_OBJECT_IN_PATH = 19,
+  SLAVE_CALIBRATING = 20,
+  SLAVE_FINISHED_CALIBRATING = 21,
+
   I2C_MIN = 0,
-  I2C_MAX = 17
+  I2C_MAX = 21
 
   /*
    * Anything higher is interpreted as a data value

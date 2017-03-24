@@ -22,7 +22,7 @@ char buffer[MAX_OUT_CHARS + 1];  // buffer used to format a line (+1 is for trai
 
 // The time (in tenths of ms) corresponding to a movement of 1 square
 const unsigned int movementTimerCount = 150;
-const unsigned int movementToggleCount = 20; // Every 0.01 seconds
+const unsigned int movementToggleCount = 5; // Every 0.01 seconds
 
 // The time (in ms) corresponding to a rotation of 90 degrees
 const unsigned int turningTimerCount = 12;
@@ -87,9 +87,11 @@ void Movement::moveForward(){
  * Turn on the motors to go backwards and reset the timer count
  */
 void Movement::moveBackwards(){
-  analogWrite (RIGHT_MTR, Movement::defaultMovementSpeed);
+
+  unsigned int sp = (Movement::defaultMovementSpeed - 40);
+  analogWrite(RIGHT_MTR, sp);
   digitalWrite(M1, HIGH);    
-  analogWrite (LEFT_MTR, Movement::defaultMovementSpeed);    
+  analogWrite(LEFT_MTR, sp);    
   digitalWrite(M2, LOW);
 
   leftMotorSpeed  = Movement::defaultMovementSpeed;
@@ -204,23 +206,28 @@ int lightToggle = HIGH;
 void Movement::timerIsr()
 {
     // If the buggy is moving keep stopping and starting the motors
-    if(currentMovement != IDLE  && Movement::isWiggling == false && (currentMovement == FORWARD || currentMovement == BACKWARDS) && timerCount > movementToggleCount){
+    if(currentMovement != IDLE  && Movement::isWiggling == false /*&& (currentMovement == FORWARD || currentMovement == BACKWARDS)*/ && timerCount > movementToggleCount){
       timerCount = 0;
       if(motorToggle){
         motorToggle = false;
 
+        unsigned int sp = Movement::defaultMovementSpeed;
+        if(currentMovement == BACKWARDS){
+          sp = (Movement::defaultMovementSpeed - 40);
+        }
+
         switch(currentMovementCompensation){
           case ON_TRACK:
-            analogWrite (RIGHT_MTR, Movement::defaultMovementSpeed);
-            analogWrite (LEFT_MTR, Movement::defaultMovementSpeed);
+            analogWrite (RIGHT_MTR, sp);
+            analogWrite (LEFT_MTR, sp);
             break;
           case COMPENSATING_LEFT:
-            analogWrite (RIGHT_MTR, Movement::defaultMovementSpeed);
-            analogWrite (LEFT_MTR, 0);
+            analogWrite (RIGHT_MTR, sp);
+            analogWrite (LEFT_MTR, sp-80); // 80
             break;
           case COMPENSATING_RIGHT:
-            analogWrite (RIGHT_MTR, 0);
-            analogWrite (LEFT_MTR, Movement::defaultMovementSpeed);
+            analogWrite (RIGHT_MTR, sp-80); // 80
+            analogWrite (LEFT_MTR, sp);
             break;
         }
       }else{

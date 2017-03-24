@@ -121,6 +121,9 @@ bool buttonPressed          = false;
 bool isVictoryRoll          = false;
 bool isAdjusting            = false; // If the buggy is moving backwards to ensure on a CROSS before a turn
 
+bool ignoreNextCoordinateChange = false;
+bool ignoreNextOrientationChange = false;
+
 /**
  * This is the main loop of the program. It is responsible
  * for polling the commands recieved by the interrogator 
@@ -132,7 +135,6 @@ void loop() {
 //  }
 
   if(Movement::isCalibrating == true){
-    
     sc->calibrate();
   }
 
@@ -145,9 +147,9 @@ void loop() {
    * Check for a collision
    * Only do collision detection for forward movement
    */
-//  if(Movement::currentMovement == FORWARD){
-//    checkCollision();
-//  }
+  if(Movement::currentMovement == FORWARD){
+    checkCollision();
+  }
   
   /* 
    * Only process a command if the buggy is in the STOPPED state (finished a movement) or in the DOCKED state (interrogation is finished)
@@ -160,7 +162,7 @@ void loop() {
       Communication::recievedCommand == I2C_AT_TARGET
   );
   
-  if(isMovementCommand && (Communication::curState == SLAVE_STOPPED || Communication::curState == SLAVE_DOCKED)){
+  if(isMovementCommand && (Communication::curState == SLAVE_STOPPED || Communication::curState == SLAVE_DOCKED || Communication::curState == SLAVE_OBJECT_IN_PATH)){
 
     // Reset the recieved command
     I2C_COMMAND cmd = Communication::recievedCommand;
@@ -169,14 +171,6 @@ void loop() {
     // Recieved a new command
     Serial.print(F("Recieved: "));
     Serial.println(coms->commandToString(cmd));
-
-    if(sc->consecutiveCollisions < 2 && isAdjusting != true){ // Buggy has tried to move forward into a box, don't update the coordinates
-      /*
-       * Update the coordinates and position
-       */
-      adjustPosition(previousMovement);
-      adjustOrientation(previousMovement);
-    }   
 
     // Don't adjust twice in a row
     if(isAdjusting == true){
@@ -200,14 +194,31 @@ void loop() {
     
     switch(cmd){
       case I2C_FORWARD:
+        ignoreNextOrientationChange = true;
+        if(previousMovement == TURNING_LEFT || previousMovement == TURNING_RIGHT){
+          ignoreNextCoordinateChange = true;
+        }
+
+        if(previousMovement == BACKWARDS){
+          ignoreNextCoordinateChange = true;
+        }
+      
         Communication::setCurState(SLAVE_MOVING);
         sc->movementInit(previousMovement, FORWARD);
+        Communication::setCurState(SLAVE_MOVING);
         m->moveForward();
         previousMovement = FORWARD;
         break;
       case I2C_BACKWARDS:
+        ignoreNextOrientationChange = true;
+
+        if(previousMovement == FORWARD){
+          ignoreNextCoordinateChange = true;
+        }
+        
         Communication::setCurState(SLAVE_MOVING);
         sc->movementInit(previousMovement, BACKWARDS);
+        Communication::setCurState(SLAVE_MOVING);
         m->moveBackwards();
         previousMovement = BACKWARDS;
         break;
@@ -217,8 +228,10 @@ void loop() {
        * This ensures that the rotation is close to 90 degrees
        */
       case I2C_TURN_LEFT:
+        ignoreNextCoordinateChange = true;
         Communication::setCurState(SLAVE_MOVING);
         sc->movementInit(previousMovement, TURNING_LEFT);
+        Communication::setCurState(SLAVE_MOVING);
         if(sc->currentPositionState == LINE && isAdjusting == false){
           Serial.println(F("Adjusting prior to turn"));
           m->moveBackwards();
@@ -236,8 +249,11 @@ void loop() {
        * This ensures that the rotation is close to 90 degrees
        */
       case I2C_TURN_RIGHT:
+        ignoreNextCoordinateChange = true;
+        
         Communication::setCurState(SLAVE_MOVING);
         sc->movementInit(previousMovement, TURNING_RIGHT);
+        Communication::setCurState(SLAVE_MOVING);
         if(sc->currentPositionState == LINE && isAdjusting == false){
           Serial.println(F("Adjusting prior to turn"));
           m->moveBackwards();
@@ -251,6 +267,7 @@ void loop() {
         break;
 
       case I2C_AT_TARGET:
+        Serial.println(F("I2C_AT_TARGET"));
         Communication::setCurState(SLAVE_DOCKING);
         
         // Start docking
@@ -264,6 +281,32 @@ void loop() {
         break;
         
     } // end switch
+
+
+    if(sc->consecutiveCollisions < 2 && isAdjusting != true){ // Buggy has tried to move forward into a box, don't update the coordinates
+      /*
+       * Update the coordinates and position
+       */
+
+      if(ignoreNextCoordinateChange == true){
+        ignoreNextCoordinateChange = false;
+      }else{
+        adjustPosition(previousMovement);
+      }
+
+      if(ignoreNextOrientationChange == true){
+        ignoreNextOrientationChange = false;
+      }else{
+        adjustOrientation(previousMovement);
+      }
+
+      Serial.print(F("Current position: ("));
+      Serial.print(Communication::currentCoordinates->x);
+      Serial.print(F(" , "));
+      Serial.print(Communication::currentCoordinates->y);
+      Serial.println(F(" )"));
+      
+    }       
     
   } // end if
 
@@ -277,13 +320,37 @@ void loop() {
 
 } // end func
 
+int consecutiveCollisionCount = 0;
 void checkCollision(){
   us->MeasureInCentimeters();
+  //Serial.print(F("ultrasonic sensor: "));
+  //Serial.println(us->RangeInCentimeters);
   if(us->RangeInCentimeters <= collisionDistance && us->RangeInCentimeters != 0){
-    Serial.println(F("Stopping, object in path"));
-    sc->consecutiveCollisions++; // Movement ended because of a collision
-    previousMovement = BACKWARDS; // Because the front and back sensors will be on opposite grid colours
-    Movement::stopMovement();
+    consecutiveCollisionCount++;
+
+    if(consecutiveCollisionCount > 4){
+      consecutiveCollisionCount = 0;
+      // Definitately an object in path now
+      //Communication::setCurState(SLAVE_OBJECT_IN_PATH);
+      Serial.println(F("Stopping, object in path"));
+      sc->consecutiveCollisions++; // Movement ended because of a collision
+      //previousMovement = BACKWARDS; // Because the front and back sensors will be on opposite grid colours
+      //Movement::stopMovement();
+    }
+    
+  }else{
+    consecutiveCollisionCount = 0; // Reset the averager
+  }
+
+  int reedSwitch1 = digitalRead(REED_SWITCH1);
+  int reedSwitch2 = digitalRead(REED_SWITCH2);
+
+  if(reedSwitch1 == HIGH || reedSwitch2 == HIGH){
+      delay(1000);
+      Communication::setCurState(SLAVE_OBJECT_IN_PATH);
+      Serial.println(F("Stopping, object in path"));
+      sc->consecutiveCollisions++; // Movement ended because of a collision
+      Movement::stopMovement();
   }
 }
 
@@ -297,14 +364,14 @@ long randomNumber;
 void readButtons(){
   if(buttons.onRelease(UP_BUTTON))
   {
-    //Communication::recievedCommand = I2C_FORWARD;
+    Communication::recievedCommand = I2C_FORWARD;
     //m->moveForward();
-    Movement::defaultMovementSpeed += 5;
-    Serial.print(F("New movement speed: "));
-    Serial.println(Movement::defaultMovementSpeed);
-    digitalWrite(A3, HIGH);
-    digitalWrite(A4, LOW);
-    digitalWrite(A5, LOW); 
+//    Movement::defaultMovementSpeed += 5;
+//    Serial.print(F("New movement speed: "));
+//    Serial.println(Movement::defaultMovementSpeed);
+//    digitalWrite(A3, HIGH);
+//    digitalWrite(A4, LOW);
+//    digitalWrite(A5, LOW); 
     
 //    Serial.println(F("Pressed button.. Will begin in 2 seconds"));
 //    isFinished = false; // Start of attempt
@@ -320,14 +387,14 @@ void readButtons(){
     /*
      * Test whether the WIGGLE is working
      */
-    Movement::defaultRotationalSpeed -= 5;
-    Serial.print(F("New rotation speed: "));
-    Serial.println(Movement::defaultRotationalSpeed);
-     //m->turnLeft();
-    digitalWrite(A3, LOW);
-    digitalWrite(A4, LOW);
-    digitalWrite(A5, LOW); 
-     //Communication::recievedCommand = I2C_TURN_LEFT;
+//    Movement::defaultRotationalSpeed -= 5;
+//    Serial.print(F("New rotation speed: "));
+//    Serial.println(Movement::defaultRotationalSpeed);
+//     //m->turnLeft();
+//    digitalWrite(A3, LOW);
+//    digitalWrite(A4, LOW);
+//    digitalWrite(A5, LOW); 
+    Communication::recievedCommand = I2C_TURN_LEFT;
      //sc->movementInit(FORWARD, FORWARD);
   }
 
@@ -337,15 +404,15 @@ void readButtons(){
     /*
      * Test whether the SENSORS are working
      */
-    //m->moveBackwards();
-    Movement::defaultMovementSpeed -= 5;
-    Serial.print(F("New movement speed: "));
-    Serial.println(Movement::defaultMovementSpeed);
-    //Communication::recievedCommand = I2C_BACKWARDS;
-    digitalWrite(A3, LOW);
-    digitalWrite(A4, LOW);
-    digitalWrite(A5, LOW); 
-    sc->debug();
+//    //m->moveBackwards();
+//    Movement::defaultMovementSpeed -= 5;
+//    Serial.print(F("New movement speed: "));
+//    Serial.println(Movement::defaultMovementSpeed);
+      Communication::recievedCommand = I2C_BACKWARDS;
+//    digitalWrite(A3, LOW);
+//    digitalWrite(A4, LOW);
+//    digitalWrite(A5, LOW); 
+//    sc->debug();
   }
 
   
@@ -354,16 +421,17 @@ void readButtons(){
     /*
      * Test whether the ULTRASONIC SENSOR is working
      */
+      //checkCollision();
      //m->turnRight();
-    Movement::defaultRotationalSpeed += 5;
-    Serial.print(F("New rotation speed: "));
-    Serial.println(Movement::defaultRotationalSpeed);
-    
-    //Movement::defaultRotationalSpeed += 5;  
-    digitalWrite(A3, LOW);
-    digitalWrite(A4, LOW);
-    digitalWrite(A5, HIGH);    
-     //Communication::recievedCommand = I2C_TURN_RIGHT;
+//    Movement::defaultRotationalSpeed += 5;
+//    Serial.print(F("New rotation speed: "));
+//    Serial.println(Movement::defaultRotationalSpeed);
+//    
+//    //Movement::defaultRotationalSpeed += 5;  
+//    digitalWrite(A3, LOW);
+//    digitalWrite(A4, LOW);
+//    digitalWrite(A5, HIGH);    
+      Communication::recievedCommand = I2C_TURN_RIGHT;
 //    us->MeasureInCentimeters();
 //    Serial.print(F("Object distance: "));
 //    Serial.println(us->RangeInCentimeters);

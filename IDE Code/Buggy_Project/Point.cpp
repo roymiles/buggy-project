@@ -9,7 +9,7 @@
 
 #include "Point.h"
 
-Point::Point(int x, int y){
+Point::Point(int8_t x, int8_t y){
   this->x = x;
   this->y = y;
 }

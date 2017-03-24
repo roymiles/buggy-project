@@ -9,7 +9,7 @@
 
 #include "Communication.h"
 
-Point *Communication::currentCoordinates = new Point(0, 0); // Starting position
+Point *Communication::currentCoordinates = new Point(1, -2); // Starting position
 int Communication::recievedVal = -1;
 I2C_COMMAND Communication::recievedCommand = I2C_DO_NOTHING; // Recieved from the basestation
   
@@ -68,6 +68,8 @@ int Communication::commandToData(I2C_COMMAND cmd){
  */
 void Communication::requestEvent() {
   // Send the x, y, orientation and current state (in that index order)
+  Serial.print("Sending state:");
+  Serial.println(commandToString(curState));
   Wire.write(Communication::dataBuffer, 4);
 }
 
